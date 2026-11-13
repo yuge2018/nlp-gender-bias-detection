@@ -1,0 +1,59 @@
+name: enable-auto-merge
+
+on:
+  pull_request_target:
+    branches: [main]
+    types: [opened, reopened, synchronize, ready_for_review]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: auto-merge-${{ github.event.pull_request.number }}
+  cancel-in-progress: false
+
+jobs:
+  enable:
+    if: >-
+      !github.event.pull_request.draft &&
+      github.event.pull_request.head.repo.full_name == github.repository
+    runs-on: ubuntu-latest
+    steps:
+      # No checkout: this privileged job never executes pull-request code.
+      - uses: actions/github-script@v9
+        with:
+          retries: 3
+          script: |
+            const {owner, repo} = context.repo;
+            const number = context.payload.pull_request.number;
+            const {data: pr} = await github.rest.pulls.get({owner, repo, pull_number: number});
+            if (pr.state !== 'open' || pr.draft || pr.base.ref !== 'main' ||
+                pr.head.repo?.full_name !== `${owner}/${repo}`) return;
+
+            const {data: member} = await github.rest.repos.getCollaboratorPermissionLevel({
+              owner, repo, username: pr.user.login
+            });
+            if (!['write', 'maintain', 'admin'].includes(member.permission)) {
+              core.info('Author does not have repository write access; leaving this PR for manual review.');
+              return;
+            }
+            if (pr.auto_merge) return;
+            try {
+              await github.graphql(`
+                mutation($id: ID!) {
+                  enablePullRequestAutoMerge(input: {pullRequestId: $id, mergeMethod: SQUASH}) {
+                    pullRequest { number }
+                  }
+                }
+              `, {id: pr.node_id});
+              core.info(`Enabled native auto-merge for PR #${number}. Required checks still apply.`);
+            } catch (error) {
+              if (!String(error.message).toLowerCase().includes('clean status')) throw error;
+              // Native auto-merge is unnecessary when already ready. The API
+              // still enforces main's required checks; pin the exact PR head.
+              await github.rest.pulls.merge({
+                owner, repo, pull_number: number, sha: pr.head.sha, merge_method: 'squash'
+              });
+              core.info(`Merged already-ready PR #${number}.`);
+            }
