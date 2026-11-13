@@ -1,4 +1,7 @@
-# 起始依赖范围，负责人须验证并锁定实际运行版本；不是已验证lock文件。
-numpy>=1.26,<3
-torch>=2.2
-transformers>=4.40,<5
+# P3 依赖：已在 RTX 4060 Laptop / CUDA 12.6 / Python 3.12.12 验证（2026-11-13）。
+# torch 的 CUDA 构建需按官方索引安装：
+#   pip install torch --index-url https://download.pytorch.org/whl/cu126
+# CPU 环境可装任意 torch>=2.2 构建，训练会自动退回 CPU（速度不保证）。
+numpy>=1.26,<2.4
+torch>=2.2,<3
+transformers==4.57.6

@@ -1,15 +1,21 @@
 {
   "method": "encoder_finetune",
   "model_name": "hfl/chinese-roberta-wwm-ext",
-  "model_revision": "TO_BE_PINNED_BEFORE_TRAINING",
+  "model_revision": "5c58d0b8ec1d9014354d691c538661bf00bfdb44",
   "num_labels": 2,
   "loss": "cross_entropy",
   "max_length": 128,
+  "truncation": "right",
   "batch_size": 8,
   "gradient_accumulation_steps": 1,
   "epochs": 3,
   "learning_rate": 2e-05,
+  "warmup_ratio": 0.1,
+  "weight_decay": 0.01,
+  "max_grad_norm": 1.0,
+  "amp": "auto",
   "class_weight": null,
+  "predict_batch_size": 64,
   "threshold": 0.5,
   "seed": 42
 }
