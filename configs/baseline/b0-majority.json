@@ -1,0 +1,5 @@
+{
+  "method": "majority_class",
+  "threshold": 0.5,
+  "seed": 42
+}
