@@ -1,1 +1,1 @@
-"""P1: 数据与审计. Implementation pending; see personal task sheet."""
+"""P1: checksum-pinned, reproducible CORGI detection data preparation."""
