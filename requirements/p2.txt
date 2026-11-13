@@ -1,3 +1,8 @@
-# 起始依赖范围，负责人须验证并锁定实际运行版本；不是已验证lock文件。
-numpy>=1.26,<3
-scikit-learn>=1.4,<2
+# P2 实际验证并锁定的直接依赖；mock 与纯契约测试不需要这些依赖。
+# 已在 Python 3.12.14 上完成真实训练、预测与图表；numpy/matplotlib 与 P1 保持一致。
+numpy==2.3.5
+scipy==1.18.1
+scikit-learn==1.9.1
+joblib==1.6.0
+# 仅 experiments/figures 画图需要；不画图可省去。
+matplotlib==3.10.7

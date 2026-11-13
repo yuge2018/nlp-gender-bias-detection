@@ -1,6 +1,6 @@
 # P2 传统基线与特征消融
 
-姓名/学号：待认领。分支：`part/p2-baseline`。
+负责人：`cengjingdejiyi`（姓名/学号由本人填写）。分支：`part/p2-baseline`。实现与实验证据已完成，接入说明见[P2模块说明](../../src/baseline/README.md)。
 
 ## 文件所有权
 
