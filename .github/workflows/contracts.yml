@@ -11,6 +11,7 @@ jobs:
         with:
           python-version: '3.11'
       - run: python -m unittest discover -s tests -v
+      - run: node --test tests/automation/test_auto_merge.cjs
       - run: python -m src.data --mock --output-dir runs/p1-smoke
       - run: python -m src.baseline --mock --output-dir runs/p2-smoke
       - run: python -m src.improved --mock --output-dir runs/p3-smoke

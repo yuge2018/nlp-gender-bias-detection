@@ -3,7 +3,7 @@ name: enable-auto-merge
 on:
   pull_request_target:
     branches: [main]
-    types: [opened, reopened, synchronize, ready_for_review]
+    types: [opened, reopened, synchronize, ready_for_review, converted_to_draft, labeled, unlabeled]
 
 permissions:
   contents: write
@@ -15,9 +15,6 @@ concurrency:
 
 jobs:
   enable:
-    if: >-
-      !github.event.pull_request.draft &&
-      github.event.pull_request.head.repo.full_name == github.repository
     runs-on: ubuntu-latest
     steps:
       # No checkout: this privileged job never executes pull-request code.
@@ -28,12 +25,34 @@ jobs:
             const {owner, repo} = context.repo;
             const number = context.payload.pull_request.number;
             const {data: pr} = await github.rest.pulls.get({owner, repo, pull_number: number});
-            if (pr.state !== 'open' || pr.draft || pr.base.ref !== 'main' ||
-                pr.head.repo?.full_name !== `${owner}/${repo}`) return;
+            if (pr.state !== 'open' || pr.base.ref !== 'main') return;
+            const paused = pr.draft || pr.labels.some(label => label.name === 'manual-merge');
+            if (paused) {
+              if (pr.auto_merge) {
+                await github.graphql(`
+                  mutation($id: ID!) {
+                    disablePullRequestAutoMerge(input: {pullRequestId: $id}) {
+                      pullRequest { number }
+                    }
+                  }
+                `, {id: pr.node_id});
+              }
+              core.info(`PR #${number} is paused by draft status or manual-merge label.`);
+              return;
+            }
 
-            const {data: member} = await github.rest.repos.getCollaboratorPermissionLevel({
-              owner, repo, username: pr.user.login
-            });
+            // Trust the author's current repository permission, not whether
+            // their branch lives in this repository or their own fork.
+            let member;
+            try {
+              ({data: member} = await github.rest.repos.getCollaboratorPermissionLevel({
+                owner, repo, username: pr.user.login
+              }));
+            } catch (error) {
+              if (error.status !== 404) throw error;
+              core.info('Author is not a collaborator; leaving this PR for manual review.');
+              return;
+            }
             if (!['write', 'maintain', 'admin'].includes(member.permission)) {
               core.info('Author does not have repository write access; leaving this PR for manual review.');
               return;
