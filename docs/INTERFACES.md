@@ -1,6 +1,6 @@
 # 接口契约 v1
 
-`schema_version="1.0"`。接口已在开工前提供；所有人先用 `fixtures/`。以下真实模式CLI是**待各负责人实现的目标接口**；当前六个入口只支持`--mock`。
+`schema_version="1.0"`。接口已在开工前提供；所有人可先用 `fixtures/`。P1已实现真实`prepare/verify`，见[接入说明](../src/data/README.md)；以下模型/评测/页面的真实模式CLI仍由各负责人实现。六个`--mock`入口保持兼容。
 
 ## 目录与依赖方向
 

@@ -1,0 +1,41 @@
+{
+  "schema_version": "1.0",
+  "is_mock": false,
+  "owner": "yuge2018",
+  "python": "3.12.14",
+  "numpy": "2.3.5",
+  "matplotlib": "3.10.7",
+  "unit_contract_tests": 23,
+  "new_p1_tests": 13,
+  "independent_builds": 2,
+  "reproducibility": {
+    "corgi-official-v1": {
+      "same_file_names": true,
+      "all_file_sha256_identical": true,
+      "verified_file_count": 12,
+      "dataset_manifest_sha256": "f78973f015839c13783c4a7fd3149ab7203c4ef1393845dc98d2b8e0ffbaf09a"
+    },
+    "corgi-clean-train-v1": {
+      "same_file_names": true,
+      "all_file_sha256_identical": true,
+      "verified_file_count": 12,
+      "dataset_manifest_sha256": "dccc6ec10f2db6b35ceaf782e3e17d2a14916bf10e3959ca9e660248fb1e3fec"
+    }
+  },
+  "heldout_files_byte_identical_across_versions": [
+    "dev.jsonl",
+    "test.jsonl",
+    "labels/dev.jsonl",
+    "labels/test.jsonl"
+  ],
+  "removed_train_rows": 65,
+  "removed_positive_rows": 44,
+  "removed_negative_rows": 21,
+  "commands": [
+    "python -m unittest discover -s tests -v",
+    "python -m src.data prepare --raw-dir data/raw/corgi-pinned --output-dir data/processed --summary configs/data/preparation_summary.json --figures-dir reports/figures/P1",
+    "python -m src.data prepare --offline --raw-dir data/raw/corgi-pinned --output-dir runs/p1-rebuild",
+    "python -m src.data verify --data-dir data/processed/corgi-official-v1",
+    "python -m src.data verify --data-dir data/processed/corgi-clean-train-v1"
+  ]
+}

@@ -1,0 +1,341 @@
+{
+  "schema_version": "1.0",
+  "is_mock": false,
+  "source_commit": "311a994e85a6111a268b1601a90097d741507c9a",
+  "packages": {
+    "corgi-official-v1": {
+      "dataset_id": "corgi-official-v1",
+      "is_mock": false,
+      "dataset_manifest_sha256": "f78973f015839c13783c4a7fd3149ab7203c4ef1393845dc98d2b8e0ffbaf09a",
+      "rows": {
+        "train": 25590,
+        "dev": 1032,
+        "test": 1047
+      },
+      "verified_files": 12,
+      "audit": {
+        "split_statistics": {
+          "train": {
+            "n": 25590,
+            "positive_n": 4172,
+            "negative_n": 21418,
+            "positive_rate": 0.16303243,
+            "empty_n": 0,
+            "duplicate_text_excess": 265,
+            "characters": {
+              "min": 4,
+              "median": 37.0,
+              "mean": 59.150645,
+              "max": 1090,
+              "p95_nearest_rank": 205,
+              "over_threshold": {
+                "128": 3285,
+                "256": 63,
+                "512": 9
+              }
+            }
+          },
+          "dev": {
+            "n": 1032,
+            "positive_n": 516,
+            "negative_n": 516,
+            "positive_rate": 0.5,
+            "empty_n": 0,
+            "duplicate_text_excess": 1,
+            "characters": {
+              "min": 8,
+              "median": 40.0,
+              "mean": 67.242248,
+              "max": 939,
+              "p95_nearest_rank": 206,
+              "over_threshold": {
+                "128": 177,
+                "256": 5,
+                "512": 1
+              }
+            }
+          },
+          "test": {
+            "n": 1047,
+            "positive_n": 521,
+            "negative_n": 526,
+            "positive_rate": 0.49761223,
+            "empty_n": 0,
+            "duplicate_text_excess": 4,
+            "characters": {
+              "min": 6,
+              "median": 41,
+              "mean": 69.268386,
+              "max": 329,
+              "p95_nearest_rank": 206,
+              "over_threshold": {
+                "128": 196,
+                "256": 4,
+                "512": 0
+              }
+            }
+          }
+        },
+        "duplicates": {
+          "exact": {
+            "within_split": {
+              "train": {
+                "groups": 249,
+                "excess_rows": 265
+              },
+              "dev": {
+                "groups": 1,
+                "excess_rows": 1
+              },
+              "test": {
+                "groups": 4,
+                "excess_rows": 4
+              }
+            },
+            "cross_split": {
+              "train__dev": {
+                "unique_texts": 34,
+                "left_rows": 36,
+                "right_rows": 34
+              },
+              "train__test": {
+                "unique_texts": 29,
+                "left_rows": 30,
+                "right_rows": 30
+              },
+              "dev__test": {
+                "unique_texts": 2,
+                "left_rows": 2,
+                "right_rows": 2
+              }
+            },
+            "conflicting_text_groups": 11
+          },
+          "normalized": {
+            "within_split": {
+              "train": {
+                "groups": 259,
+                "excess_rows": 275
+              },
+              "dev": {
+                "groups": 1,
+                "excess_rows": 1
+              },
+              "test": {
+                "groups": 4,
+                "excess_rows": 4
+              }
+            },
+            "cross_split": {
+              "train__dev": {
+                "unique_texts": 34,
+                "left_rows": 36,
+                "right_rows": 34
+              },
+              "train__test": {
+                "unique_texts": 29,
+                "left_rows": 30,
+                "right_rows": 30
+              },
+              "dev__test": {
+                "unique_texts": 2,
+                "left_rows": 2,
+                "right_rows": 2
+              }
+            },
+            "conflicting_text_groups": 11
+          }
+        },
+        "near_duplicates": {
+          "method": "deterministic_minhash_lsh_then_exact_character_shingle_jaccard",
+          "settings": {
+            "shingle_chars": 3,
+            "jaccard_threshold": 0.85,
+            "minimum_chars": 30,
+            "bands": 8,
+            "rows_per_band": 4,
+            "seed": 42
+          },
+          "eligible_normalized_unique_texts": 18140,
+          "candidate_pairs_checked": 63,
+          "matched_cross_split_text_pairs": 32,
+          "limitations": "Lexical, approximate candidate recall; not exhaustive or semantic equivalence. Exact/normalized duplicates are reported separately. Short texts are excluded only from this near-duplicate search."
+        },
+        "length_note": "Unicode character counts, not tokenizer token counts or measured model truncation rates.",
+        "gender_coverage": "No gender-target metadata exists in the locked input. Keyword counts do not establish target identity or balanced coverage.",
+        "schema_version": "1.0",
+        "dataset_id": "corgi-official-v1",
+        "is_mock": false,
+        "removed_train_rows": 0,
+        "removed_train_policy": "None: preserve official splits and all detection samples."
+      }
+    },
+    "corgi-clean-train-v1": {
+      "dataset_id": "corgi-clean-train-v1",
+      "is_mock": false,
+      "dataset_manifest_sha256": "dccc6ec10f2db6b35ceaf782e3e17d2a14916bf10e3959ca9e660248fb1e3fec",
+      "rows": {
+        "train": 25525,
+        "dev": 1032,
+        "test": 1047
+      },
+      "verified_files": 12,
+      "audit": {
+        "split_statistics": {
+          "train": {
+            "n": 25525,
+            "positive_n": 4128,
+            "negative_n": 21397,
+            "positive_rate": 0.1617238,
+            "empty_n": 0,
+            "duplicate_text_excess": 262,
+            "characters": {
+              "min": 4,
+              "median": 37,
+              "mean": 58.98476,
+              "max": 1090,
+              "p95_nearest_rank": 205,
+              "over_threshold": {
+                "128": 3253,
+                "256": 63,
+                "512": 9
+              }
+            }
+          },
+          "dev": {
+            "n": 1032,
+            "positive_n": 516,
+            "negative_n": 516,
+            "positive_rate": 0.5,
+            "empty_n": 0,
+            "duplicate_text_excess": 1,
+            "characters": {
+              "min": 8,
+              "median": 40.0,
+              "mean": 67.242248,
+              "max": 939,
+              "p95_nearest_rank": 206,
+              "over_threshold": {
+                "128": 177,
+                "256": 5,
+                "512": 1
+              }
+            }
+          },
+          "test": {
+            "n": 1047,
+            "positive_n": 521,
+            "negative_n": 526,
+            "positive_rate": 0.49761223,
+            "empty_n": 0,
+            "duplicate_text_excess": 4,
+            "characters": {
+              "min": 6,
+              "median": 41,
+              "mean": 69.268386,
+              "max": 329,
+              "p95_nearest_rank": 206,
+              "over_threshold": {
+                "128": 196,
+                "256": 4,
+                "512": 0
+              }
+            }
+          }
+        },
+        "duplicates": {
+          "exact": {
+            "within_split": {
+              "train": {
+                "groups": 246,
+                "excess_rows": 262
+              },
+              "dev": {
+                "groups": 1,
+                "excess_rows": 1
+              },
+              "test": {
+                "groups": 4,
+                "excess_rows": 4
+              }
+            },
+            "cross_split": {
+              "train__dev": {
+                "unique_texts": 0,
+                "left_rows": 0,
+                "right_rows": 0
+              },
+              "train__test": {
+                "unique_texts": 0,
+                "left_rows": 0,
+                "right_rows": 0
+              },
+              "dev__test": {
+                "unique_texts": 2,
+                "left_rows": 2,
+                "right_rows": 2
+              }
+            },
+            "conflicting_text_groups": 6
+          },
+          "normalized": {
+            "within_split": {
+              "train": {
+                "groups": 256,
+                "excess_rows": 272
+              },
+              "dev": {
+                "groups": 1,
+                "excess_rows": 1
+              },
+              "test": {
+                "groups": 4,
+                "excess_rows": 4
+              }
+            },
+            "cross_split": {
+              "train__dev": {
+                "unique_texts": 0,
+                "left_rows": 0,
+                "right_rows": 0
+              },
+              "train__test": {
+                "unique_texts": 0,
+                "left_rows": 0,
+                "right_rows": 0
+              },
+              "dev__test": {
+                "unique_texts": 2,
+                "left_rows": 2,
+                "right_rows": 2
+              }
+            },
+            "conflicting_text_groups": 6
+          }
+        },
+        "near_duplicates": {
+          "method": "deterministic_minhash_lsh_then_exact_character_shingle_jaccard",
+          "settings": {
+            "shingle_chars": 3,
+            "jaccard_threshold": 0.85,
+            "minimum_chars": 30,
+            "bands": 8,
+            "rows_per_band": 4,
+            "seed": 42
+          },
+          "eligible_normalized_unique_texts": 18140,
+          "candidate_pairs_checked": 63,
+          "matched_cross_split_text_pairs": 32,
+          "limitations": "Lexical, approximate candidate recall; not exhaustive or semantic equivalence. Exact/normalized duplicates are reported separately. Short texts are excluded only from this near-duplicate search."
+        },
+        "length_note": "Unicode character counts, not tokenizer token counts or measured model truncation rates.",
+        "gender_coverage": "No gender-target metadata exists in the locked input. Keyword counts do not establish target identity or balanced coverage.",
+        "schema_version": "1.0",
+        "dataset_id": "corgi-clean-train-v1",
+        "is_mock": false,
+        "removed_train_rows": 65,
+        "removed_train_policy": "Exact raw-text matches with dev/test, without reading their labels; original IDs retained. This is a transductive sensitivity analysis, not an unseen-test blind evaluation."
+      }
+    }
+  }
+}

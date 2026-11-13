@@ -4,6 +4,14 @@
   "source_commit": "311a994e85a6111a268b1601a90097d741507c9a",
   "preserve_official_splits": true,
   "include_edited_sentences": false,
+  "near_duplicates": {
+    "shingle_chars": 3,
+    "jaccard_threshold": 0.85,
+    "minimum_chars": 30,
+    "bands": 8,
+    "rows_per_band": 4,
+    "seed": 42
+  },
   "input_features": [
     "text"
   ]
