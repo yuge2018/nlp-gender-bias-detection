@@ -1,0 +1,76 @@
+{
+  "source_commit": "311a994e85a6111a268b1601a90097d741507c9a",
+  "files": [
+    {
+      "name": "CORGI-PC_splitted_biased_corpus_v1.npy",
+      "bytes": 2991919,
+      "github_blob_sha1": "bf736ba81fcd806e02a0fbb382fe5a12278e461c",
+      "sha256": "33c305b11ab794a9b5fcb57fd77ec4dd6ff9c31ab98c11196bf8638e16ee0271"
+    },
+    {
+      "name": "CORGI-PC_splitted_non-bias_corpus_v1.npy",
+      "bytes": 4330698,
+      "github_blob_sha1": "cc7ff1bd591aebb5a190c6d920ffe9df067484f8",
+      "sha256": "93e07f83e2141a4384a2c79132b3cda5a7bebe49feba17171c8b6f32a9c3170c"
+    }
+  ],
+  "splits": {
+    "train": {
+      "biased": 4172,
+      "non_biased": 21418,
+      "total": 25590,
+      "biased_fields": [
+        "ori_sentence",
+        "edit_sentence",
+        "bias_labels"
+      ],
+      "non_biased_fields": [
+        "unique_id",
+        "text"
+      ],
+      "empty": 0,
+      "duplicate_text_excess": 265,
+      "max_chars": 1090
+    },
+    "valid": {
+      "biased": 516,
+      "non_biased": 516,
+      "total": 1032,
+      "biased_fields": [
+        "ori_sentence",
+        "edit_sentence",
+        "bias_labels"
+      ],
+      "non_biased_fields": [
+        "unique_id",
+        "text"
+      ],
+      "empty": 0,
+      "duplicate_text_excess": 1,
+      "max_chars": 939
+    },
+    "test": {
+      "biased": 521,
+      "non_biased": 526,
+      "total": 1047,
+      "biased_fields": [
+        "ori_sentence",
+        "edit_sentence",
+        "bias_labels"
+      ],
+      "non_biased_fields": [
+        "unique_id",
+        "text"
+      ],
+      "empty": 0,
+      "duplicate_text_excess": 4,
+      "max_chars": 329
+    }
+  },
+  "exact_text_overlap_unique": {
+    "train__valid": 34,
+    "train__test": 29,
+    "valid__test": 2
+  },
+  "note": "Counts from verified binary data. Does not establish gender-target coverage."
+}

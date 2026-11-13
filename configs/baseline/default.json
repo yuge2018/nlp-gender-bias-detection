@@ -1,0 +1,14 @@
+{
+  "method": "char_tfidf_lr",
+  "analyzer": "char",
+  "ngram_range": [
+    1,
+    3
+  ],
+  "max_features": 100000,
+  "C": 1.0,
+  "class_weight": null,
+  "max_iter": 1000,
+  "threshold": 0.5,
+  "seed": 42
+}

@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "synthetic-interface-fixture-v1",
+  "is_mock": true,
+  "source_commit": "SYNTHETIC-NOT-CORGI",
+  "label_map": {
+    "0": "non_biased",
+    "1": "biased"
+  },
+  "files": {
+    "train.jsonl": {
+      "sha256": "79a94a3c23493e451f3177a0190f6a14058c9f6242dd52a362491eec4832576a",
+      "rows": 4
+    },
+    "dev.jsonl": {
+      "sha256": "b2b2760f69834752e526716cf51c63dc7b88121a758a29af2f58fecf10f41a44",
+      "rows": 4
+    },
+    "test.jsonl": {
+      "sha256": "7305ad6e00ddff85b942ddbbc7f264733f6854d15513caf7b3a4e53a4191066e",
+      "rows": 8
+    },
+    "labels/dev.jsonl": {
+      "sha256": "7ac27e5e4d21b7f18fe92cca562032bf3c2314be1ad135a8868a7927296bd9bd",
+      "rows": 4
+    },
+    "labels/test.jsonl": {
+      "sha256": "2a21c60c64b0e68ed120dda21cbf09d74ad6642cc6f49b1e3fcdf3ba2ad72a4b",
+      "rows": 8
+    }
+  },
+  "note": "Handwritten examples for interfaces only, not official gold or model results."
+}

@@ -1,0 +1,10 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "corgi-official-v1",
+  "source_commit": "311a994e85a6111a268b1601a90097d741507c9a",
+  "preserve_official_splits": true,
+  "include_edited_sentences": false,
+  "input_features": [
+    "text"
+  ]
+}

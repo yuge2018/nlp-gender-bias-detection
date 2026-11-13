@@ -1,0 +1,12 @@
+{
+  "targets": [
+    "male",
+    "female",
+    "other_explicit",
+    "unspecified"
+  ],
+  "multi_target": true,
+  "zero_denominator": null,
+  "minimum_examples_goal": 80,
+  "use_challenge_for_tuning": false
+}

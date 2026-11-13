@@ -1,0 +1,8 @@
+{"id": "challenge-001", "targets": ["male"], "phenomena": ["synthetic_example"], "reviewers": [], "adjudication": "Example only; P5 must perform actual independent review"}
+{"id": "challenge-002", "targets": ["female"], "phenomena": ["synthetic_example"], "reviewers": [], "adjudication": "Example only; P5 must perform actual independent review"}
+{"id": "challenge-003", "targets": ["female"], "phenomena": ["synthetic_example"], "reviewers": [], "adjudication": "Example only; P5 must perform actual independent review"}
+{"id": "challenge-004", "targets": ["male"], "phenomena": ["synthetic_example"], "reviewers": [], "adjudication": "Example only; P5 must perform actual independent review"}
+{"id": "challenge-005", "targets": ["male"], "phenomena": ["synthetic_example"], "reviewers": [], "adjudication": "Example only; P5 must perform actual independent review"}
+{"id": "challenge-006", "targets": ["male", "female"], "phenomena": ["synthetic_example"], "reviewers": [], "adjudication": "Example only; P5 must perform actual independent review"}
+{"id": "challenge-007", "targets": ["other_explicit"], "phenomena": ["synthetic_example"], "reviewers": [], "adjudication": "Example only; P5 must perform actual independent review"}
+{"id": "challenge-008", "targets": ["unspecified"], "phenomena": ["synthetic_example"], "reviewers": [], "adjudication": "Example only; P5 must perform actual independent review"}

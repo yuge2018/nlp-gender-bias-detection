@@ -1,0 +1,6 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "synthetic-challenge-v1",
+  "is_mock": true,
+  "note": "Not an independently reviewed benchmark; no coverage claim."
+}
