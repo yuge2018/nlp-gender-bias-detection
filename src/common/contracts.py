@@ -30,13 +30,13 @@ def read_jsonl(path):
 def write_json(path, value):
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8")
+    target.write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8", newline="\n")
 
 
 def write_jsonl(path, rows):
     target = Path(path)
     target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text("".join(json.dumps(row, ensure_ascii=False, allow_nan=False) + "\n" for row in rows), encoding="utf-8")
+    target.write_text("".join(json.dumps(row, ensure_ascii=False, allow_nan=False) + "\n" for row in rows), encoding="utf-8", newline="\n")
 
 
 def check_records(rows, kind):

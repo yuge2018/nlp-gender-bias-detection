@@ -1,6 +1,4 @@
 import copy
-import json
-import tempfile
 import unittest
 from pathlib import Path
 
@@ -25,6 +23,10 @@ class ContractTests(unittest.TestCase):
         self.assertEqual(MockPredictor().predict_proba([]), [])
         with self.assertRaises(ValueError):
             MockPredictor().predict_proba([""])
+
+    def test_hashed_fixture_files_use_portable_line_endings(self):
+        for path in DATA.rglob("*.json*"):
+            self.assertNotIn(b"\r\n", path.read_bytes(), str(path))
 
     def test_inference_rejects_labels_and_metadata(self):
         for key in ("label", "source", "bias_labels"):
