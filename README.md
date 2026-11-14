@@ -2,6 +2,8 @@
 
 选题编号 **8**：中文文本性别偏见检测（课程材料标注为 NLPCC 2025 Shared Task 7 Subtask 1）。6 人协作，使用 [CORGI-PM](https://github.com/yizhilll/CORGI-PM) 公开数据。
 
+仓库现为公开仓库；组员Ready PR通过检查后自动合并。Draft或`manual-merge`标签可暂停，成员也可从自己的Fork提交，见[小组协作说明](docs/WORKFLOW.md)。
+
 **P1已完成真实数据处理与审计**，负责人`yuge2018`；其他成员可按[P1接入说明](src/data/README.md)独立生成冻结数据。
 
 **P2已完成字符TF-IDF＋LR基线、B0–B3消融、dev配置与阈值选择**，负责人`cengjingdejiyi`；命令与结果证据见[P2模块说明](src/baseline/README.md)。其余模块仍从示例骨架开发。
@@ -45,5 +47,6 @@ python -m src.demo --mock --output-dir runs/p6-smoke
 - [实测数据审计](docs/DATA_AUDIT.md)：直接检测样本 27,669 条，原始划分与重复文本统计。
 - [实验矩阵](docs/EXPERIMENTS.md)：主指标、基线、改进、消融和补充分析。
 - [集成与交付](docs/INTEGRATION.md)：只在数据冻结、模块验收、最终交付三个节点对齐。
+- [日常协作](docs/WORKFLOW.md)：任务认领、分支/Fork、自动合并及暂停恢复。
 
 课设原文要求“原则上每组 5 人”；本仓库按用户确定的 **6 人** 设计，需向任课教师确认人数。尚未指定成员姓名和截止日期，任务使用 P1–P6 和相对日程，不虚构分配。
