@@ -110,6 +110,7 @@ def train(argv):
     config = load_config(args.config)
     if args.seed is not None:
         config["seed"] = args.seed
+    command = ["python", "-m", "src.improved", "train"] + argv
     out = _prepare_output_dir(args.output_dir)
     log = Logger(out / "log.txt")
     log(f"train start; config={json.dumps(config, ensure_ascii=False)}")
@@ -161,6 +162,7 @@ def train(argv):
         "timing": {"started": train_started, "train_seconds": result["elapsed_seconds"]},
         "environment": environment(),
         "code_commit": git_commit(),
+        "command": command,
     }
     write_json(out / "model_metadata.json", metadata)
     # 不叫 config.json：那是 HF 模型配置的名字，覆盖会毁掉离线加载。
@@ -227,6 +229,7 @@ def predict(argv):
         "model_revision": metadata["model_revision"],
         "config": {"train": config, "predict": {"batch_size": config.get("predict_batch_size", 64), "input": str(input_path.resolve())}},
         "environment": environment(),
+        "command": ["python", "-m", "src.improved", "predict"] + argv,
         "timing": {"started": datetime.datetime.now().isoformat(timespec="seconds"), "predict_seconds": time.time() - started},
     }
     validate_predictions(inputs, predictions, run_metadata, manifest_path)
