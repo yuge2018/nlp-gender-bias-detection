@@ -20,6 +20,7 @@ function fixture(options = {}) {
   const github = {
     rest: {
       pulls: {
+        list: async () => ({data: [pr]}),
         get: async () => ({data: pr}),
         merge: async payload => {
           calls.push({kind: 'merge', ...payload});
@@ -35,6 +36,7 @@ function fixture(options = {}) {
         }
       }
     },
+    paginate: async () => [pr],
     graphql: async query => {
       const kind = query.includes('disablePullRequestAutoMerge') ? 'disable' : 'enable';
       calls.push({kind});
@@ -42,7 +44,7 @@ function fixture(options = {}) {
       return {};
     }
   };
-  return {calls, execute: () => run(github, {repo: {owner: 'owner', repo: 'project'}, payload: {pull_request: {number: 42}}}, {info() {}})};
+  return {calls, execute: () => run(github, {repo: {owner: 'owner', repo: 'project'}, payload: options.payload || {pull_request: {number: 42}}}, {info() {}})};
 }
 
 test('a repository member is queued using native auto-merge', async () => {
@@ -88,6 +90,29 @@ test('a chosen native merge method is preserved', async () => {
 test('an already-ready merge pins the exact checked head', async () => {
   const f = fixture({enableError: new Error('Pull request is in clean status')}); await f.execute();
   assert.equal(f.calls.find(call => call.kind === 'merge').sha, 'tested-head');
+});
+
+test('unstable native status retries through the protected merge API', async () => {
+  const f = fixture({enableError: new Error('Pull request Pull request is in unstable status')});
+  await f.execute();
+  assert.equal(f.calls.find(call => call.kind === 'merge').sha, 'tested-head');
+});
+
+test('a pending required check or changed head is left blocked without bypass', async () => {
+  for (const status of [405, 409]) {
+    const f = fixture({enableError: new Error('Pull request is in unstable status'), mergeError: Object.assign(new Error('blocked'), {status})});
+    await f.execute();
+    assert.equal(f.calls.filter(call => call.kind === 'merge').length, 1);
+  }
+});
+
+test('successful checks recover only a matching current PR head', async () => {
+  const matching = fixture({payload: {workflow_run: {conclusion: 'success', head_sha: 'tested-head'}}});
+  await matching.execute(); assert.ok(matching.calls.some(call => call.kind === 'enable'));
+  const oldHead = fixture({payload: {workflow_run: {conclusion: 'success', head_sha: 'old-head'}}});
+  await oldHead.execute(); assert.deepEqual(oldHead.calls, []);
+  const failed = fixture({payload: {workflow_run: {conclusion: 'failure', head_sha: 'tested-head'}}});
+  await failed.execute(); assert.deepEqual(failed.calls, []);
 });
 
 test('native protection failures are surfaced and never bypassed', async () => {

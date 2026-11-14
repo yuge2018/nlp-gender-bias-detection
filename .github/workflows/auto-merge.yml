@@ -4,17 +4,21 @@ on:
   pull_request_target:
     branches: [main]
     types: [opened, reopened, synchronize, ready_for_review, converted_to_draft, labeled, unlabeled]
+  workflow_run:
+    workflows: [contracts]
+    types: [completed]
 
 permissions:
   contents: write
   pull-requests: write
 
 concurrency:
-  group: auto-merge-${{ github.event.pull_request.number }}
+  group: auto-merge-${{ github.event.pull_request.number || github.event.workflow_run.id }}
   cancel-in-progress: false
 
 jobs:
   enable:
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
     runs-on: ubuntu-latest
     steps:
       # No checkout: this privileged job never executes pull-request code.
@@ -23,56 +27,77 @@ jobs:
           retries: 3
           script: |
             const {owner, repo} = context.repo;
-            const number = context.payload.pull_request.number;
-            const {data: pr} = await github.rest.pulls.get({owner, repo, pull_number: number});
-            if (pr.state !== 'open' || pr.base.ref !== 'main') return;
-            const paused = pr.draft || pr.labels.some(label => label.name === 'manual-merge');
-            if (paused) {
-              if (pr.auto_merge) {
+            async function processPR(number) {
+              const {data: pr} = await github.rest.pulls.get({owner, repo, pull_number: number});
+              if (pr.state !== 'open' || pr.base.ref !== 'main') return;
+              const paused = pr.draft || pr.labels.some(label => label.name === 'manual-merge');
+              if (paused) {
+                if (pr.auto_merge) {
+                  await github.graphql(`
+                    mutation($id: ID!) {
+                      disablePullRequestAutoMerge(input: {pullRequestId: $id}) {
+                        pullRequest { number }
+                      }
+                    }
+                  `, {id: pr.node_id});
+                }
+                core.info(`PR #${number} is paused by draft status or manual-merge label.`);
+                return;
+              }
+
+              // Trust the author's current repository permission, not whether
+              // their branch lives in this repository or their own fork.
+              let member;
+              try {
+                ({data: member} = await github.rest.repos.getCollaboratorPermissionLevel({
+                  owner, repo, username: pr.user.login
+                }));
+              } catch (error) {
+                if (error.status !== 404) throw error;
+                core.info('Author is not a collaborator; leaving this PR for manual review.');
+                return;
+              }
+              if (!['write', 'maintain', 'admin'].includes(member.permission)) {
+                core.info('Author does not have repository write access; leaving this PR for manual review.');
+                return;
+              }
+              if (pr.auto_merge) return;
+              try {
                 await github.graphql(`
                   mutation($id: ID!) {
-                    disablePullRequestAutoMerge(input: {pullRequestId: $id}) {
+                    enablePullRequestAutoMerge(input: {pullRequestId: $id, mergeMethod: SQUASH}) {
                       pullRequest { number }
                     }
                   }
                 `, {id: pr.node_id});
+                core.info(`Enabled native auto-merge for PR #${number}. Required checks still apply.`);
+              } catch (error) {
+                if (!/(?:clean|unstable) status/i.test(String(error.message))) throw error;
+                // GitHub can report "unstable" while this optional workflow is
+                // still running, even when required checks are green. The merge
+                // API enforces native protection and pins the exact PR head.
+                try {
+                  await github.rest.pulls.merge({
+                    owner, repo, pull_number: number, sha: pr.head.sha, merge_method: 'squash'
+                  });
+                  core.info(`Merged already-ready PR #${number}.`);
+                } catch (mergeError) {
+                  if (![405, 409].includes(mergeError.status)) throw mergeError;
+                  core.info(`PR #${number} is still blocked or has changed; waiting for the next check or update.`);
+                }
               }
-              core.info(`PR #${number} is paused by draft status or manual-merge label.`);
-              return;
             }
 
-            // Trust the author's current repository permission, not whether
-            // their branch lives in this repository or their own fork.
-            let member;
-            try {
-              ({data: member} = await github.rest.repos.getCollaboratorPermissionLevel({
-                owner, repo, username: pr.user.login
-              }));
-            } catch (error) {
-              if (error.status !== 404) throw error;
-              core.info('Author is not a collaborator; leaving this PR for manual review.');
-              return;
-            }
-            if (!['write', 'maintain', 'admin'].includes(member.permission)) {
-              core.info('Author does not have repository write access; leaving this PR for manual review.');
-              return;
-            }
-            if (pr.auto_merge) return;
-            try {
-              await github.graphql(`
-                mutation($id: ID!) {
-                  enablePullRequestAutoMerge(input: {pullRequestId: $id, mergeMethod: SQUASH}) {
-                    pullRequest { number }
-                  }
-                }
-              `, {id: pr.node_id});
-              core.info(`Enabled native auto-merge for PR #${number}. Required checks still apply.`);
-            } catch (error) {
-              if (!String(error.message).toLowerCase().includes('clean status')) throw error;
-              // Native auto-merge is unnecessary when already ready. The API
-              // still enforces main's required checks; pin the exact PR head.
-              await github.rest.pulls.merge({
-                owner, repo, pull_number: number, sha: pr.head.sha, merge_method: 'squash'
+            if (context.payload.pull_request) {
+              await processPR(context.payload.pull_request.number);
+            } else if (context.payload.workflow_run?.conclusion === 'success') {
+              // Retry only PRs whose current head was actually checked.
+              const prs = await github.paginate(github.rest.pulls.list, {
+                owner, repo, state: 'open', base: 'main', per_page: 100
               });
-              core.info(`Merged already-ready PR #${number}.`);
+              for (const pr of prs) {
+                if (pr.head.sha === context.payload.workflow_run.head_sha) {
+                  await processPR(pr.number);
+                }
+              }
             }
