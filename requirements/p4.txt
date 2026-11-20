@@ -1,2 +1,4 @@
-# 起始依赖范围，负责人须验证并锁定实际运行版本；不是已验证lock文件。
-# 标准库即可；绘图依赖由负责人验证后补充。
+# P4 评测器只用 Python 标准库（json/csv/hashlib/statistics/unittest）。
+# 下面两个仅用于可选的图表脚本，评测与测试本身不依赖它们。
+matplotlib>=3.7
+numpy>=1.24
