@@ -1,4 +1,5 @@
 {
+  "challenge_dir": "data/challenge/p5-gender-challenge-v1",
   "targets": [
     "male",
     "female",
@@ -8,5 +9,26 @@
   "multi_target": true,
   "zero_denominator": null,
   "minimum_examples_goal": 80,
-  "use_challenge_for_tuning": false
+  "use_challenge_for_tuning": false,
+  "minimum_per_target": 20,
+  "minimum_per_polarity": 5,
+  "review": {
+    "independent_reviewers_required": 2,
+    "report_disagreement": true,
+    "adjudication_owner": "P5"
+  },
+  "report": {
+    "max_cases": 20,
+    "case_notes": "configs/fairness/case_notes.json",
+    "figures_dir": "reports/figures/P5",
+    "require_real": true
+  },
+  "score": {
+    "split": "challenge",
+    "components": [
+      "baseline",
+      "improved"
+    ],
+    "threshold": "model metadata"
+  }
 }
