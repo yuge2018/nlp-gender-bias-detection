@@ -1,6 +1,30 @@
 {
-  "default_model": "baseline",
+  "schema_version": "1.0",
+  "default_model": "mock",
   "mock_banner_required": true,
   "model_loading": "lazy",
-  "offline_real_mode": true
+  "offline_real_mode": true,
+  "models": [
+    {
+      "key": "mock",
+      "display_name": "开发替身（固定 0.5，无真实检测能力）",
+      "adapter_module": null,
+      "model_dir": null,
+      "is_deep": false
+    },
+    {
+      "key": "baseline",
+      "display_name": "字符 TF-IDF + 逻辑回归（P2 基线）",
+      "adapter_module": "src.baseline.adapter",
+      "model_dir": "artifacts/baseline-s42",
+      "is_deep": false
+    },
+    {
+      "key": "improved",
+      "display_name": "中文 RoBERTa 微调（P3 改进）",
+      "adapter_module": "src.improved.adapter",
+      "model_dir": "artifacts/improved-s42",
+      "is_deep": true
+    }
+  ]
 }

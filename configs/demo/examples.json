@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "note": "自编演示例句，取自 docs/TASK_SCOPE.md 的接口讨论示例，不是官方金标，不参与任何指标计算或阈值选择。",
+  "threshold_default": 0.5,
+  "examples": [
+    {
+      "id": "demo-01",
+      "text": "男人不该哭，哭就是没出息。",
+      "expected_label": 1,
+      "target": "male",
+      "why": "对男性施加情绪角色限制"
+    },
+    {
+      "id": "demo-02",
+      "text": "女人天生不适合当工程师。",
+      "expected_label": 1,
+      "target": "female",
+      "why": "对女性的职业能力作群体判断"
+    },
+    {
+      "id": "demo-03",
+      "text": "她是一名工程师。",
+      "expected_label": 0,
+      "target": "unspecified",
+      "why": "中性职业事实描述"
+    },
+    {
+      "id": "demo-04",
+      "text": "“男人不能哭”是一种应当反对的刻板印象。",
+      "expected_label": 0,
+      "target": "unspecified",
+      "why": "引用并反驳偏见，需要读完整语境"
+    }
+  ]
+}
