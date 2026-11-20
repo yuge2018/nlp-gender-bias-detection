@@ -1,0 +1,233 @@
+{
+  "schema_version": "1.0",
+  "component": "P5",
+  "is_mock": false,
+  "generated_at": "2026-11-20T22:37:32+08:00",
+  "challenge": {
+    "dataset_id": "p5-gender-challenge-v1",
+    "manifest_sha256": "af3bbb17645a00ad8a78b8e5e6ec32ff88ffa4d10add4073309d134d9dd5f3f3",
+    "frozen_at": "2026-11-20T22:25:07+08:00",
+    "annotation_version": "v1.0-draft",
+    "review_status": "single_annotator_draft",
+    "n": 100,
+    "positive": 61,
+    "negative": 39
+  },
+  "models": [
+    {
+      "name": "p2-selected",
+      "run_dir": "runs/p5/challenge-p2-selected",
+      "model_dir": "runs/p5/model-p2-s42",
+      "model_name": "char_tfidf_logreg",
+      "model_revision": "p2-v1",
+      "seed": 42,
+      "threshold": 0.5,
+      "is_mock": false,
+      "predictions_sha256": "d676b76e42cbdb0e5531f221e77dbdd6c41f64cd10f575368d225b2a5b6054b2",
+      "official_dev_macro_f1": 0.7545519410163579
+    },
+    {
+      "name": "p2-char1-3gram",
+      "run_dir": "runs/p5/challenge-p2-char1-3gram",
+      "model_dir": "runs/p5/model-p2-b2-s42",
+      "model_name": "char_tfidf_logreg",
+      "model_revision": "p2-v1",
+      "seed": 42,
+      "threshold": 0.5,
+      "is_mock": false,
+      "predictions_sha256": "ca9560de4a93d94eaac334d852345af80e1576c3beca32df2cfbd26ae7aa8f6f"
+    }
+  ],
+  "metrics": {
+    "p2-selected": {
+      "all": {
+        "n": 100,
+        "positive_n": 61,
+        "negative_n": 39,
+        "accuracy": 0.69,
+        "macro_f1": 0.6521153630344518,
+        "macro_f1_defined_classes": 0.6521153630344518,
+        "fpr": 0.5384615384615384,
+        "fnr": 0.16393442622950818,
+        "tp": 51,
+        "fp": 21,
+        "fn": 10,
+        "tn": 18
+      },
+      "male": {
+        "n": 45,
+        "positive_n": 30,
+        "negative_n": 15,
+        "accuracy": 0.7555555555555555,
+        "macro_f1": 0.6953846153846155,
+        "macro_f1_defined_classes": 0.6953846153846155,
+        "fpr": 0.5333333333333333,
+        "fnr": 0.1,
+        "tp": 27,
+        "fp": 8,
+        "fn": 3,
+        "tn": 7
+      },
+      "female": {
+        "n": 45,
+        "positive_n": 30,
+        "negative_n": 15,
+        "accuracy": 0.7333333333333333,
+        "macro_f1": 0.6754807692307692,
+        "macro_f1_defined_classes": 0.6754807692307692,
+        "fpr": 0.5333333333333333,
+        "fnr": 0.13333333333333333,
+        "tp": 26,
+        "fp": 8,
+        "fn": 4,
+        "tn": 7
+      },
+      "other_explicit": {
+        "n": 10,
+        "positive_n": 6,
+        "negative_n": 4,
+        "accuracy": 0.5,
+        "macro_f1": 0.4949494949494949,
+        "macro_f1_defined_classes": 0.4949494949494949,
+        "fpr": 0.5,
+        "fnr": 0.5,
+        "tp": 3,
+        "fp": 2,
+        "fn": 3,
+        "tn": 2
+      },
+      "unspecified": {
+        "n": 5,
+        "positive_n": 0,
+        "negative_n": 5,
+        "accuracy": 0.4,
+        "macro_f1": 0.2857142857142857,
+        "macro_f1_defined_classes": 0.5714285714285714,
+        "fpr": 0.6,
+        "fnr": null,
+        "tp": 0,
+        "fp": 3,
+        "fn": 0,
+        "tn": 2
+      },
+      "multi_target": {
+        "n": 5,
+        "positive_n": 5,
+        "negative_n": 0,
+        "accuracy": 1.0,
+        "macro_f1": 0.5,
+        "macro_f1_defined_classes": 1.0,
+        "fpr": null,
+        "fnr": 0.0,
+        "tp": 5,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      }
+    },
+    "p2-char1-3gram": {
+      "all": {
+        "n": 100,
+        "positive_n": 61,
+        "negative_n": 39,
+        "accuracy": 0.68,
+        "macro_f1": 0.6567996567996568,
+        "macro_f1_defined_classes": 0.6567996567996568,
+        "fpr": 0.46153846153846156,
+        "fnr": 0.22950819672131148,
+        "tp": 47,
+        "fp": 18,
+        "fn": 14,
+        "tn": 21
+      },
+      "male": {
+        "n": 45,
+        "positive_n": 30,
+        "negative_n": 15,
+        "accuracy": 0.7333333333333333,
+        "macro_f1": 0.6754807692307692,
+        "macro_f1_defined_classes": 0.6754807692307692,
+        "fpr": 0.5333333333333333,
+        "fnr": 0.13333333333333333,
+        "tp": 26,
+        "fp": 8,
+        "fn": 4,
+        "tn": 7
+      },
+      "female": {
+        "n": 45,
+        "positive_n": 30,
+        "negative_n": 15,
+        "accuracy": 0.7333333333333333,
+        "macro_f1": 0.709051724137931,
+        "macro_f1_defined_classes": 0.709051724137931,
+        "fpr": 0.3333333333333333,
+        "fnr": 0.23333333333333334,
+        "tp": 23,
+        "fp": 5,
+        "fn": 7,
+        "tn": 10
+      },
+      "other_explicit": {
+        "n": 10,
+        "positive_n": 6,
+        "negative_n": 4,
+        "accuracy": 0.5,
+        "macro_f1": 0.4949494949494949,
+        "macro_f1_defined_classes": 0.4949494949494949,
+        "fpr": 0.5,
+        "fnr": 0.5,
+        "tp": 3,
+        "fp": 2,
+        "fn": 3,
+        "tn": 2
+      },
+      "unspecified": {
+        "n": 5,
+        "positive_n": 0,
+        "negative_n": 5,
+        "accuracy": 0.4,
+        "macro_f1": 0.2857142857142857,
+        "macro_f1_defined_classes": 0.5714285714285714,
+        "fpr": 0.6,
+        "fnr": null,
+        "tp": 0,
+        "fp": 3,
+        "fn": 0,
+        "tn": 2
+      },
+      "multi_target": {
+        "n": 5,
+        "positive_n": 5,
+        "negative_n": 0,
+        "accuracy": 1.0,
+        "macro_f1": 0.5,
+        "macro_f1_defined_classes": 1.0,
+        "fpr": null,
+        "fnr": 0.0,
+        "tp": 5,
+        "fp": 0,
+        "fn": 0,
+        "tn": 0
+      }
+    }
+  },
+  "cases": {
+    "n": 20,
+    "human_notes": 20,
+    "false_negative": 5,
+    "false_positive": 5,
+    "file_sha256": "543797fcd28c1366106084fd7c317c38bb1712b9f80b49724981224581598626"
+  },
+  "gaps": [
+    "挑战集为单标注者草案，双人独立复核（kappa）未完成",
+    "P3 改进模型尚无预测，当前对照是 P2 的另一特征配置，不能称为基线 vs 改进",
+    "unspecified 组没有正例；other_explicit 仅 10 条，分组结论只作描述",
+    "challenge 正类占 61%，为刻意平衡的小样本，不代表总体偏见率"
+  ],
+  "commands": [
+    "python -m src.fairness build --output-dir data/challenge/p5-gender-challenge-v1",
+    "python -m src.fairness score --component baseline --model-dir runs/p5/model-p2-s42 --name p2-selected --output-dir runs/p5/challenge-p2-selected",
+    "python -m src.fairness report --prediction p2-selected=runs/p5/challenge-p2-selected --prediction p2-char1-3gram=runs/p5/challenge-p2-char1-3gram --output-dir runs/p5/report --case-notes configs/fairness/case_notes.json"
+  ]
+}
