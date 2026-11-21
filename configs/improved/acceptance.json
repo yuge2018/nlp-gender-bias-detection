@@ -1,0 +1,739 @@
+{
+  "schema_version": "1.0",
+  "component": "improved",
+  "generated_at": "2026-11-21T15:53:08",
+  "generated_by": "python -m src.improved.acceptance",
+  "author": {
+    "name": "张羽纶",
+    "student_id": "202315060337",
+    "github": "zy1un"
+  },
+  "code_commit": "ea3d014231e60b872fc2c6ca88f158c20ec1aabe",
+  "environment": {
+    "python": "3.12.12",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "torch": "2.14.0+cu126",
+    "cuda_available": true,
+    "device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "cuda": "12.6",
+    "transformers": "4.57.6"
+  },
+  "model": {
+    "name": "hfl/chinese-roberta-wwm-ext",
+    "revision": "5c58d0b8ec1d9014354d691c538661bf00bfdb44",
+    "num_labels": 2,
+    "score_definition": "softmax label=1 分量，未做概率校准"
+  },
+  "datasets": {
+    "corgi-official-v1": {
+      "manifest_sha256": "f78973f015839c13783c4a7fd3149ab7203c4ef1393845dc98d2b8e0ffbaf09a",
+      "rows": {
+        "train": 25590,
+        "dev": 1032,
+        "test": 1047
+      },
+      "verify_cmd": "python -m src.data verify --data-dir data/processed/corgi-official-v1"
+    },
+    "corgi-clean-train-v1": {
+      "manifest_sha256": "dccc6ec10f2db6b35ceaf782e3e17d2a14916bf10e3959ca9e660248fb1e3fec",
+      "rows": {
+        "train": 25525,
+        "dev": 1032,
+        "test": 1047
+      },
+      "verify_cmd": "python -m src.data verify --data-dir data/processed/corgi-clean-train-v1"
+    }
+  },
+  "shared_model_for_demo": {
+    "dir": "artifacts/improved-i2-s42",
+    "why": "I2 类别加权版，同规则下 test Macro-F1 最高（0.8461@0.5），组长建议 P6 接此模型",
+    "usage": "from src.improved.adapter import load_predictor; p = load_predictor('artifacts/improved-i2-s42'); scores = p.predict_proba([...])",
+    "offline": true,
+    "test_macro_f1_at_0.5": 0.8461
+  },
+  "training_runs": [
+    {
+      "tag": "improved-i1-s42",
+      "config": "configs/improved/default.json",
+      "data_dir": "data/processed/corgi-official-v1",
+      "dataset_manifest_sha256": "f78973f015839c13783c4a7fd3149ab7203c4ef1393845dc98d2b8e0ffbaf09a",
+      "seed": 42,
+      "model_revision": "5c58d0b8ec1d9014354d691c538661bf00bfdb44",
+      "best_epoch": 3,
+      "dev_macro_f1_at_0.5": 0.7856428636985011,
+      "dev_threshold": 0.1,
+      "dev_macro_f1_at_threshold": 0.7906985461972846,
+      "class_weights": null,
+      "amp_bf16": true,
+      "train_seconds": 2228.1361734867096,
+      "command": [
+        "python",
+        "-m",
+        "src.improved",
+        "train",
+        "--data-dir",
+        "data/processed/corgi-official-v1",
+        "--config",
+        "configs/improved/default.json",
+        "--output-dir",
+        "artifacts/improved-i1-s42",
+        "--seed",
+        "42"
+      ],
+      "evidence_in_git": "artifacts/improved-i1-s42/model_metadata.json",
+      "weights_sha256": {
+        "model.safetensors": "67b6b85e4afd30f8bae1bad6650fe8cb87bbf92b8eeeb6145e45b9e2b4887927"
+      }
+    },
+    {
+      "tag": "improved-i1-s43",
+      "config": "configs/improved/default.json",
+      "data_dir": "data/processed/corgi-official-v1",
+      "dataset_manifest_sha256": "f78973f015839c13783c4a7fd3149ab7203c4ef1393845dc98d2b8e0ffbaf09a",
+      "seed": 43,
+      "model_revision": "5c58d0b8ec1d9014354d691c538661bf00bfdb44",
+      "best_epoch": 3,
+      "dev_macro_f1_at_0.5": 0.7612884916670231,
+      "dev_threshold": 0.15,
+      "dev_macro_f1_at_threshold": 0.7676966848453524,
+      "class_weights": null,
+      "amp_bf16": true,
+      "train_seconds": 1936.524483203888,
+      "command": [
+        "python",
+        "-m",
+        "src.improved",
+        "train",
+        "--data-dir",
+        "data/processed/corgi-official-v1",
+        "--config",
+        "configs/improved/default.json",
+        "--output-dir",
+        "artifacts/improved-i1-s43",
+        "--seed",
+        "43"
+      ],
+      "evidence_in_git": "artifacts/improved-i1-s43/model_metadata.json",
+      "weights_sha256": {
+        "model.safetensors": "8779cd9e5402c64c946c91ce5009182c4f25b31da56cf5f966a4b00fb7ef80ab"
+      }
+    },
+    {
+      "tag": "improved-i1-s44",
+      "config": "configs/improved/default.json",
+      "data_dir": "data/processed/corgi-official-v1",
+      "dataset_manifest_sha256": "f78973f015839c13783c4a7fd3149ab7203c4ef1393845dc98d2b8e0ffbaf09a",
+      "seed": 44,
+      "model_revision": "5c58d0b8ec1d9014354d691c538661bf00bfdb44",
+      "best_epoch": 2,
+      "dev_macro_f1_at_0.5": 0.7784396855851953,
+      "dev_threshold": 0.1,
+      "dev_macro_f1_at_threshold": 0.7983020226047413,
+      "class_weights": null,
+      "amp_bf16": true,
+      "train_seconds": 2002.6420917510986,
+      "command": [
+        "python",
+        "-m",
+        "src.improved",
+        "train",
+        "--data-dir",
+        "data/processed/corgi-official-v1",
+        "--config",
+        "configs/improved/default.json",
+        "--output-dir",
+        "artifacts/improved-i1-s44",
+        "--seed",
+        "44"
+      ],
+      "evidence_in_git": "artifacts/improved-i1-s44/model_metadata.json",
+      "weights_sha256": {
+        "model.safetensors": "af21be8750bec4592e78b84301564c2720e82fc5639689ffa5ba96cd2829603b"
+      }
+    },
+    {
+      "tag": "improved-i2-s42",
+      "config": "configs/improved/i2_class_weight.json",
+      "data_dir": "data/processed/corgi-official-v1",
+      "dataset_manifest_sha256": "f78973f015839c13783c4a7fd3149ab7203c4ef1393845dc98d2b8e0ffbaf09a",
+      "seed": 42,
+      "model_revision": "5c58d0b8ec1d9014354d691c538661bf00bfdb44",
+      "best_epoch": 1,
+      "dev_macro_f1_at_0.5": 0.8171272655213938,
+      "dev_threshold": 0.1,
+      "dev_macro_f1_at_threshold": 0.8446251129177959,
+      "class_weights": [
+        0.5973947147259314,
+        3.066874400767018
+      ],
+      "amp_bf16": true,
+      "train_seconds": 28049.336794137955,
+      "command": [
+        "python",
+        "-m",
+        "src.improved",
+        "train",
+        "--data-dir",
+        "data/processed/corgi-official-v1",
+        "--config",
+        "configs/improved/i2_class_weight.json",
+        "--output-dir",
+        "artifacts/improved-i2-s42",
+        "--seed",
+        "42"
+      ],
+      "evidence_in_git": "artifacts/improved-i2-s42/model_metadata.json",
+      "weights_sha256": {
+        "model.safetensors": "8e04d8c7ba5bcc6f33c8e328b72554dec3b8f03f5d1cf89c324d22a5934fa292"
+      }
+    },
+    {
+      "tag": "improved-i3-len256-s42",
+      "config": "configs/improved/i3_length256.json",
+      "data_dir": "data/processed/corgi-official-v1",
+      "dataset_manifest_sha256": "f78973f015839c13783c4a7fd3149ab7203c4ef1393845dc98d2b8e0ffbaf09a",
+      "seed": 42,
+      "model_revision": "5c58d0b8ec1d9014354d691c538661bf00bfdb44",
+      "best_epoch": 2,
+      "dev_macro_f1_at_0.5": 0.7944079965340101,
+      "dev_threshold": 0.1,
+      "dev_macro_f1_at_threshold": 0.8097285152163882,
+      "class_weights": null,
+      "amp_bf16": true,
+      "train_seconds": 2341.5889632701874,
+      "command": [
+        "python",
+        "-m",
+        "src.improved",
+        "train",
+        "--data-dir",
+        "data/processed/corgi-official-v1",
+        "--config",
+        "configs/improved/i3_length256.json",
+        "--output-dir",
+        "artifacts/improved-i3-len256-s42",
+        "--seed",
+        "42"
+      ],
+      "evidence_in_git": "artifacts/improved-i3-len256-s42/model_metadata.json",
+      "weights_sha256": {
+        "model.safetensors": "3f9511ffa2c204c7ffbb845bae92d5ed075ee5ae02ecb51f285c81d267f4775d"
+      }
+    },
+    {
+      "tag": "improved-l1-clean-s42",
+      "config": "configs/improved/default.json",
+      "data_dir": "data/processed/corgi-clean-train-v1",
+      "dataset_manifest_sha256": "dccc6ec10f2db6b35ceaf782e3e17d2a14916bf10e3959ca9e660248fb1e3fec",
+      "seed": 42,
+      "model_revision": "5c58d0b8ec1d9014354d691c538661bf00bfdb44",
+      "best_epoch": 1,
+      "dev_macro_f1_at_0.5": 0.8083236895118083,
+      "dev_threshold": 0.1,
+      "dev_macro_f1_at_threshold": 0.8385646167473944,
+      "class_weights": null,
+      "amp_bf16": true,
+      "train_seconds": 2448.330975294113,
+      "command": [
+        "python",
+        "-m",
+        "src.improved",
+        "train",
+        "--data-dir",
+        "data/processed/corgi-clean-train-v1",
+        "--config",
+        "configs/improved/default.json",
+        "--output-dir",
+        "artifacts/improved-l1-clean-s42",
+        "--seed",
+        "42"
+      ],
+      "evidence_in_git": "artifacts/improved-l1-clean-s42/model_metadata.json",
+      "weights_sha256": {
+        "model.safetensors": "9834a89d82eacf67c5cb3afb0fb27bd5fafd3a00221fa98f366be6c4b8305d62"
+      }
+    }
+  ],
+  "prediction_runs": [
+    {
+      "run_dir": "runs/improved-i1-s42-dev",
+      "model_tag": "improved-i1-s42-dev",
+      "split": "dev",
+      "threshold": 0.5,
+      "n": 1032,
+      "accuracy": 0.7916666666666666,
+      "macro_f1": 0.7856428636985011,
+      "positive_precision": 0.9387755102040817,
+      "positive_recall": 0.624031007751938,
+      "positive_f1": 0.7497089639115251,
+      "negative_f1": 0.8215767634854771,
+      "confusion_matrix": [
+        [
+          495,
+          21
+        ],
+        [
+          194,
+          322
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "1cdb1503b34cac7681423a3b24d850d40e32ea6459b97073d9d678d5c7a98c3f",
+      "run_metadata_sha256": "e27a63da5dac132abd1583abb5ce862e2b12dd4b54b50827e672714843f95aea"
+    },
+    {
+      "run_dir": "runs/improved-i1-s42-test",
+      "model_tag": "improved-i1-s42-test",
+      "split": "test",
+      "threshold": 0.5,
+      "n": 1047,
+      "accuracy": 0.8261700095510984,
+      "macro_f1": 0.8221714136399267,
+      "positive_precision": 0.959349593495935,
+      "positive_recall": 0.6794625719769674,
+      "positive_f1": 0.7955056179775281,
+      "negative_f1": 0.8488372093023255,
+      "confusion_matrix": [
+        [
+          511,
+          15
+        ],
+        [
+          167,
+          354
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "9466a6cf165020a04122a4a9bd489de78a47348686e2c9a8c60d847aa1d05618",
+      "run_metadata_sha256": "782f0658a5d42160b374bd716f31605f87e73490e3564193f0fb16f8c8b4053d"
+    },
+    {
+      "run_dir": "runs/improved-i1-s42-test-thr010",
+      "model_tag": "improved-i1-s42-test",
+      "split": "test",
+      "threshold": 0.1,
+      "n": 1047,
+      "accuracy": 0.839541547277937,
+      "macro_f1": 0.8370681605975723,
+      "positive_precision": 0.9445843828715366,
+      "positive_recall": 0.7197696737044146,
+      "positive_f1": 0.8169934640522876,
+      "negative_f1": 0.8571428571428571,
+      "confusion_matrix": [
+        [
+          504,
+          22
+        ],
+        [
+          146,
+          375
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "1d12697330a760eb86d2507c598f150c0eb5f72af65f9782df8b8ceb4c987d05",
+      "run_metadata_sha256": "8b82cb5734826d023ff659ba086ee3c61b82c39513a97fa2249f3c057b86477e"
+    },
+    {
+      "run_dir": "runs/improved-i1-s43-dev",
+      "model_tag": "improved-i1-s43-dev",
+      "split": "dev",
+      "threshold": 0.5,
+      "n": 1032,
+      "accuracy": 0.7684108527131783,
+      "macro_f1": 0.7601967054367198,
+      "positive_precision": 0.9261538461538461,
+      "positive_recall": 0.5833333333333334,
+      "positive_f1": 0.7158145065398336,
+      "negative_f1": 0.8045789043336059,
+      "confusion_matrix": [
+        [
+          492,
+          24
+        ],
+        [
+          215,
+          301
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "b91f6bc0c84b48714294222d618887b20dfc4a7786e2b8427c47c9edbaed14f2",
+      "run_metadata_sha256": "6d9f78a087a48553014b7c3d074b085fd8af103ca4aa5a091339cda9b69e69b1"
+    },
+    {
+      "run_dir": "runs/improved-i1-s43-test",
+      "model_tag": "improved-i1-s43-test",
+      "split": "test",
+      "threshold": 0.5,
+      "n": 1047,
+      "accuracy": 0.8166189111747851,
+      "macro_f1": 0.8112237998647736,
+      "positive_precision": 0.9713467048710601,
+      "positive_recall": 0.6506717850287908,
+      "positive_f1": 0.7793103448275862,
+      "negative_f1": 0.8431372549019608,
+      "confusion_matrix": [
+        [
+          516,
+          10
+        ],
+        [
+          182,
+          339
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "1a61da292f51ed53368946595b53687d33b7ccb828f8859f9abed7c22d4b075f",
+      "run_metadata_sha256": "7d112111459b93a5296ddea610af641c1e3f51937be3be903595f48e93f525db"
+    },
+    {
+      "run_dir": "runs/improved-i1-s43-test-thr015",
+      "model_tag": "improved-i1-s43-test",
+      "split": "test",
+      "threshold": 0.15,
+      "n": 1047,
+      "accuracy": 0.8233046800382043,
+      "macro_f1": 0.81907960796145,
+      "positive_precision": 0.9590163934426229,
+      "positive_recall": 0.6737044145873321,
+      "positive_f1": 0.7914317925591883,
+      "negative_f1": 0.8467274233637117,
+      "confusion_matrix": [
+        [
+          511,
+          15
+        ],
+        [
+          170,
+          351
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "513c225c21236eb03a41059f9baa099f477f83d019c68f5c1745ac24bade9e8d",
+      "run_metadata_sha256": "a8cc87c0e4fc847f79561fc727549b95de202b9e2423a2b5a65d4d040389710b"
+    },
+    {
+      "run_dir": "runs/improved-i1-s44-dev",
+      "model_tag": "improved-i1-s44-dev",
+      "split": "dev",
+      "threshold": 0.5,
+      "n": 1032,
+      "accuracy": 0.7848837209302325,
+      "macro_f1": 0.7784396855851953,
+      "positive_precision": 0.9323529411764706,
+      "positive_recall": 0.6143410852713178,
+      "positive_f1": 0.7406542056074766,
+      "negative_f1": 0.8162251655629139,
+      "confusion_matrix": [
+        [
+          493,
+          23
+        ],
+        [
+          199,
+          317
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "0d6be4087730a5627c967b83673c1e455cdfed7f8e9eeb627f38700ce586fa34",
+      "run_metadata_sha256": "7f41846eba4bdfd7311cd2aa27f5b58f39c456b0251171fdc84bfedf1b0b22f0"
+    },
+    {
+      "run_dir": "runs/improved-i1-s44-test",
+      "model_tag": "improved-i1-s44-test",
+      "split": "test",
+      "threshold": 0.5,
+      "n": 1047,
+      "accuracy": 0.836676217765043,
+      "macro_f1": 0.8334373746968303,
+      "positive_precision": 0.9605263157894737,
+      "positive_recall": 0.7005758157389635,
+      "positive_f1": 0.8102108768035516,
+      "negative_f1": 0.856663872590109,
+      "confusion_matrix": [
+        [
+          511,
+          15
+        ],
+        [
+          156,
+          365
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "e2002da6786260eea1288291604176aaf2c6e1d8ae05877e993800b7ef0eb9f8",
+      "run_metadata_sha256": "e27eb919476da0e2f9113b5a4911e96ac936cba2ddcacf3a2672bff10a069714"
+    },
+    {
+      "run_dir": "runs/improved-i1-s44-test-thr01",
+      "model_tag": "improved-i1-s44-test",
+      "split": "test",
+      "threshold": 0.1,
+      "n": 1047,
+      "accuracy": 0.8548233046800382,
+      "macro_f1": 0.8532326012055393,
+      "positive_precision": 0.9424460431654677,
+      "positive_recall": 0.7543186180422264,
+      "positive_f1": 0.837953091684435,
+      "negative_f1": 0.8685121107266436,
+      "confusion_matrix": [
+        [
+          502,
+          24
+        ],
+        [
+          128,
+          393
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "2b90646338c0c819586bb7ecfb78422022001874569dc0156049c98ef28e5207",
+      "run_metadata_sha256": "e49f292038a9b0a2d07717a4eaeed66a56cc070a141fa2f1d46985e63b2a1cd4"
+    },
+    {
+      "run_dir": "runs/improved-i2-s42-dev",
+      "model_tag": "improved-i2-s42-dev",
+      "split": "dev",
+      "threshold": 0.5,
+      "n": 1032,
+      "accuracy": 0.8197674418604651,
+      "macro_f1": 0.8171272655213938,
+      "positive_precision": 0.9209183673469388,
+      "positive_recall": 0.6996124031007752,
+      "positive_f1": 0.7951541850220264,
+      "negative_f1": 0.8391003460207612,
+      "confusion_matrix": [
+        [
+          485,
+          31
+        ],
+        [
+          155,
+          361
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "d0a0b61487a676c9bfc331676a2bdadc93aef8b0902e09b6c0902ec525f2a89a",
+      "run_metadata_sha256": "949dc44bc0a4f4a56b74284e778fbe41a01b3c521222eae468bbe29d6e02c9c7"
+    },
+    {
+      "run_dir": "runs/improved-i2-s42-test",
+      "model_tag": "improved-i2-s42-test",
+      "split": "test",
+      "threshold": 0.5,
+      "n": 1047,
+      "accuracy": 0.8481375358166189,
+      "macro_f1": 0.8461160888844519,
+      "positive_precision": 0.9458128078817734,
+      "positive_recall": 0.7370441458733206,
+      "positive_f1": 0.8284789644012945,
+      "negative_f1": 0.8637532133676092,
+      "confusion_matrix": [
+        [
+          504,
+          22
+        ],
+        [
+          137,
+          384
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "c1bf37708143680a8bca12eaaf3951eec58d879d8cc5360ac13cc15928a6bc65",
+      "run_metadata_sha256": "9c86f0aeb3f67598c94caf7100a622fe58a19a5eab547f9a42847bf7845d5ccb"
+    },
+    {
+      "run_dir": "runs/improved-i2-s42-test-thr010",
+      "model_tag": "improved-i2-s42-test",
+      "split": "test",
+      "threshold": 0.1,
+      "n": 1047,
+      "accuracy": 0.8567335243553008,
+      "macro_f1": 0.856179211417017,
+      "positive_precision": 0.9023861171366594,
+      "positive_recall": 0.7984644913627639,
+      "positive_f1": 0.8472505091649695,
+      "negative_f1": 0.8651079136690647,
+      "confusion_matrix": [
+        [
+          481,
+          45
+        ],
+        [
+          105,
+          416
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "635e5f3084458e8c0bf709a251455fad6731fa111ed8f0d6977d60bb9640bbf3",
+      "run_metadata_sha256": "489d3341fe366b651893de7a6b238fd543cedadee5a09496a837c764d090ce87"
+    },
+    {
+      "run_dir": "runs/improved-i3-len256-s42-dev",
+      "model_tag": "improved-i3-len256-s42-dev",
+      "split": "dev",
+      "threshold": 0.5,
+      "n": 1032,
+      "accuracy": 0.8003875968992248,
+      "macro_f1": 0.7944079965340101,
+      "positive_precision": 0.9558823529411765,
+      "positive_recall": 0.6298449612403101,
+      "positive_f1": 0.7593457943925234,
+      "negative_f1": 0.8294701986754967,
+      "confusion_matrix": [
+        [
+          501,
+          15
+        ],
+        [
+          191,
+          325
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "81b348538d4eada6312a30df12a4aa42d1d0d93067ff04567c1acb958375fab6",
+      "run_metadata_sha256": "7e132ac28e9fd0dcb57bdb208fd61437439a3eb2998972a8e109eaabac35ec0b"
+    },
+    {
+      "run_dir": "runs/improved-i3-len256-s42-test",
+      "model_tag": "improved-i3-len256-s42-test",
+      "split": "test",
+      "threshold": 0.5,
+      "n": 1047,
+      "accuracy": 0.8319006685768864,
+      "macro_f1": 0.8278295187837292,
+      "positive_precision": 0.9726027397260274,
+      "positive_recall": 0.6813819577735125,
+      "positive_f1": 0.801354401805869,
+      "negative_f1": 0.8543046357615894,
+      "confusion_matrix": [
+        [
+          516,
+          10
+        ],
+        [
+          166,
+          355
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "900c230de2bd619585846acbe8fb190eba6fc5b3a7412e0bbe28bd7a97cf307e",
+      "run_metadata_sha256": "670ed16c627dd347eb3c430a9550a61d6430d5e4878fe5e84571a4b90a3dc1fe"
+    },
+    {
+      "run_dir": "runs/improved-i3-len256-s42-test-thr01",
+      "model_tag": "improved-i3-len256-s42-test",
+      "split": "test",
+      "threshold": 0.1,
+      "n": 1047,
+      "accuracy": 0.8529130850047756,
+      "macro_f1": 0.8507862415138481,
+      "positive_precision": 0.9576059850374065,
+      "positive_recall": 0.7370441458733206,
+      "positive_f1": 0.8329718004338394,
+      "negative_f1": 0.8686006825938567,
+      "confusion_matrix": [
+        [
+          509,
+          17
+        ],
+        [
+          137,
+          384
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "61cae2a803bafbaec057caa100eab95506f3830636d2c5a6a56744f8c48b924e",
+      "run_metadata_sha256": "c0454747e4f39e14c4c6fb71cd1e1ee01d21851e5a9e4b102a17dc042472d2a7"
+    },
+    {
+      "run_dir": "runs/improved-l1-clean-s42-dev",
+      "model_tag": "improved-l1-clean-s42-dev",
+      "split": "dev",
+      "threshold": 0.5,
+      "n": 1032,
+      "accuracy": 0.811046511627907,
+      "macro_f1": 0.8083236895118083,
+      "positive_precision": 0.9083969465648855,
+      "positive_recall": 0.6918604651162791,
+      "positive_f1": 0.7854785478547854,
+      "negative_f1": 0.8311688311688312,
+      "confusion_matrix": [
+        [
+          480,
+          36
+        ],
+        [
+          159,
+          357
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "68504aa20920f5c0007ea8dd22319c02a0753b3cb0e2acdb4aefca2dbe60d225",
+      "run_metadata_sha256": "fa712c03d69fccbf81c1fca1325d3a933f3fcebdd73252aed1a51db7c7aa50ec"
+    },
+    {
+      "run_dir": "runs/improved-l1-clean-s42-test",
+      "model_tag": "improved-l1-clean-s42-test",
+      "split": "test",
+      "threshold": 0.5,
+      "n": 1047,
+      "accuracy": 0.8681948424068768,
+      "macro_f1": 0.8667506510945027,
+      "positive_precision": 0.9592326139088729,
+      "positive_recall": 0.7677543186180422,
+      "positive_f1": 0.8528784648187633,
+      "negative_f1": 0.8806228373702422,
+      "confusion_matrix": [
+        [
+          509,
+          17
+        ],
+        [
+          121,
+          400
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "67529fd77336e3a2cb3c8f8b9fc9a746c5c70871141efa49b944a31f34946224",
+      "run_metadata_sha256": "b2c2b3fd36328eb940832b1e70baee82711cc6423c08dc09afb39e069bc94c7c"
+    },
+    {
+      "run_dir": "runs/improved-l1-clean-s42-test-thr01",
+      "model_tag": "improved-l1-clean-s42-test",
+      "split": "test",
+      "threshold": 0.1,
+      "n": 1047,
+      "accuracy": 0.8758357211079274,
+      "macro_f1": 0.8755850091407678,
+      "positive_precision": 0.9081419624217119,
+      "positive_recall": 0.8349328214971209,
+      "positive_f1": 0.87,
+      "negative_f1": 0.8811700182815356,
+      "confusion_matrix": [
+        [
+          482,
+          44
+        ],
+        [
+          86,
+          435
+        ]
+      ],
+      "is_mock": false,
+      "predictions_sha256": "1f0c30287176af26c17a033665e0548f346eb2f4bf9d5beacd840170838947f5",
+      "run_metadata_sha256": "627eff4c990b78dd9b23640ffc0592f5d14d92834c3f59db9a35a3af676b0c24"
+    }
+  ],
+  "reproduce": {
+    "setup": "pip install -r requirements/p3.txt（torch 需 CUDA 构建，见文件头注释）；python -m src.data prepare --raw-dir data/raw/corgi-pinned --output-dir data/processed",
+    "train": "python -m src.improved train --data-dir <data_dir> --config <config> --output-dir artifacts/<tag> --seed <seed>",
+    "predict": "python -m src.improved predict --input <data_dir>/test.jsonl --model-dir artifacts/<tag> --manifest <data_dir>/manifest.json --output-dir runs/<tag>-test",
+    "regenerate_this_file": "python -m src.improved.acceptance",
+    "note": "GPU 内核有 cuDNN 非确定性，重训分数会有 ±0.011 量级的种子间波动（见 training_runs 三种子）；预测与指标可精确复算"
+  },
+  "notes": [
+    "权重、数据包与运行输出按仓库约定不进 Git；本文件与其引用的 sha256 是它们的验证凭据。",
+    "runs/improved-i2-s42-test 的预测与元数据全文已提交进 Git，作为可直接打开核对的实跑样本。",
+    "正式主表以 P4 从 run 目录重算的 metrics.json 为准，本文件数字由契约参考实现 binary_metrics 复算得出。"
+  ]
+}

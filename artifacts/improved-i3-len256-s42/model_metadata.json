@@ -1,0 +1,91 @@
+{
+  "schema_version": "1.0",
+  "method": "encoder_finetune_len256",
+  "is_mock": false,
+  "model_name": "hfl/chinese-roberta-wwm-ext",
+  "model_revision": "5c58d0b8ec1d9014354d691c538661bf00bfdb44",
+  "seed": 42,
+  "dataset": {
+    "data_dir": "D:\\Desktop\\自然语言处理\\nlp-gender-bias-detection\\data\\processed\\corgi-official-v1",
+    "dataset_id": "corgi-official-v1",
+    "dataset_manifest_sha256": "f78973f015839c13783c4a7fd3149ab7203c4ef1393845dc98d2b8e0ffbaf09a",
+    "train_n": 25590,
+    "dev_n": 1032,
+    "train_positive_n": 4172
+  },
+  "config": {
+    "method": "encoder_finetune_len256",
+    "model_name": "hfl/chinese-roberta-wwm-ext",
+    "model_revision": "5c58d0b8ec1d9014354d691c538661bf00bfdb44",
+    "num_labels": 2,
+    "loss": "cross_entropy",
+    "max_length": 256,
+    "truncation": "right",
+    "batch_size": 8,
+    "gradient_accumulation_steps": 1,
+    "epochs": 3,
+    "learning_rate": 2e-05,
+    "warmup_ratio": 0.1,
+    "weight_decay": 0.01,
+    "max_grad_norm": 1.0,
+    "amp": "auto",
+    "class_weight": null,
+    "predict_batch_size": 32,
+    "threshold": 0.5,
+    "seed": 42
+  },
+  "selection": {
+    "criterion": "dev macro_f1 at threshold 0.5, earliest best epoch kept; threshold from dev grid 0.10-0.90 step 0.05",
+    "best_epoch": 2,
+    "history": [
+      {
+        "epoch": 1,
+        "train_loss_mean": 0.3089971171715886,
+        "dev_macro_f1_at_0.5": 0.6970052847915443
+      },
+      {
+        "epoch": 2,
+        "train_loss_mean": 0.2132138609080287,
+        "dev_macro_f1_at_0.5": 0.7944079965340101
+      },
+      {
+        "epoch": 3,
+        "train_loss_mean": 0.12212212988272507,
+        "dev_macro_f1_at_0.5": 0.789908564029782
+      }
+    ],
+    "dev_macro_f1_at_0.5": 0.7944079965340101,
+    "threshold": 0.1,
+    "dev_macro_f1_at_threshold": 0.8097285152163882
+  },
+  "class_weights": null,
+  "amp_bf16": true,
+  "timing": {
+    "started": "2026-11-14T10:01:44",
+    "train_seconds": 2341.5889632701874
+  },
+  "environment": {
+    "python": "3.12.12",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "torch": "2.14.0+cu126",
+    "cuda_available": true,
+    "device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "cuda": "12.6",
+    "transformers": "4.57.6"
+  },
+  "code_commit": "704e01ee77f83a58b8303694822ba21731faeb7c",
+  "command": [
+    "python",
+    "-m",
+    "src.improved",
+    "train",
+    "--data-dir",
+    "data/processed/corgi-official-v1",
+    "--config",
+    "configs/improved/i3_length256.json",
+    "--output-dir",
+    "artifacts/improved-i3-len256-s42",
+    "--seed",
+    "42"
+  ]
+}

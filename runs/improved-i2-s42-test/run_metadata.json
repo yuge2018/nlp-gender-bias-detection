@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "method": "encoder_finetune_cw",
+  "split": "test",
+  "dataset_manifest_sha256": "f78973f015839c13783c4a7fd3149ab7203c4ef1393845dc98d2b8e0ffbaf09a",
+  "is_mock": false,
+  "seed": 42,
+  "threshold": 0.5,
+  "code_commit": "704e01ee77f83a58b8303694822ba21731faeb7c",
+  "model_name": "hfl/chinese-roberta-wwm-ext",
+  "model_revision": "5c58d0b8ec1d9014354d691c538661bf00bfdb44",
+  "config": {
+    "train": {
+      "method": "encoder_finetune_cw",
+      "model_name": "hfl/chinese-roberta-wwm-ext",
+      "model_revision": "5c58d0b8ec1d9014354d691c538661bf00bfdb44",
+      "num_labels": 2,
+      "loss": "cross_entropy",
+      "max_length": 128,
+      "truncation": "right",
+      "batch_size": 8,
+      "gradient_accumulation_steps": 1,
+      "epochs": 3,
+      "learning_rate": 2e-05,
+      "warmup_ratio": 0.1,
+      "weight_decay": 0.01,
+      "max_grad_norm": 1.0,
+      "amp": "auto",
+      "class_weight": "balanced",
+      "predict_batch_size": 64,
+      "threshold": 0.5,
+      "seed": 42
+    },
+    "predict": {
+      "batch_size": 64,
+      "input": "D:\\Desktop\\自然语言处理\\nlp-gender-bias-detection\\data\\processed\\corgi-official-v1\\test.jsonl"
+    }
+  },
+  "environment": {
+    "python": "3.12.12",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "torch": "2.14.0+cu126",
+    "cuda_available": true,
+    "device": "NVIDIA GeForce RTX 4060 Laptop GPU",
+    "cuda": "12.6",
+    "transformers": "4.57.6"
+  },
+  "timing": {
+    "started": "2026-11-14T08:09:14",
+    "predict_seconds": 3.7967705726623535
+  },
+  "command": [
+    "python",
+    "-m",
+    "src.improved",
+    "predict",
+    "--input",
+    "data/processed/corgi-official-v1/test.jsonl",
+    "--model-dir",
+    "artifacts/improved-i2-s42",
+    "--manifest",
+    "data/processed/corgi-official-v1/manifest.json",
+    "--output-dir",
+    "runs/improved-i2-s42-test"
+  ]
+}
