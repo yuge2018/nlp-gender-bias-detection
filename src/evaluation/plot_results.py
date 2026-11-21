@@ -33,7 +33,7 @@ def main() -> int:
 
     labels = [f"{r['method']}\n(seed {r['seeds']})" for r in rows]
     means = [float(r["macro_f1_mean"]) for r in rows]
-    stds = [float(r["macro_f1_std"]) if r["macro_f1_std"] not in ("", "None") else 0.0
+    stds = [float(r["macro_f1_std"]) if r["macro_f1_std"] not in ("", "None", "null") else 0.0
             for r in rows]
     is_mock = any(r["is_mock"] == "True" for r in rows)
 

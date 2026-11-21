@@ -3,7 +3,7 @@
 ## Title
 
 ```
-[P4] 新增统一评测与复现模块：契约检查、Macro-F1 与多种子汇总
+[P4] 统一评测 CLI、对比汇总与复现记录
 ```
 
 ## Description
@@ -11,70 +11,66 @@
 ```markdown
 ## 本次交付
 
-**负责人**：P4（王海宇 / 202315060325，如认领人不同请替换）
-**对应 Issue**：#<填写 P4 Issue 编号>
+**负责人**：Vanhorry0305（P4）
 **分支**：`part/p4-evaluation` → `main`
 
 ### 改变的行为
 
-新增一套独立的评测模块，不改动 P1/P2/P3/P5/P6 的任何实现，也不修改已冻结的契约字段：
+把原先放在仓库根目录的 `P4-evaluation-package.zip` 拆成按目录结构合入的正常实现，
+不改动 P1/P2/P3/P5/P6 的任何代码，也不修改 `src/common/contracts.py` 的冻结字段：
 
-- 新增 `src/evaluation/`：`evaluate` / `compare` / `--mock` 三个入口，只用 Python 标准库，不导入模型代码或 GPU 库；
-- 新增 `src/common/contracts.py`：schema 常量与 JSONL/哈希的最小参考实现（共享文件由 P4 维护，本次为新增，未改动既有字段）；
-- 新增 `configs/evaluation/default.json`：评测口径（Macro-F1 固定两类平均、阈值只从 run 元信息读取）；
-- 新增 `tests/p4/`：21 个测试，覆盖指标手算与全部失败分支；
-- 新增 `reports/sections/P4.md`、`reports/figures/P4/macro_f1_by_method.png`；
-- 新增 `fixtures/`：可重复生成的 mock 数据包与 mock run，供 P5/P6 在真实产物到位前联调。
+- `src/evaluation/cli.py`、`runner.py`、`aggregate.py`、`__main__.py`：`evaluate` / `compare` / `--mock` 三个入口，只用标准库；
+- 指标直接调用 `src/common/contracts.py` 的 `binary_metrics`，不再维护第二份定义；
+- `src/evaluation/plot_results.py`：由 `aggregate.csv` 出 Macro-F1 均值±标准差图；
+- `tests/p4/`：15 项测试，覆盖指标一致性、缺行/重复/乱序/NaN/越界/bool 标签、阈值不符、mock 标记与数据 hash 不一致、mock 拒绝与混合拒绝、单次标准差为 null、CLI 退出码；
+- `reports/sections/P4.md`：评测口径、契约清单、复现记录、局限与答辩三问；
+- `requirements/p4.txt`：声明仅标准库。
 
-### 输入
+同时删除本分支此前上传的重复实现（`src/evaluation/checks.py`、`fixtures.py`、`metrics.py`
+与 `tests/p4/test_contracts.py`、`test_metrics.py`）以及根目录 zip，避免与共享契约重复定义指标。
 
-- `--data-dir`：P1 标准数据包（`manifest.json`、`{split}.jsonl`、`labels/{split}.jsonl`）；
-- `--run-dir` / `--run-dirs`：P2/P3 的 run 目录（`predictions.jsonl` + `run_metadata.json`）。
+### 输入与输出
 
-### 输出
-
-- 每个 run 目录写回 `metrics.json`（含 n、accuracy、macro_f1、正负类 P/R/F1、混淆矩阵、数据 hash、预测文件 hash）；
-- `comparison.csv`（每次 run 一行）、`aggregate.csv`（均值 ± 样本标准差）、`comparison.md`、`environment.json`、`reproduction.json`、`metrics/`。
+- 输入：P1 标准数据包（`--data-dir`）、P2/P3 的 run 目录（`--run-dir` / `--run-dirs`）；
+- 输出：每个 run 写回 `metrics.json`；比较输出 `comparison.csv`、`aggregate.csv`、
+  `comparison.md`、`environment.json`、`reproduction.json`。
 
 ### 校验规则（失败返回退出码 2，并指出路径/行号/ID）
 
-manifest 字段与版本、文件 SHA256 与行数、预测行数、ID 顺序与重复、label 必须为整数 0/1、score 有限且在 [0,1]、`label == int(score >= threshold)`、`is_mock` 与 manifest 一致、`dataset_manifest_sha256` 与数据包一致、跨 run 的 data hash / split / mock 标记一致。
+manifest 字段与版本、文件 SHA256 与行数、预测行数、ID 顺序与重复、label 必须为整数 0/1、
+score 有限且在 [0,1]、`label == int(score >= threshold)`、`is_mock` 与 manifest 一致、
+`dataset_manifest_sha256` 与数据包一致、跨 run 的 data hash / split / mock 标记一致。
 
 ## 验证
 
-运行命令与结果：
-
 ```sh
 python -m src.evaluation --mock --output-dir runs/p4-smoke
-# [mock] 评测 6 个 run，结果写入 runs/p4-smoke
-# baseline  Macro-F1 0.7181 ± 0.0708（seed 42/43/44）
-# improved  Macro-F1 0.8822 ± 0.0738（seed 42/43/44）
+# exit=0，生成 2 个 mock run 与 comparison/aggregate/comparison.md/environment/reproduction
 
 python -m unittest discover -s tests -v
-# Ran 21 tests in 3.0s
-# OK
+# Ran 119 tests ... OK（P4 新增 15 项）
 ```
 
-是否真实数据/模型：**否**。本次全部使用内置合成 fixtures（`is_mock=true`），仅验证评测链路，未使用真实数据或真实模型。
+是否真实数据/模型：**否**。mock 仅使用 `fixtures/dataset`（`is_mock=true`）验证评测链路，
+不作为模型性能结论；真实 run 只有 `runs/improved-i2-s42-test`，且 `data/processed` 未入库，
+无法独立复算，因此主表留空。
 
-- mock 数据 manifest hash：`488b1d22f40c9ee7bc9792b76149545e2fcd182e181216dd57cdd2513503e282`
-- run 路径：`fixtures/runs/{baseline,improved}-s{42,43,44}-test`
-- 产物路径：`runs/p4-smoke/`
-
-真实 run 到位后，用同一命令替换 `--data-dir` 与 `--run-dirs`，输出到 `reports/results/`，并同步替换 `reports/sections/P4.md` 中的表格与图。
+- mock 数据 manifest SHA256：`764d782b7e77dc6cc2f82d4bb404497d2e0768e846358d5280f3daf84b462b2c`
+- 产物路径：`runs/p4-smoke/`（已 gitignore）
 
 ## Checklist
 
 - [x] 只修改本人目录或已说明共享接口变更
-      新增 `src/evaluation/`、`configs/evaluation/`、`tests/p4/`、`requirements/p4.txt`、`reports/sections/P4.md`、`reports/figures/P4/`；共享文件 `src/common/contracts.py` 为新增，未改动既有契约字段，不影响 P1–P6。
+      仅新增 `src/evaluation/`、`tests/p4/`、`requirements/p4.txt` 与报告片段；`src/common/contracts.py` 未改动。
 - [x] 标签与 score 正类含义一致，未使用 ID/源类别泄漏
-      `score` 统一为“有偏见 label=1”的分数，`label = int(score >= threshold)`，阈值只从 `run_metadata.json` 读取；ID 仅用于顺序与一致性校验，不作为特征，评测器不读取 `edit_sentence`、偏见子类或源文件信息。
+      `score` 为“有偏见 label=1”的分数，阈值只从 `run_metadata.json` 读取；ID 只做一致性校验，不作特征。
 - [x] mock 与真实结果明确区分
-      manifest 与 run 元信息均带 `is_mock=true`，`comparison.md` 顶部有 MOCK 提示；`compare` 默认拒绝 mock（需显式 `--allow-mock`），并拒绝真实/mock 混用。
+      `comparison.md` 顶部有 MOCK 提示；`compare` 默认拒绝 mock，并拒绝真实/mock 混用。
 - [x] 报告片段、图表与答辩要点同步更新
-      `reports/sections/P4.md` 已包含评测口径、契约清单、结果表（标注 MOCK）、复现记录、局限与答辩三问；图表为 `reports/figures/P4/macro_f1_by_method.png`。
+      `reports/sections/P4.md` 已更新；`reports/figures/P4/macro_f1_by_method.png` 标题含 `[MOCK]`，真实结果后覆盖。
 
 ## 后续（D7）
 
-接 P2/P3 真实 run 后：核对 6 个 run 的 `is_mock=false` 与同一 `dataset_manifest_sha256` → `compare` 输出到 `reports/results/` → 换目录复跑一次，核对 `reproduction.json` 与 `metrics.json` 一致 → 更新 P4.md 主表。
+P2/P3 六个 run 到齐后：`evaluate` 逐个打分 → `compare` 输出到 `reports/results/` →
+换目录复跑核对 `reproduction.json` → 用 `plot_results` 覆盖图表 → 回填 P4.md 主表。
 ```

@@ -1,1 +1,1 @@
-"""CORGI-PM 性别偏见二分类项目源码包。"""
+"""Course project components; real implementations are assigned in PLAN.md."""

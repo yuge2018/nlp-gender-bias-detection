@@ -1,1 +1,1 @@
-"""共享契约（P4 维护）：常量与最小参考实现。"""
+"""Frozen, dependency-free interface helpers."""
