@@ -23,13 +23,41 @@ python -m src.demo --mock --output-dir runs/p6-smoke
 
 | 文件 | 职责 | 是否 import streamlit |
 |---|---|---|
-| `app.py` | 页面：模型下拉、输入、分数、阈值、mock 横幅、错误面板 | 是（唯一一个） |
-| `registry.py` | 读 `configs/demo/*.json`；按契约懒加载模型；失败转 `ModelUnavailable` | 否 |
+| `app.py` | 页面：双页签（单句检测 / 真实结果只读）、模型下拉、输入、分数、阈值、mock 横幅、错误面板 | 是（唯一一个） |
+| `registry.py` | 读 `configs/demo/*.json`；按契约懒加载模型；失败转 `ModelUnavailable`；提供模型四态 | 否 |
 | `scoring.py` | 输入/阈值/分数校验，生成 `id/text/score/label` 行 | 否 |
+| `results.py` | 只读遍历 `runs/**` 收集已入库的真实评测结果，默认排除 mock | 否 |
 | `figures.py` | 只读 P4 `metrics.json` 出图，mock 图自动加 `mock_` 前缀 | 否（matplotlib 在函数内导入） |
 
-测试只能碰 `registry/scoring/figures`；`tests/p6/test_demo.py` 有一条用子进程断言
+测试只能碰 `registry/scoring/results/figures`；`tests/p6/test_demo.py` 有一条用子进程断言
 “纯逻辑层不引入 streamlit/torch/transformers/sklearn”。
+
+## 模型状态四态
+
+模型目录存在 **不等于** 模型可用：仓库只跟踪 `model_metadata.json`，权重被 `.gitignore` 排除。
+因此 `registry.model_status(entry, root)` 返回四种状态：
+
+| status | 判定 | 页面表现 |
+|---|---|---|
+| `mock` | `adapter_module` 为 `null` | 可用，红底横幅声明无检测能力 |
+| `ready` | 目录存在且至少有一个非元信息文件；如配置了 `probe_files`，则这些文件必须都在 | 可用，可进入真实加载 |
+| `weights_missing` | 目录存在，但只有 `model_metadata.json`（或 `probe_files` 指定文件缺失） | 不可用，提示“权重未就绪”，`load_model` 抛出带重新生成建议的 `ModelUnavailable` |
+| `missing` | 目录不存在 | 不可用，提示“模型目录未就绪” |
+
+`is_available` 仅在 `ready` / `mock` 时为真。需要钉住某个必需权重文件时，在配置条目里加
+`"probe_files": ["model.safetensors"]`。
+
+## 真实结果（只读）页签
+
+第二个页签不调用任何模型，只读仓库里已入库的 `runs/**`：
+
+- 只认 P4 冻结的 `metrics.json`（用 `figures.load_metrics` 校验）；默认跳过 `is_mock=true` 的 run，
+  并显示“跳过了多少条 mock”。
+- 坏 `metrics.json` 不抛异常，归入“无法解析”列表并显示原因；只有 `predictions.jsonl`、
+  尚无 `metrics.json` 的目录归入“待评测”，提示等 P4 评测。
+- 列表里的 `macro_f1` / `positive_f1` / 混淆矩阵 / 阈值 / 方法 **全部取自文件**，页面不重算；
+  仅展示时保留 4 位小数，不改动存储值。
+- 选中单个 run 可展开 `st.json` 详情，便于报告引用时逐字段追溯。
 
 ## 模型从哪来（改配置，不改代码）
 
@@ -43,7 +71,7 @@ python -m src.demo --mock --output-dir runs/p6-smoke
 - `adapter_module` 为 `null` 表示开发替身（`MockPredictor`，固定 0.5）。
 - 接真实模型时只需改 `model_dir` 指向该角色 train CLI 生成的目录，页面无需改动。
 - 现在 `default_model` 是 `mock`；D7 真实模型就绪后改成 `baseline`。
-- 模型不可用时页面给的是“目录不存在 / 适配器导入失败 / 缺依赖”的具体原因与建议，不会崩。
+- 模型不可用时页面给的是“目录不存在 / 仅剩元信息（权重未提交） / 适配器导入失败 / 缺依赖”的具体原因与建议，不会崩。
 
 ## 图表的来源与限制
 
