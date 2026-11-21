@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "default_model": "mock",
+  "default_model": "baseline",
   "mock_banner_required": true,
   "model_loading": "lazy",
   "offline_real_mode": true,
@@ -16,14 +16,14 @@
       "key": "baseline",
       "display_name": "字符 TF-IDF + 逻辑回归（P2 基线）",
       "adapter_module": "src.baseline.adapter",
-      "model_dir": "artifacts/baseline-s42",
+      "model_dir": "artifacts/p2/corgi-official-v1/selected-s42",
       "is_deep": false
     },
     {
       "key": "improved",
       "display_name": "中文 RoBERTa 微调（P3 改进）",
       "adapter_module": "src.improved.adapter",
-      "model_dir": "artifacts/improved-s42",
+      "model_dir": "artifacts/improved-i2-s42",
       "is_deep": true
     }
   ]

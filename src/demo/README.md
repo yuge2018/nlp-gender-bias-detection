@@ -37,12 +37,12 @@ python -m src.demo --mock --output-dir runs/p6-smoke
 
 ```json
 {"key": "baseline", "display_name": "...", "adapter_module": "src.baseline.adapter",
- "model_dir": "artifacts/baseline-s42", "is_deep": false}
+ "model_dir": "artifacts/p2/corgi-official-v1/selected-s42", "is_deep": false}
 ```
 
 - `adapter_module` 为 `null` 表示开发替身（`MockPredictor`，固定 0.5）。
 - 接真实模型时只需改 `model_dir` 指向该角色 train CLI 生成的目录，页面无需改动。
-- 现在 `default_model` 是 `mock`；D7 真实模型就绪后改成 `baseline`。
+- D7 已将 `default_model` 切到 `baseline`：baseline 指向 P2 选中模型目录 `artifacts/p2/corgi-official-v1/selected-s42`，improved 指向 P3 的类别加权版 `artifacts/improved-i2-s42`；模型目录未生成时页面会标“未就绪”并给出具体原因，mock 仍可在下拉中选用。
 - 模型不可用时页面给的是“目录不存在 / 适配器导入失败 / 缺依赖”的具体原因与建议，不会崩。
 
 ## 图表的来源与限制
@@ -65,7 +65,7 @@ python -m src.demo.figures --run-dir runs/p4-smoke --output-dir reports/figures/
 
 ## D7 对接清单
 
-1. P2/P3 提供 `artifacts/<model>-s42/`，目录内含各自 `model_metadata.json`。
+1. P2 选中模型在 `artifacts/p2/corgi-official-v1/selected-s42/`，P3 类别加权版在 `artifacts/improved-i2-s42/`，目录内各含 `model_metadata.json`。
 2. 核对 `load_predictor(model_dir, *, mock=False)` 返回对象有 `predict_proba(list[str]) -> list[float]`。
-3. 把 `configs/demo/default.json` 的 `model_dir` 指向真实目录，`default_model` 改为 `baseline`。
+3. `configs/demo/default.json` 已按上述路径与 `default_model="baseline"` 配好；模型缺失时先按各模块 README 重建 `artifacts/`。
 4. 页面分别用男性/女性偏见、中性描述、引用反驳各一条验证，再确认断网可跑。
