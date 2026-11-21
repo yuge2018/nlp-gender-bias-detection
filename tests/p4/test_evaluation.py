@@ -155,6 +155,7 @@ class EvaluationTests(unittest.TestCase):
 
     def test_aggregate_mean_and_sample_std(self):
         base = {"split": "test", "is_mock": True, "dataset_manifest_sha256": "0" * 64,
+                "threshold": 0.5,
                 "accuracy": 0.8, "macro_f1": 0.7, "positive_precision": 0.6,
                 "positive_recall": 0.5, "positive_f1": 0.4, "negative_f1": 0.3}
         rows = aggregate([dict(base, method="m", seed=42),
@@ -167,11 +168,36 @@ class EvaluationTests(unittest.TestCase):
 
     def test_aggregate_single_run_has_null_std(self):
         record = {"method": "m", "split": "test", "is_mock": True, "seed": 42,
-                  "dataset_manifest_sha256": "0" * 64, "accuracy": 0.8,
-                  "macro_f1": 0.7, "positive_precision": 0.6, "positive_recall": 0.5,
-                  "positive_f1": 0.4, "negative_f1": 0.3}
+                  "dataset_manifest_sha256": "0" * 64, "threshold": 0.5,
+                  "accuracy": 0.8, "macro_f1": 0.7, "positive_precision": 0.6,
+                  "positive_recall": 0.5, "positive_f1": 0.4, "negative_f1": 0.3}
         rows = aggregate([record])
         self.assertIsNone(rows[0]["macro_f1_std"])
+
+    def test_aggregate_splits_by_threshold(self):
+        base = {"method": "m", "split": "test", "is_mock": True, "seed": 42,
+                "dataset_manifest_sha256": "0" * 64, "accuracy": 0.8, "macro_f1": 0.7,
+                "positive_precision": 0.6, "positive_recall": 0.5,
+                "positive_f1": 0.4, "negative_f1": 0.3}
+        rows = aggregate([dict(base, threshold=0.5, macro_f1=0.80),
+                          dict(base, threshold=0.4, macro_f1=0.79)])
+        self.assertEqual(len(rows), 2)
+        self.assertEqual({row["threshold"] for row in rows}, {0.5, 0.4})
+        for row in rows:
+            self.assertEqual(row["n_runs"], 1)
+            self.assertEqual(row["seeds"], "42")
+
+    def test_aggregate_identical_metrics_three_seeds_has_zero_std(self):
+        base = {"method": "m", "split": "test", "is_mock": True,
+                "dataset_manifest_sha256": "0" * 64, "threshold": 0.5,
+                "accuracy": 0.8, "macro_f1": 0.7, "positive_precision": 0.6,
+                "positive_recall": 0.5, "positive_f1": 0.4, "negative_f1": 0.3}
+        rows = aggregate([dict(base, seed=seed) for seed in (42, 43, 44)])
+        self.assertEqual(len(rows), 1)
+        self.assertEqual(rows[0]["n_runs"], 3)
+        self.assertEqual(rows[0]["seeds"], "42 43 44")
+        self.assertEqual(rows[0]["macro_f1_std"], 0.0)
+        self.assertIsNotNone(rows[0]["macro_f1_std"])
 
 
 if __name__ == "__main__":
