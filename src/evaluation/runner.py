@@ -143,18 +143,20 @@ def _markdown(records: list[dict], groups: list[dict]) -> str:
         lines += ["> 全部为 mock 结果，仅用于接口验证，不能作为模型性能结论。", ""]
 
     lines += ["## 单次运行", "",
-              "| method | seed | n | accuracy | macro-F1 | P(1) | R(1) | F1(1) | F1(0) |",
-              "|---|---:|---:|---:|---:|---:|---:|---:|---:|"]
-    for record in sorted(records, key=lambda item: (item["method"], item["seed"])):
+              "| method | threshold | seed | n | accuracy | macro-F1 | P(1) | R(1) | F1(1) | F1(0) |",
+              "|---|---:|---:|---:|---:|---:|---:|---:|---:|---:|"]
+    for record in sorted(records, key=lambda item: (item["method"], item["threshold"],
+                                                    item["seed"])):
         lines.append(
-            f"| {record['method']} | {record['seed']} | {record['n']} | "
+            f"| {record['method']} | {_format(record['threshold'])} | {record['seed']} | "
+            f"{record['n']} | "
             f"{_format(record['accuracy'])} | {_format(record['macro_f1'])} | "
             f"{_format(record['positive_precision'])} | {_format(record['positive_recall'])} | "
             f"{_format(record['positive_f1'])} | {_format(record['negative_f1'])} |")
 
-    lines += ["", "## 多种子汇总（均值 ± 样本标准差）", "",
-              "| method | runs | macro-F1 | accuracy | P(1) | R(1) |",
-              "|---|---:|---|---|---|---|"]
+    lines += ["", "## 多种子汇总（均值 ± 样本标准差，按阈值分组）", "",
+              "| method | threshold | runs | macro-F1 | accuracy | P(1) | R(1) |",
+              "|---|---:|---:|---|---|---|---|"]
 
     def mean_std(group: dict, metric: str) -> str:
         mean, std = group[f"{metric}_mean"], group[f"{metric}_std"]
@@ -162,7 +164,8 @@ def _markdown(records: list[dict], groups: list[dict]) -> str:
 
     for group in groups:
         lines.append(
-            f"| {group['method']} | {group['n_runs']} | {mean_std(group, 'macro_f1')} | "
+            f"| {group['method']} | {_format(group['threshold'])} | {group['n_runs']} | "
+            f"{mean_std(group, 'macro_f1')} | "
             f"{mean_std(group, 'accuracy')} | {mean_std(group, 'positive_precision')} | "
             f"{mean_std(group, 'positive_recall')} |")
 
@@ -206,7 +209,8 @@ def compare(run_dirs: list[str], output_dir: str | Path, allow_mock: bool = Fals
     _write_csv(out / "comparison.csv", COMPARISON_COLUMNS, rows)
 
     groups = aggregate(records)
-    group_columns = ("method", "split", "is_mock", "data_hash", "n_runs", "seeds")
+    group_columns = ("method", "split", "is_mock", "data_hash", "threshold",
+                     "n_runs", "seeds")
     group_columns += tuple(f"{metric}_{suffix}" for metric in METRIC_KEYS
                            for suffix in ("mean", "std"))
     _write_csv(out / "aggregate.csv", group_columns, groups)
