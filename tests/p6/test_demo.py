@@ -16,7 +16,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from src.demo import figures, registry, scoring
+from src.demo import figures, registry, results, scoring
 from src.common.contracts import binary_metrics
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -125,7 +125,11 @@ class RegistryTests(unittest.TestCase):
             {"key": "ghost", "display_name": "ghost", "adapter_module": "src.demo.not_a_module", "model_dir": "ghost-dir"}
         )
         with tempfile.TemporaryDirectory() as tmp:
-            (Path(tmp) / "ghost-dir").mkdir()
+            ghost = Path(tmp) / "ghost-dir"
+            ghost.mkdir()
+            # 权重检查先于导入：目录里要有真实载荷，才能走到“适配器模块缺失”这一步
+            (ghost / "model_metadata.json").write_text("{}", encoding="utf-8")
+            (ghost / "vectorizer.joblib").write_bytes(b"payload")
             with self.assertRaises(registry.ModelUnavailable) as ctx:
                 registry.load_model(config, "ghost", root=tmp)
         self.assertIn("not_a_module", str(ctx.exception))
@@ -156,7 +160,7 @@ class RegistryTests(unittest.TestCase):
         # A fresh interpreter keeps earlier tests (p2 imports sklearn) from polluting the check.
         code = (
             "import sys\n"
-            "import src.demo.registry, src.demo.scoring, src.demo.figures\n"
+            "import src.demo.registry, src.demo.scoring, src.demo.figures, src.demo.results\n"
             "print(','.join(m for m in ('streamlit','torch','transformers','sklearn') if m in sys.modules))\n"
         )
         result = subprocess.run(
@@ -300,6 +304,137 @@ class MetricsFigureTests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as tmp:
             with self.assertRaises(ValueError):
                 figures.build_figures([], Path(tmp) / "figures")
+
+
+class ModelStatusTests(unittest.TestCase):
+    def test_mock_entry_is_usable_without_artifacts(self):
+        row = registry.describe_models(_base_config())[0]
+        self.assertEqual(row["status"], "mock")
+        self.assertTrue(row["available"])
+
+    def test_metadata_only_dir_is_weights_missing(self):
+        entry = {"key": "baseline", "display_name": "b", "adapter_module": "src.baseline.adapter", "model_dir": "art"}
+        config = _base_config()
+        config["models"].append(entry)
+        with tempfile.TemporaryDirectory() as tmp:
+            art = Path(tmp) / "art"
+            art.mkdir()
+            (art / "model_metadata.json").write_text("{}", encoding="utf-8")
+            row = registry.describe_models(config, root=tmp)[-1]
+            self.assertEqual(row["status"], "weights_missing")
+            self.assertFalse(row["available"])
+            with self.assertRaises(registry.ModelUnavailable) as ctx:
+                registry.load_model(config, "baseline", root=tmp)
+        self.assertIn("权重", str(ctx.exception))
+
+    def test_dir_with_payload_file_is_ready(self):
+        entry = {"key": "baseline", "display_name": "b", "adapter_module": "src.baseline.adapter", "model_dir": "art"}
+        config = _base_config()
+        config["models"].append(entry)
+        with tempfile.TemporaryDirectory() as tmp:
+            art = Path(tmp) / "art"
+            art.mkdir()
+            (art / "model_metadata.json").write_text("{}", encoding="utf-8")
+            (art / "vectorizer.joblib").write_bytes(b"payload")
+            row = registry.describe_models(config, root=tmp)[-1]
+        self.assertEqual(row["status"], "ready")
+        self.assertTrue(row["available"])
+
+    def test_probe_files_pin_required_weights(self):
+        entry = {
+            "key": "improved",
+            "display_name": "i",
+            "adapter_module": "src.improved.adapter",
+            "model_dir": "art",
+            "probe_files": ["model.safetensors"],
+        }
+        config = _base_config()
+        config["models"].append(entry)
+        with tempfile.TemporaryDirectory() as tmp:
+            art = Path(tmp) / "art"
+            art.mkdir()
+            (art / "model_metadata.json").write_text("{}", encoding="utf-8")
+            (art / "config.json").write_text("{}", encoding="utf-8")
+            row = registry.describe_models(config, root=tmp)[-1]
+        self.assertEqual(row["status"], "weights_missing")
+
+
+class ResultsBrowserTests(unittest.TestCase):
+    def _run(self, root: Path, name: str, *, is_mock: bool = False, with_metrics: bool = True) -> Path:
+        run = root / name
+        run.mkdir(parents=True)
+        if with_metrics:
+            payload = _metrics(is_mock=is_mock)
+            _write_json(run / "metrics.json", payload)
+        _write_json(run / "run_metadata.json", {"method": "char_tfidf_lr", "seed": 42, "threshold": 0.5, "split": "test"})
+        (run / "predictions.jsonl").write_text('{"id":"test-000001","label":0,"score":0.1}\n', encoding="utf-8")
+        return run
+
+    def test_mock_runs_are_excluded_by_default(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self._run(root, "real", is_mock=False)
+            self._run(root, "dev", is_mock=True)
+            data = results.discover_runs(root)
+            self.assertEqual([row["run"] for row in data["runs"]], ["real"])
+            self.assertEqual(data["skipped_mock"], 1)
+            self.assertEqual(len(results.discover_runs(root, include_mock=True)["runs"]), 2)
+
+    def test_real_run_values_come_from_file_not_recomputation(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            run = self._run(root, "real", is_mock=False)
+            stored = json.loads((run / "metrics.json").read_text(encoding="utf-8"))
+            row = results.discover_runs(root)["runs"][0]
+        self.assertEqual(row["n"], stored["n"])
+        self.assertEqual(row["macro_f1"], stored["macro_f1"])
+        self.assertEqual(row["positive_f1"], stored["positive_f1"])
+        self.assertEqual(row["confusion_matrix"], stored["confusion_matrix"])
+        self.assertEqual(row["method"], "char_tfidf_lr")
+        self.assertEqual(row["threshold"], 0.5)
+
+    def test_invalid_metrics_are_reported_not_raised(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            run = self._run(root, "broken", is_mock=False)
+            payload = json.loads((run / "metrics.json").read_text(encoding="utf-8"))
+            del payload["macro_f1"]
+            _write_json(run / "metrics.json", payload)
+            data = results.discover_runs(root)
+        self.assertEqual(data["runs"], [])
+        self.assertEqual(len(data["invalid"]), 1)
+        self.assertIn("macro_f1", data["invalid"][0]["error"])
+
+    def test_predictions_without_metrics_are_flagged(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            run = self._run(root, "pending", is_mock=False, with_metrics=False)
+            data = results.discover_runs(root)
+        self.assertEqual(data["runs"], [])
+        self.assertEqual(data["predictions_only"], [run.relative_to(root).as_posix()])
+
+    def test_display_rounding_does_not_touch_stored_values(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            run = self._run(root, "real", is_mock=False)
+            stored = json.loads((run / "metrics.json").read_text(encoding="utf-8"))
+            row = results.discover_runs(root)["runs"][0]
+        display = results.as_display_rows([row])[0]
+        self.assertEqual(display["Macro-F1"], round(float(stored["macro_f1"]), 4))
+        self.assertEqual(row["macro_f1"], stored["macro_f1"])
+
+    def test_selected_run_lookup(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            root = Path(tmp)
+            self._run(root, "real", is_mock=False)
+            data = results.discover_runs(root)
+            self.assertEqual(results.selected_run(data, "real")["run"], "real")
+        self.assertIsNone(results.selected_run(data, "nope"))
+
+    def test_missing_root_returns_empty_result(self):
+        data = results.discover_runs("no/such/runs")
+        self.assertEqual(data["runs"], [])
+        self.assertEqual(data["skipped_mock"], 0)
 
 
 if __name__ == "__main__":
