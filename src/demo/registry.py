@@ -27,6 +27,7 @@ DEFAULT_EXAMPLES = ROOT / "configs" / "demo" / "examples.json"
 
 REQUIRED_ENTRY_FIELDS = ("key", "display_name")
 REQUIRED_CONFIG_FIELDS = ("models", "default_model", "mock_banner_required")
+MODEL_METADATA_FILE = "model_metadata.json"
 
 
 class ModelUnavailable(RuntimeError):
@@ -110,20 +111,50 @@ def resolve_model_dir(entry: dict, root: str | Path | None = None) -> Path:
     return Path(root) / candidate if root else ROOT / candidate
 
 
-def is_available(entry: dict, root: str | Path | None = None) -> bool:
-    """Cheap availability probe: only checks the directory, never imports a model."""
+def model_status(entry: dict, root: str | Path | None = None) -> str:
+    """Classify readiness without importing anything.
+
+    Returns one of:
+    * ``mock``            - development substitute, always usable;
+    * ``ready``           - directory exists and contains weight/payload files;
+    * ``weights_missing`` - only ``model_metadata.json`` is committed (weights are
+      gitignored), so the directory exists but cannot be loaded;
+    * ``missing``         - configured directory does not exist.
+
+    ``probe_files`` in the config can pin exact required files; otherwise the
+    rule is "at least one file other than model_metadata.json".
+    """
     if entry.get("adapter_module") is None:
-        return True
+        return "mock"
     try:
-        return resolve_model_dir(entry, root).is_dir()
+        model_dir = resolve_model_dir(entry, root)
     except ValueError:
-        return False
+        return "missing"
+    if not model_dir.is_dir():
+        return "missing"
+
+    probe = entry.get("probe_files")
+    if probe:
+        if not all((model_dir / name).is_file() for name in probe):
+            return "weights_missing"
+        return "ready"
+
+    for path in model_dir.rglob("*"):
+        if path.is_file() and path.name != MODEL_METADATA_FILE:
+            return "ready"
+    return "weights_missing"
+
+
+def is_available(entry: dict, root: str | Path | None = None) -> bool:
+    """Cheap availability probe: a directory alone is not enough (see model_status)."""
+    return model_status(entry, root) in ("ready", "mock")
 
 
 def describe_models(config: dict, root: str | Path | None = None) -> list[dict]:
     """Rows for the UI model selector; importing nothing heavy."""
     rows = []
     for entry in model_entries(config):
+        status = model_status(entry, root)
         rows.append(
             {
                 "key": entry["key"],
@@ -131,7 +162,8 @@ def describe_models(config: dict, root: str | Path | None = None) -> list[dict]:
                 "adapter_module": entry.get("adapter_module"),
                 "model_dir": str(resolve_model_dir(entry, root)) if entry.get("adapter_module") else None,
                 "is_deep": bool(entry.get("is_deep", False)),
-                "available": is_available(entry, root),
+                "available": status in ("ready", "mock"),
+                "status": status,
             }
         )
     return rows
@@ -147,14 +179,21 @@ def load_model(config: dict, key: str | None = None, *, mock: bool = False, root
     if mock or entry.get("adapter_module") is None:
         return MockPredictor()
 
-    # Check the directory before importing anything: a missing artifact must give
-    # the same clear message on every machine, whatever dependencies are installed.
+    # Classify before importing anything: a missing artifact or a metadata-only
+    # directory must give the same clear message on every machine.
     model_dir = resolve_model_dir(entry, root)
-    if not model_dir.is_dir():
+    status = model_status(entry, root)
+    if status == "missing":
         raise ModelUnavailable(
             key,
             f"模型目录不存在：{model_dir}",
             "先运行该角色的 train CLI 生成 artifacts/ 下的模型，或检查 configs/demo/default.json 的 model_dir",
+        )
+    if status == "weights_missing":
+        raise ModelUnavailable(
+            key,
+            f"模型目录只有元信息，没有权重文件：{model_dir}",
+            "权重不随仓库提交；请在本机按该角色 README 重新生成，或向对应负责人获取完整 artifacts 目录",
         )
 
     module_name = entry["adapter_module"]
