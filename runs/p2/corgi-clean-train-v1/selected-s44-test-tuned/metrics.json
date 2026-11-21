@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "is_mock": false,
+  "method": "char_tfidf_lr",
+  "split": "test",
+  "seed": 44,
+  "threshold": 0.4,
+  "n": 1047,
+  "accuracy": 0.789875835721108,
+  "macro_f1": 0.7891601555348892,
+  "positive_precision": 0.7563884156729132,
+  "positive_recall": 0.8522072936660269,
+  "positive_f1": 0.8014440433212996,
+  "negative_f1": 0.7768762677484787,
+  "confusion_matrix": [
+    [
+      383,
+      143
+    ],
+    [
+      77,
+      444
+    ]
+  ],
+  "dataset_manifest_sha256": "dccc6ec10f2db6b35ceaf782e3e17d2a14916bf10e3959ca9e660248fb1e3fec",
+  "predictions_sha256": "d865748aa2fe0c14598062390ebd5b9d0886cf7a3dec971b694f7dbc14579b46",
+  "run_dir": "runs/p2/corgi-clean-train-v1/selected-s44-test-tuned",
+  "created_at": "2026-11-21T08:57:27Z",
+  "evaluator": {
+    "name": "p4-evaluation",
+    "version": "1.0.0"
+  }
+}

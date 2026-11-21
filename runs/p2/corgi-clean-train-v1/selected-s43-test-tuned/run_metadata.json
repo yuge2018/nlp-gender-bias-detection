@@ -1,0 +1,43 @@
+{
+  "schema_version": "1.0",
+  "method": "char_tfidf_lr",
+  "split": "test",
+  "dataset_manifest_sha256": "dccc6ec10f2db6b35ceaf782e3e17d2a14916bf10e3959ca9e660248fb1e3fec",
+  "is_mock": false,
+  "seed": 43,
+  "threshold": 0.4,
+  "model_name": "char_tfidf_logreg",
+  "model_revision": "p2-v1",
+  "config": {
+    "method": "char_tfidf_lr",
+    "threshold": 0.5,
+    "seed": 43,
+    "batch_size": 256,
+    "analyzer": "char",
+    "ngram_range": [
+      1,
+      1
+    ],
+    "max_features": 100000,
+    "C": 0.5,
+    "class_weight": "balanced",
+    "max_iter": 1000,
+    "solver": "liblinear",
+    "schema_version": "1.0"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "implementation": "CPython",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "numpy": "2.3.5",
+    "scipy": "1.18.1",
+    "sklearn": "1.9.1",
+    "joblib": "1.6.0"
+  },
+  "model_dir": "artifacts/p2/corgi-clean-train-v1/selected-s43",
+  "input": "data/processed/corgi-clean-train-v1/test.jsonl",
+  "n": 1047,
+  "code_commit": "1efea2b810d4a898cba92c28360b559e88b35800",
+  "code_dirty": false
+}

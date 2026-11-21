@@ -57,6 +57,17 @@ src/baseline/
 
 结果文件由 P4 统一评分：`metrics.json` 不由本模块写入；`acceptance.json` 中的指标是冻结参考实现的 P2 自查，P4 必须从 run 目录重算。
 
+## 已入库的复核证据
+
+12 个正式 test run（`corgi-official-v1` 与 `corgi-clean-train-v1` 各 3 seeds × 阈值 0.5/0.4）的 `predictions.jsonl`、`run_metadata.json` 与 P4 写回的 `metrics.json` 已随仓库提交，只含 `id`/`label`/`score`，不含原文与本地绝对路径。新克隆无需数据包即可复核：
+
+```sh
+python -m src.evaluation evaluate --data-dir data/processed/corgi-official-v1 --split test --run-dir runs/p2/corgi-official-v1/selected-s42-test
+python -m src.evaluation compare --run-dirs runs/p2/corgi-official-v1/selected-s42-test runs/p2/corgi-official-v1/selected-s43-test runs/p2/corgi-official-v1/selected-s44-test --output-dir runs/p4/p2-official
+```
+
+P4 复核值（official test：0.5 阈值 Macro-F1 0.8001、0.4 阈值 0.7891；clean：0.7972/0.7892）与 `acceptance.json` 逐位一致，分阈值汇总见 `reports/evidence/P2/`。
+
 ## 已知限制
 
 - 字符特征只能表达词面关联，不能可靠处理否定、引用反驳与上下文；高 Accuracy 主要来自 train 中 83.7% 的负类。
