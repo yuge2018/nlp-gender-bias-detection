@@ -1,0 +1,28 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-11-21T12:54:26Z",
+  "python": "3.13.18",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "machine": "AMD64",
+  "cwd": ".",
+  "argv": [
+    ".\\src\\evaluation\\__main__.py",
+    "compare",
+    "--run-dirs",
+    "runs/p2/corgi-clean-train-v1/selected-s42-test",
+    "runs/p2/corgi-clean-train-v1/selected-s42-test-tuned",
+    "runs/p2/corgi-clean-train-v1/selected-s43-test",
+    "runs/p2/corgi-clean-train-v1/selected-s43-test-tuned",
+    "runs/p2/corgi-clean-train-v1/selected-s44-test",
+    "runs/p2/corgi-clean-train-v1/selected-s44-test-tuned",
+    "--output-dir",
+    "reports/results/clean-train"
+  ],
+  "git_commit": "c397e28",
+  "evaluator": {
+    "name": "p4-evaluation",
+    "version": "1.0.0"
+  },
+  "dataset_manifest_sha256": "dccc6ec10f2db6b35ceaf782e3e17d2a14916bf10e3959ca9e660248fb1e3fec",
+  "is_mock": false
+}

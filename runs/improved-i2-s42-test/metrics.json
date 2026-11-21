@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "is_mock": false,
+  "method": "encoder_finetune_cw",
+  "split": "test",
+  "seed": 42,
+  "threshold": 0.5,
+  "n": 1047,
+  "accuracy": 0.8481375358166189,
+  "macro_f1": 0.8461160888844519,
+  "positive_precision": 0.9458128078817734,
+  "positive_recall": 0.7370441458733206,
+  "positive_f1": 0.8284789644012945,
+  "negative_f1": 0.8637532133676092,
+  "confusion_matrix": [
+    [
+      504,
+      22
+    ],
+    [
+      137,
+      384
+    ]
+  ],
+  "dataset_manifest_sha256": "f78973f015839c13783c4a7fd3149ab7203c4ef1393845dc98d2b8e0ffbaf09a",
+  "predictions_sha256": "c1bf37708143680a8bca12eaaf3951eec58d879d8cc5360ac13cc15928a6bc65",
+  "run_dir": "runs\\improved-i2-s42-test",
+  "created_at": "2026-11-21T12:54:08Z",
+  "evaluator": {
+    "name": "p4-evaluation",
+    "version": "1.0.0"
+  }
+}

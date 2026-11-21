@@ -1,0 +1,29 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-11-21T12:54:21Z",
+  "python": "3.13.18",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "machine": "AMD64",
+  "cwd": ".",
+  "argv": [
+    ".\\src\\evaluation\\__main__.py",
+    "compare",
+    "--run-dirs",
+    "runs/p2/corgi-official-v1/selected-s42-test",
+    "runs/p2/corgi-official-v1/selected-s42-test-tuned",
+    "runs/p2/corgi-official-v1/selected-s43-test",
+    "runs/p2/corgi-official-v1/selected-s43-test-tuned",
+    "runs/p2/corgi-official-v1/selected-s44-test",
+    "runs/p2/corgi-official-v1/selected-s44-test-tuned",
+    "runs/improved-i2-s42-test",
+    "--output-dir",
+    "reports/results"
+  ],
+  "git_commit": "c397e28",
+  "evaluator": {
+    "name": "p4-evaluation",
+    "version": "1.0.0"
+  },
+  "dataset_manifest_sha256": "f78973f015839c13783c4a7fd3149ab7203c4ef1393845dc98d2b8e0ffbaf09a",
+  "is_mock": false
+}

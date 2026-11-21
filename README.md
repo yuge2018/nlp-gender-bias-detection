@@ -4,9 +4,7 @@
 
 仓库现为公开仓库；组员Ready PR通过检查后自动合并。Draft或`manual-merge`标签可暂停，成员也可从自己的Fork提交，见[小组协作说明](docs/WORKFLOW.md)。
 
-**P1已完成真实数据处理与审计**，负责人`yuge2018`；其他成员可按[P1接入说明](src/data/README.md)独立生成冻结数据。
-
-**P2已完成字符TF-IDF＋LR基线、B0–B3消融、dev配置与阈值选择**，负责人`cengjingdejiyi`；命令与结果证据见[P2模块说明](src/baseline/README.md)。其余模块仍从示例骨架开发。
+六个模块均已合入 `main`，各自有真实产物与报告：P1 数据转换与审计、P2 字符 TF-IDF＋LR 基线、P3 预训练模型微调、P4 统一评测与复现、P5 多性别对象挑战集与分组分析、P6 Streamlit 演示与报告组装。各模块的命令与证据见 `src/<模块>/README.md` 与 [`reports/sections/`](reports/sections/)，统一主表在 [`reports/results/`](reports/results/)。完成度与剩余待办见 [审计 issue #32](https://github.com/yuge2018/nlp-gender-bias-detection/issues/32)。
 
 **检测对象是文本中的性别偏见，包括针对男性、女性及其他性别身份的刻板印象、角色限制与歧视。出现性别词本身不等于有偏见。** 项目只做二分类：`0=无偏见`，`1=有偏见`。数据实际覆盖哪些对象，需要审计和人工分析，不能从任务名称推断。
 
@@ -14,7 +12,7 @@
 
 1. 阅读 [总计划与六人分工](PLAN.md)，认领 P1–P6 中的一项。
 2. 阅读 [接口契约](docs/INTERFACES.md) 和对应的 [个人任务书](docs/roles/)。
-3. Python 3.11 或 3.12 环境中，在仓库根目录运行：
+3. Python 3.11 至 3.13 任一版本（132 项测试已在 3.13.18 通过），在仓库根目录运行：
 
 ```sh
 python -m unittest discover -s tests -v
@@ -26,7 +24,7 @@ python -m src.fairness --mock --output-dir runs/p5-smoke
 python -m src.demo --mock --output-dir runs/p6-smoke
 ```
 
-上述mock入口只使用 Python 标准库，无需 GPU、下载模型或等待组员。输出均标为 `is_mock=true`，用于理解接口，**不是训练结果或模型性能**。P1的真实数据入口另见接入说明；真实训练、评测和页面由各负责人继续完成。
+上述mock入口只使用 Python 标准库，无需 GPU、下载模型或等待组员。输出均标为 `is_mock=true`，用于理解接口，**不是训练结果或模型性能**。真实产物已入库：P2 的 12 个 test run 与 P3 的 I2 run 已由 P4 统一评测，主表见 `reports/results/`；演示页用 `streamlit run src/demo/app.py` 启动（依赖见 `requirements/p6.txt`）。
 
 ## 六个互不抢文件的工作区
 
