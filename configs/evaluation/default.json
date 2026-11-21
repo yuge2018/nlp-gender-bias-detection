@@ -1,18 +1,31 @@
 {
-  "primary_metric": "macro_f1",
-  "fixed_labels": [
-    0,
-    1
+  "schema_version": "1.0",
+  "split": "test",
+  "threshold_policy": "run_metadata",
+  "metrics": [
+    "accuracy",
+    "macro_f1",
+    "positive_precision",
+    "positive_recall",
+    "positive_f1",
+    "negative_f1"
   ],
-  "zero_division": 0,
-  "confusion_matrix_order": [
-    0,
-    1
+  "aggregate": "mean_std_sample",
+  "seeds": [42, 43, 44],
+  "fail_on": [
+    "id_mismatch",
+    "duplicate_id",
+    "row_count_mismatch",
+    "nan_score",
+    "score_out_of_range",
+    "threshold_mismatch",
+    "mock_mixed",
+    "data_hash_mismatch",
+    "manifest_tampered"
   ],
-  "reject_mock_in_real_comparison": true,
-  "seeds": [
-    42,
-    43,
-    44
+  "notes": [
+    "threshold 一律从 run_metadata 读取，不在 test 上调阈值",
+    "Macro-F1 固定对 0/1 两类平均，分母为 0 时按 0 处理",
+    "单个 run 的标准差输出 null，不做填充"
   ]
 }

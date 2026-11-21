@@ -1,137 +1,119 @@
-"""Reference contracts and metrics; production CLI belongs to P4."""
+"""接口契约 v1 的共享常量与最小参考实现。
+
+只放"格式"层面的东西：schema 版本、必需字段、JSONL 读写与校验、哈希计算。
+任何模块都不应绕过这里自己解析共享文件。
+"""
+
+from __future__ import annotations
+
 import hashlib
 import json
-import math
 from pathlib import Path
 
-VERSION = "1.0"
+SCHEMA_VERSION = "1.0"
+SUPPORTED_SCHEMA_VERSIONS = {"1.0"}
+
+PREDICTION_FIELDS = ("id", "label", "score")
+GOLD_FIELDS = ("id", "label")
+TEXT_FIELDS = ("id", "text")
+TRAIN_FIELDS = ("id", "text", "label")
+
+MANIFEST_REQUIRED = ("schema_version", "dataset_id", "is_mock",
+                     "source_commit", "label_map", "files")
+RUN_REQUIRED = ("schema_version", "method", "split", "dataset_manifest_sha256",
+                "is_mock", "seed", "threshold", "code_commit", "model_name",
+                "model_revision", "config", "environment")
+
+SPLITS = ("dev", "test")
 
 
-def sha256(path):
-    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+class ContractError(Exception):
+    """数据或契约不满足要求。CLI 统一映射为退出码 2。"""
 
 
-def read_jsonl(path):
-    records = []
-    with Path(path).open(encoding="utf-8") as stream:
-        for number, line in enumerate(stream, 1):
-            if not line.strip():
-                raise ValueError(f"{path}:{number}: blank JSONL row")
-            try:
-                item = json.loads(line)
-            except ValueError as exc:
-                raise ValueError(f"{path}:{number}: invalid JSON") from exc
-            if not isinstance(item, dict):
-                raise ValueError(f"{path}:{number}: expected object")
-            records.append(item)
-    return records
+def sha256_bytes(data: bytes) -> str:
+    return hashlib.sha256(data).hexdigest()
 
 
-def write_json(path, value):
-    target = Path(path)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text(json.dumps(value, ensure_ascii=False, indent=2, allow_nan=False) + "\n", encoding="utf-8", newline="\n")
+def sha256_file(path: str | Path) -> str:
+    return sha256_bytes(Path(path).read_bytes())
 
 
-def write_jsonl(path, rows):
-    target = Path(path)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    target.write_text("".join(json.dumps(row, ensure_ascii=False, allow_nan=False) + "\n" for row in rows), encoding="utf-8", newline="\n")
+def read_json(path: str | Path) -> dict:
+    p = Path(path)
+    if not p.is_file():
+        raise ContractError(f"{p}: 文件不存在")
+    try:
+        obj = json.loads(p.read_text(encoding="utf-8"))
+    except json.JSONDecodeError as exc:
+        raise ContractError(f"{p}: JSON 解析失败（{exc.msg}，第 {exc.lineno} 行）") from exc
+    if not isinstance(obj, dict):
+        raise ContractError(f"{p}: 顶层应为 JSON 对象")
+    return obj
 
 
-def check_records(rows, kind):
-    expected = {"train": {"id", "text", "label"}, "input": {"id", "text"}, "gold": {"id", "label"}, "prediction": {"id", "label", "score"}}[kind]
-    seen = set()
-    if not rows:
-        raise ValueError(f"{kind}: empty dataset")
-    for line, row in enumerate(rows, 1):
-        if set(row) != expected:
-            raise ValueError(f"{kind}:{line}: expected fields {sorted(expected)}")
-        ident = row.get("id")
-        if not isinstance(ident, str) or not ident.strip() or ident in seen:
-            raise ValueError(f"{kind}:{line}: invalid or duplicate id {ident!r}")
-        seen.add(ident)
-        if "text" in row and (not isinstance(row["text"], str) or not row["text"].strip()):
-            raise ValueError(f"{kind}:{line}: empty text")
-        if "label" in row and (type(row["label"]) is not int or row["label"] not in (0, 1)):
-            raise ValueError(f"{kind}:{line}: label must be integer 0/1")
-        if "score" in row:
-            score = row["score"]
-            if type(score) not in (int, float) or not math.isfinite(score) or not 0 <= score <= 1:
-                raise ValueError(f"{kind}:{line}: score must be finite in [0,1]")
+def read_jsonl(path: str | Path, required_fields: tuple[str, ...] | None = None) -> list[dict]:
+    """严格读取 JSONL：UTF-8 无 BOM、无空行、末尾必须有换行、字段集合精确匹配。"""
+    p = Path(path)
+    if not p.is_file():
+        raise ContractError(f"{p}: 文件不存在")
+    raw = p.read_bytes()
+    if raw.startswith(b"\xef\xbb\xbf"):
+        raise ContractError(f"{p}: 文件含 UTF-8 BOM")
+    try:
+        text = raw.decode("utf-8")
+    except UnicodeDecodeError as exc:
+        raise ContractError(f"{p}: 不是合法 UTF-8（{exc.reason}）") from exc
+    if text and not text.endswith("\n"):
+        raise ContractError(f"{p}: 末尾缺少换行符")
+
+    rows: list[dict] = []
+    for lineno, line in enumerate(text.splitlines(), start=1):
+        if not line.strip():
+            raise ContractError(f"{p}:{lineno}: 空行")
+        try:
+            obj = json.loads(line)
+        except json.JSONDecodeError as exc:
+            raise ContractError(f"{p}:{lineno}: JSON 解析失败（{exc.msg}）") from exc
+        if not isinstance(obj, dict):
+            raise ContractError(f"{p}:{lineno}: 每行必须是 JSON 对象")
+        if required_fields is not None:
+            keys = tuple(obj.keys())
+            if set(keys) != set(required_fields) or len(keys) != len(required_fields):
+                raise ContractError(
+                    f"{p}:{lineno}: 字段应为 {list(required_fields)}，实际为 {list(keys)}")
+        rows.append(obj)
+    return rows
 
 
-def load_dataset(data_dir):
-    base = Path(data_dir)
-    manifest_path = base / "manifest.json"
-    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    if manifest.get("schema_version") != VERSION or type(manifest.get("is_mock")) is not bool:
-        raise ValueError("Invalid manifest version or mock flag")
-    if manifest.get("label_map") != {"0": "non_biased", "1": "biased"}:
-        raise ValueError("Invalid label map")
-    for key in ("dataset_id", "source_commit"):
-        if not isinstance(manifest.get(key), str) or not manifest[key]:
-            raise ValueError(f"Missing manifest field {key}")
-    required = {"train.jsonl": "train", "dev.jsonl": "input", "test.jsonl": "input", "labels/dev.jsonl": "gold", "labels/test.jsonl": "gold"}
-    files = manifest.get("files", {})
-    result = {}
-    for name, kind in required.items():
-        item = files.get(name, {})
-        path = base / name
-        if sha256(path) != item.get("sha256"):
-            raise ValueError(f"{name}: sha256 mismatch")
-        rows = read_jsonl(path)
-        check_records(rows, kind)
-        if len(rows) != item.get("rows"):
-            raise ValueError(f"{name}: row count mismatch")
-        result[name] = rows
-    for split in ("dev", "test"):
-        if [row["id"] for row in result[f"{split}.jsonl"]] != [row["id"] for row in result[f"labels/{split}.jsonl"]]:
-            raise ValueError(f"{split}: input and gold order differ")
-    return manifest, result
+def write_jsonl(path: str | Path, rows: list[dict], fields: tuple[str, ...]) -> None:
+    p = Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    with p.open("w", encoding="utf-8", newline="\n") as fh:
+        for row in rows:
+            fh.write(json.dumps({k: row[k] for k in fields}, ensure_ascii=False) + "\n")
 
 
-def validate_predictions(inputs, predictions, metadata, manifest_path, *, require_real=False):
-    check_records(inputs, "input")
-    check_records(predictions, "prediction")
-    if [x["id"] for x in inputs] != [x["id"] for x in predictions]:
-        raise ValueError("Prediction ids/count/order differ from input")
-    required = {"schema_version", "method", "split", "dataset_manifest_sha256", "is_mock", "seed", "threshold", "code_commit", "model_name", "model_revision", "config", "environment"}
-    if not required.issubset(metadata):
-        raise ValueError("Missing run metadata fields")
-    if metadata["schema_version"] != VERSION or type(metadata["is_mock"]) is not bool:
-        raise ValueError("Invalid run version or mock flag")
-    if metadata["split"] not in ("dev", "test") or type(metadata["seed"]) is not int:
-        raise ValueError("Invalid run split or seed")
-    manifest = json.loads(Path(manifest_path).read_text(encoding="utf-8"))
-    if metadata["dataset_manifest_sha256"] != sha256(manifest_path):
-        raise ValueError("Run uses a different data manifest")
-    if metadata["is_mock"] != manifest["is_mock"]:
-        raise ValueError("Dataset and run mock flags differ")
-    expected = read_jsonl(Path(manifest_path).parent / (metadata["split"] + ".jsonl"))
-    if inputs != expected:
-        raise ValueError("Input does not match the declared manifest split")
-    if require_real and metadata["is_mock"]:
-        raise ValueError("Mock results cannot enter a real comparison")
-    threshold = metadata["threshold"]
-    if type(threshold) not in (int, float) or not math.isfinite(threshold) or not 0 <= threshold <= 1:
-        raise ValueError("Invalid threshold")
-    for row in predictions:
-        if row["label"] != int(row["score"] >= threshold):
-            raise ValueError(f"{row['id']}: label contradicts score/threshold")
+def write_json(path: str | Path, obj: dict) -> None:
+    p = Path(path)
+    p.parent.mkdir(parents=True, exist_ok=True)
+    with p.open("w", encoding="utf-8", newline="\n") as fh:
+        fh.write(json.dumps(obj, ensure_ascii=False, indent=2) + "\n")
 
 
-def binary_metrics(gold, predictions):
-    check_records(gold, "gold")
-    check_records(predictions, "prediction")
-    if [x["id"] for x in gold] != [x["id"] for x in predictions]:
-        raise ValueError("Gold and prediction ids/count/order differ")
-    matrix = [[0, 0], [0, 0]]
-    for actual, predicted in zip(gold, predictions):
-        matrix[actual["label"]][predicted["label"]] += 1
-    tn, fp = matrix[0]
-    fn, tp = matrix[1]
-    divide = lambda a, b: a / b if b else 0.0
-    positive_f1 = divide(2 * tp, 2 * tp + fp + fn)
-    negative_f1 = divide(2 * tn, 2 * tn + fp + fn)
-    return {"n": len(gold), "accuracy": (tp + tn) / len(gold), "macro_f1": (positive_f1 + negative_f1) / 2, "positive_precision": divide(tp, tp + fp), "positive_recall": divide(tp, tp + fn), "positive_f1": positive_f1, "negative_f1": negative_f1, "confusion_matrix": matrix}
+def require_fields(obj: dict, fields: tuple[str, ...], where: str) -> None:
+    missing = [f for f in fields if f not in obj]
+    if missing:
+        raise ContractError(f"{where}: 缺少必需字段 {missing}")
+
+
+def is_int_label(value) -> bool:
+    """真正的整数 0/1；bool 是 int 的子类，必须显式排除。"""
+    return type(value) is int and value in (0, 1)
+
+
+def check_schema_version(obj: dict, where: str) -> None:
+    version = obj.get("schema_version")
+    if version not in SUPPORTED_SCHEMA_VERSIONS:
+        raise ContractError(
+            f"{where}: schema_version={version!r} 不受支持（支持 {sorted(SUPPORTED_SCHEMA_VERSIONS)}）")
