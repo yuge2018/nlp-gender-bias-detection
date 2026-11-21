@@ -1,0 +1,33 @@
+{
+  "schema_version": "1.0",
+  "is_mock": false,
+  "method": "char_tfidf_lr",
+  "split": "test",
+  "seed": 42,
+  "threshold": 0.4,
+  "n": 1047,
+  "accuracy": 0.789875835721108,
+  "macro_f1": 0.7890628434116251,
+  "positive_precision": 0.754653130287648,
+  "positive_recall": 0.8560460652591171,
+  "positive_f1": 0.802158273381295,
+  "negative_f1": 0.7759674134419552,
+  "confusion_matrix": [
+    [
+      381,
+      145
+    ],
+    [
+      75,
+      446
+    ]
+  ],
+  "dataset_manifest_sha256": "f78973f015839c13783c4a7fd3149ab7203c4ef1393845dc98d2b8e0ffbaf09a",
+  "predictions_sha256": "e8614cf8e2bd6f22b4ffb84ec2070a87bf05c3383cab0972bdc6105d52bed0a3",
+  "run_dir": "runs/p2/corgi-official-v1/selected-s42-test-tuned",
+  "created_at": "2026-11-21T08:54:55Z",
+  "evaluator": {
+    "name": "p4-evaluation",
+    "version": "1.0.0"
+  }
+}

@@ -1,0 +1,2 @@
+method,split,is_mock,data_hash,n_runs,seeds,accuracy_mean,accuracy_std,macro_f1_mean,macro_f1_std,positive_precision_mean,positive_precision_std,positive_recall_mean,positive_recall_std,positive_f1_mean,positive_f1_std,negative_f1_mean,negative_f1_std
+char_tfidf_lr,test,False,f78973f015839c13783c4a7fd3149ab7203c4ef1393845dc98d2b8e0ffbaf09a,3,42 43 44,0.7898758357211081,0.0,0.789062843411625,0.0,0.754653130287648,0.0,0.856046065259117,0.0,0.802158273381295,0.0,0.7759674134419553,0.0
