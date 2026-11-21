@@ -31,7 +31,7 @@ def main() -> int:
     if not rows:
         raise SystemExit("aggregate.csv 为空")
 
-    labels = [f"{r['method']}\n(seed {r['seeds']})" for r in rows]
+    labels = [f"{r['method']} @{r['threshold']}\n(seed {r['seeds']})" for r in rows]
     means = [float(r["macro_f1_mean"]) for r in rows]
     stds = [float(r["macro_f1_std"]) if r["macro_f1_std"] not in ("", "None", "null") else 0.0
             for r in rows]

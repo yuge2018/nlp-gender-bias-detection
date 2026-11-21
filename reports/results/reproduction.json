@@ -1,0 +1,65 @@
+{
+  "schema_version": "1.0",
+  "created_at": "2026-11-21T12:54:21Z",
+  "command": "python.exe -m src.evaluation compare --run-dirs runs/p2/corgi-official-v1/selected-s42-test runs/p2/corgi-official-v1/selected-s42-test-tuned runs/p2/corgi-official-v1/selected-s43-test runs/p2/corgi-official-v1/selected-s43-test-tuned runs/p2/corgi-official-v1/selected-s44-test runs/p2/corgi-official-v1/selected-s44-test-tuned runs/improved-i2-s42-test --output-dir reports/results",
+  "dataset_manifest_sha256": "f78973f015839c13783c4a7fd3149ab7203c4ef1393845dc98d2b8e0ffbaf09a",
+  "split": "test",
+  "runs": [
+    {
+      "run_dir": "runs/p2/corgi-official-v1/selected-s42-test",
+      "method": "char_tfidf_lr",
+      "seed": 42,
+      "predictions_sha256": "998cc6ba924babdd4d2caaa3d141e05c12da2b8b0e594de863b280a05d947564",
+      "metrics_sha256": "55e246295a9dea111f470841c132614b5512911226a3b4be197c088c8827a39f"
+    },
+    {
+      "run_dir": "runs/p2/corgi-official-v1/selected-s42-test-tuned",
+      "method": "char_tfidf_lr",
+      "seed": 42,
+      "predictions_sha256": "e8614cf8e2bd6f22b4ffb84ec2070a87bf05c3383cab0972bdc6105d52bed0a3",
+      "metrics_sha256": "0e709c21a5f92674b3922ef1c76486b34463e3d96258fbb059f0251a574a57eb"
+    },
+    {
+      "run_dir": "runs/p2/corgi-official-v1/selected-s43-test",
+      "method": "char_tfidf_lr",
+      "seed": 43,
+      "predictions_sha256": "998cc6ba924babdd4d2caaa3d141e05c12da2b8b0e594de863b280a05d947564",
+      "metrics_sha256": "6e4a9bf005f29e7c4f4c6e68b95b18c18a1756e3f7f5c1b32ab9650a0071efed"
+    },
+    {
+      "run_dir": "runs/p2/corgi-official-v1/selected-s43-test-tuned",
+      "method": "char_tfidf_lr",
+      "seed": 43,
+      "predictions_sha256": "e8614cf8e2bd6f22b4ffb84ec2070a87bf05c3383cab0972bdc6105d52bed0a3",
+      "metrics_sha256": "e86674cd2ac8c84506d11f305b11627af462ccb8f5bfdd95e04aaca418269090"
+    },
+    {
+      "run_dir": "runs/p2/corgi-official-v1/selected-s44-test",
+      "method": "char_tfidf_lr",
+      "seed": 44,
+      "predictions_sha256": "998cc6ba924babdd4d2caaa3d141e05c12da2b8b0e594de863b280a05d947564",
+      "metrics_sha256": "da292a680157c7a40ed7a80610cb4f8e22e480f0f040765a62abd5da4851094a"
+    },
+    {
+      "run_dir": "runs/p2/corgi-official-v1/selected-s44-test-tuned",
+      "method": "char_tfidf_lr",
+      "seed": 44,
+      "predictions_sha256": "e8614cf8e2bd6f22b4ffb84ec2070a87bf05c3383cab0972bdc6105d52bed0a3",
+      "metrics_sha256": "ef0d6595ab09792786bb2225cf5d0bb7a2f0c789d7e633319a8ffd35a89d10bb"
+    },
+    {
+      "run_dir": "runs\\improved-i2-s42-test",
+      "method": "encoder_finetune_cw",
+      "seed": 42,
+      "predictions_sha256": "c1bf37708143680a8bca12eaaf3951eec58d879d8cc5360ac13cc15928a6bc65",
+      "metrics_sha256": "aa1e45b4839b2c4f6deebe557e7bbee86d98cf0b98e0078f926abcc6dd7c169c"
+    }
+  ],
+  "outputs": [
+    "comparison.csv",
+    "aggregate.csv",
+    "comparison.md",
+    "environment.json",
+    "reproduction.json"
+  ]
+}
