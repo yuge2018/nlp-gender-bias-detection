@@ -8733,7 +8733,7 @@
   },
   "train_summaries": {
     "selected-corgi-official-v1-s42": {
-      "model_dir": "C:\\Users\\曾经的记忆\\Documents\\deepseek-harness\\default-workspace\\repo\\artifacts\\p2\\corgi-official-v1\\selected-s42",
+      "model_dir": "artifacts/p2/corgi-official-v1/selected-s42",
       "seed": 42,
       "threshold": 0.4,
       "dataset_id": "corgi-official-v1",
@@ -9081,7 +9081,7 @@
       }
     },
     "selected-corgi-official-v1-s43": {
-      "model_dir": "C:\\Users\\曾经的记忆\\Documents\\deepseek-harness\\default-workspace\\repo\\artifacts\\p2\\corgi-official-v1\\selected-s43",
+      "model_dir": "artifacts/p2/corgi-official-v1/selected-s43",
       "seed": 43,
       "threshold": 0.4,
       "dataset_id": "corgi-official-v1",
@@ -9429,7 +9429,7 @@
       }
     },
     "selected-corgi-official-v1-s44": {
-      "model_dir": "C:\\Users\\曾经的记忆\\Documents\\deepseek-harness\\default-workspace\\repo\\artifacts\\p2\\corgi-official-v1\\selected-s44",
+      "model_dir": "artifacts/p2/corgi-official-v1/selected-s44",
       "seed": 44,
       "threshold": 0.4,
       "dataset_id": "corgi-official-v1",
@@ -9777,7 +9777,7 @@
       }
     },
     "b0-majority-corgi-official-v1-s42": {
-      "model_dir": "C:\\Users\\曾经的记忆\\Documents\\deepseek-harness\\default-workspace\\repo\\artifacts\\p2\\corgi-official-v1\\b0-majority-s42",
+      "model_dir": "artifacts/p2/corgi-official-v1/b0-majority-s42",
       "seed": 42,
       "threshold": 0.5,
       "dataset_id": "corgi-official-v1",
@@ -10125,7 +10125,7 @@
       }
     },
     "default-corgi-official-v1-s42": {
-      "model_dir": "C:\\Users\\曾经的记忆\\Documents\\deepseek-harness\\default-workspace\\repo\\artifacts\\p2\\corgi-official-v1\\default-s42",
+      "model_dir": "artifacts/p2/corgi-official-v1/default-s42",
       "seed": 42,
       "threshold": 0.15,
       "dataset_id": "corgi-official-v1",
@@ -10473,7 +10473,7 @@
       }
     },
     "b2-balanced-corgi-official-v1-s42": {
-      "model_dir": "C:\\Users\\曾经的记忆\\Documents\\deepseek-harness\\default-workspace\\repo\\artifacts\\p2\\corgi-official-v1\\b2-balanced-s42",
+      "model_dir": "artifacts/p2/corgi-official-v1/b2-balanced-s42",
       "seed": 42,
       "threshold": 0.4,
       "dataset_id": "corgi-official-v1",
@@ -10821,7 +10821,7 @@
       }
     },
     "b3-char1gram-corgi-official-v1-s42": {
-      "model_dir": "C:\\Users\\曾经的记忆\\Documents\\deepseek-harness\\default-workspace\\repo\\artifacts\\p2\\corgi-official-v1\\b3-char1gram-s42",
+      "model_dir": "artifacts/p2/corgi-official-v1/b3-char1gram-s42",
       "seed": 42,
       "threshold": 0.15,
       "dataset_id": "corgi-official-v1",
@@ -11169,7 +11169,7 @@
       }
     },
     "b3-balanced-char1gram-corgi-official-v1-s42": {
-      "model_dir": "C:\\Users\\曾经的记忆\\Documents\\deepseek-harness\\default-workspace\\repo\\artifacts\\p2\\corgi-official-v1\\b3-balanced-char1gram-s42",
+      "model_dir": "artifacts/p2/corgi-official-v1/b3-balanced-char1gram-s42",
       "seed": 42,
       "threshold": 0.4,
       "dataset_id": "corgi-official-v1",
@@ -11517,7 +11517,7 @@
       }
     },
     "selected-corgi-clean-train-v1-s42": {
-      "model_dir": "C:\\Users\\曾经的记忆\\Documents\\deepseek-harness\\default-workspace\\repo\\artifacts\\p2\\corgi-clean-train-v1\\selected-s42",
+      "model_dir": "artifacts/p2/corgi-clean-train-v1/selected-s42",
       "seed": 42,
       "threshold": 0.4,
       "dataset_id": "corgi-clean-train-v1",
@@ -11865,7 +11865,7 @@
       }
     },
     "selected-corgi-clean-train-v1-s43": {
-      "model_dir": "C:\\Users\\曾经的记忆\\Documents\\deepseek-harness\\default-workspace\\repo\\artifacts\\p2\\corgi-clean-train-v1\\selected-s43",
+      "model_dir": "artifacts/p2/corgi-clean-train-v1/selected-s43",
       "seed": 43,
       "threshold": 0.4,
       "dataset_id": "corgi-clean-train-v1",
@@ -12213,7 +12213,7 @@
       }
     },
     "selected-corgi-clean-train-v1-s44": {
-      "model_dir": "C:\\Users\\曾经的记忆\\Documents\\deepseek-harness\\default-workspace\\repo\\artifacts\\p2\\corgi-clean-train-v1\\selected-s44",
+      "model_dir": "artifacts/p2/corgi-clean-train-v1/selected-s44",
       "seed": 44,
       "threshold": 0.4,
       "dataset_id": "corgi-clean-train-v1",
@@ -12561,7 +12561,7 @@
       }
     },
     "b0-majority-corgi-clean-train-v1-s42": {
-      "model_dir": "C:\\Users\\曾经的记忆\\Documents\\deepseek-harness\\default-workspace\\repo\\artifacts\\p2\\corgi-clean-train-v1\\b0-majority-s42",
+      "model_dir": "artifacts/p2/corgi-clean-train-v1/b0-majority-s42",
       "seed": 42,
       "threshold": 0.5,
       "dataset_id": "corgi-clean-train-v1",
@@ -12909,7 +12909,7 @@
       }
     },
     "default-corgi-clean-train-v1-s42": {
-      "model_dir": "C:\\Users\\曾经的记忆\\Documents\\deepseek-harness\\default-workspace\\repo\\artifacts\\p2\\corgi-clean-train-v1\\default-s42",
+      "model_dir": "artifacts/p2/corgi-clean-train-v1/default-s42",
       "seed": 42,
       "threshold": 0.15,
       "dataset_id": "corgi-clean-train-v1",
@@ -13257,7 +13257,7 @@
       }
     },
     "b2-balanced-corgi-clean-train-v1-s42": {
-      "model_dir": "C:\\Users\\曾经的记忆\\Documents\\deepseek-harness\\default-workspace\\repo\\artifacts\\p2\\corgi-clean-train-v1\\b2-balanced-s42",
+      "model_dir": "artifacts/p2/corgi-clean-train-v1/b2-balanced-s42",
       "seed": 42,
       "threshold": 0.4,
       "dataset_id": "corgi-clean-train-v1",
@@ -13605,7 +13605,7 @@
       }
     },
     "b3-char1gram-corgi-clean-train-v1-s42": {
-      "model_dir": "C:\\Users\\曾经的记忆\\Documents\\deepseek-harness\\default-workspace\\repo\\artifacts\\p2\\corgi-clean-train-v1\\b3-char1gram-s42",
+      "model_dir": "artifacts/p2/corgi-clean-train-v1/b3-char1gram-s42",
       "seed": 42,
       "threshold": 0.15,
       "dataset_id": "corgi-clean-train-v1",
@@ -13953,7 +13953,7 @@
       }
     },
     "b3-balanced-char1gram-corgi-clean-train-v1-s42": {
-      "model_dir": "C:\\Users\\曾经的记忆\\Documents\\deepseek-harness\\default-workspace\\repo\\artifacts\\p2\\corgi-clean-train-v1\\b3-balanced-char1gram-s42",
+      "model_dir": "artifacts/p2/corgi-clean-train-v1/b3-balanced-char1gram-s42",
       "seed": 42,
       "threshold": 0.4,
       "dataset_id": "corgi-clean-train-v1",
