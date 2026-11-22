@@ -34,8 +34,8 @@ python -m src.demo --mock --output-dir runs/p6-smoke
 
 ## 模型状态四态
 
-模型目录存在 **不等于** 模型可用：仓库只跟踪 `model_metadata.json`，权重被 `.gitignore` 排除。
-因此 `registry.model_status(entry, root)` 返回四种状态：
+模型目录存在 **不等于** 模型可用：权重是否入库因模型而异——P2 baseline 的 `model.joblib` 已入库，
+P3 improved 目录目前只有 `model_metadata.json`。因此 `registry.model_status(entry, root)` 返回四种状态：
 
 | status | 判定 | 页面表现 |
 |---|---|---|
@@ -70,7 +70,8 @@ python -m src.demo --mock --output-dir runs/p6-smoke
 
 - `adapter_module` 为 `null` 表示开发替身（`MockPredictor`，固定 0.5）。
 - 接真实模型时只需改 `model_dir` 指向该角色 train CLI 生成的目录，页面无需改动。
-- 现在 `default_model` 仍是 `mock`：仓库内的 P2/P3 目录只有 `model_metadata.json`，`registry` 会把它们标为 `weights_missing`；本机放回权重后才可把 `default_model` 改成 `baseline`。
+- 现在 `default_model` 仍是 `mock`（保留“打开即可用”的保守默认）；baseline 的 `model.joblib` 与 `config.json` 已入库，
+  `registry` 会把它标为 `ready`，下拉选中后即可现场打分；improved 仍会被标为 `weights_missing`，需本机放回权重。
 - 模型不可用时页面给的是“目录不存在 / 仅剩元信息（权重未提交） / 适配器导入失败 / 缺依赖”的具体原因与建议，不会崩。
 
 ## 图表的来源与限制
@@ -94,6 +95,7 @@ python -m src.demo.figures --run-dir runs/p4-smoke --output-dir reports/figures/
 ## D7 对接清单
 
 1. P2/P3 提供 `artifacts/p2/<dataset>/selected-s42/` 与 `artifacts/improved-i2-s42/`，目录内含各自 `model_metadata.json` 与权重。
+   baseline 已入库（`model.joblib` + `config.json`）；improved 仍需本机补权重。
 2. 核对 `load_predictor(model_dir, *, mock=False)` 返回对象有 `predict_proba(list[str]) -> list[float]`。
-3. 把 `configs/demo/default.json` 的 `model_dir` 指向真实目录，`default_model` 改为 `baseline`。
+3. `configs/demo/default.json` 的路径已指向真实目录；`default_model` 保留 `mock`，需要现场真实推理时在下拉里选 `baseline`。
 4. 页面分别用男性/女性偏见、中性描述、引用反驳各一条验证，再确认断网可跑。
