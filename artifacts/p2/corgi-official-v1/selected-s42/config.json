@@ -1,0 +1,17 @@
+{
+  "method": "char_tfidf_lr",
+  "threshold": 0.5,
+  "seed": 42,
+  "batch_size": 256,
+  "analyzer": "char",
+  "ngram_range": [
+    1,
+    1
+  ],
+  "max_features": 100000,
+  "C": 0.5,
+  "class_weight": "balanced",
+  "max_iter": 1000,
+  "solver": "liblinear",
+  "schema_version": "1.0"
+}
