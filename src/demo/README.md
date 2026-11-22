@@ -70,8 +70,8 @@ P3 improved 目录目前只有 `model_metadata.json`。因此 `registry.model_st
 
 - `adapter_module` 为 `null` 表示开发替身（`MockPredictor`，固定 0.5）。
 - 接真实模型时只需改 `model_dir` 指向该角色 train CLI 生成的目录，页面无需改动。
-- 现在 `default_model` 仍是 `mock`（保留“打开即可用”的保守默认）；baseline 的 `model.joblib` 与 `config.json` 已入库，
-  `registry` 会把它标为 `ready`，下拉选中后即可现场打分；improved 仍会被标为 `weights_missing`，需本机放回权重。
+- 现在 `default_model` 为 `baseline`（打开即真实打分）；baseline 的 `model.joblib` 与 `config.json` 已入库，
+  `registry` 会把它标为 `ready`；`mock` 仍保留在下拉中可随时切回；improved 仍会被标为 `weights_missing`，需本机放回权重。
 - 模型不可用时页面给的是“目录不存在 / 仅剩元信息（权重未提交） / 适配器导入失败 / 缺依赖”的具体原因与建议，不会崩。
 
 ## 图表的来源与限制
@@ -97,5 +97,5 @@ python -m src.demo.figures --run-dir runs/p4-smoke --output-dir reports/figures/
 1. P2/P3 提供 `artifacts/p2/<dataset>/selected-s42/` 与 `artifacts/improved-i2-s42/`，目录内含各自 `model_metadata.json` 与权重。
    baseline 已入库（`model.joblib` + `config.json`）；improved 仍需本机补权重。
 2. 核对 `load_predictor(model_dir, *, mock=False)` 返回对象有 `predict_proba(list[str]) -> list[float]`。
-3. `configs/demo/default.json` 的路径已指向真实目录；`default_model` 保留 `mock`，需要现场真实推理时在下拉里选 `baseline`。
+3. `configs/demo/default.json` 的路径已指向真实目录；`default_model` 为 `baseline`，打开即真实打分；需要验证替身接口时手动切到 `mock`。
 4. 页面分别用男性/女性偏见、中性描述、引用反驳各一条验证，再确认断网可跑。
