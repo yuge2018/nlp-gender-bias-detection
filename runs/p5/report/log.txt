@@ -1,0 +1,6 @@
+P5 challenge subgroup report
+challenge: p5-gender-challenge-v1 (100 rows) manifest_sha256=af3bbb17645a00ad8a78b8e5e6ec32ff88ffa4d10add4073309d134d9dd5f3f3
+models: p2-selected(char_tfidf_logreg,threshold=0.4), p2-char1-3gram(char_tfidf_logreg,threshold=0.4), improved-i1-s42(hfl/chinese-roberta-wwm-ext,threshold=0.5), improved-i2-s42(hfl/chinese-roberta-wwm-ext,threshold=0.5)
+is_mock: False
+cases: {"false_negative": 5, "false_positive": 5, "true_positive": 5, "true_negative": 5}
+warnings: unspecified: no biased example; coverage of target-ambiguous bias is not supported; double independent review is not complete: fewer than two reviewer names are recorded; target=other_explicit: n=10, treat as descriptive only; target=unspecified: n=5, treat as descriptive only; target=multi_target: n=5, treat as descriptive only; phenomenon=derogation: n=8, treat as descriptive only; phenomenon=labor_market_penalty: n=7, treat as descriptive only; phenomenon=appearance_inference: n=1, treat as descriptive only; phenomenon=benevolent_sexism: n=4, treat as descriptive only; phenomenon=bias_awareness: n=7, treat as descriptive only; phenomenon=quoted_rebuttal: n=6, treat as descriptive only; phenomenon=victim_blaming: n=1, treat as descriptive only; phenomenon=other_identity_derogation: n=6, treat as descriptive only

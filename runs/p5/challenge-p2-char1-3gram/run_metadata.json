@@ -1,0 +1,45 @@
+{
+  "schema_version": "1.0",
+  "method": "char_tfidf_lr",
+  "split": "challenge",
+  "dataset_manifest_sha256": "f78973f015839c13783c4a7fd3149ab7203c4ef1393845dc98d2b8e0ffbaf09a",
+  "is_mock": false,
+  "seed": 42,
+  "threshold": 0.4,
+  "code_commit": "1efea2b810d4a898cba92c28360b559e88b35800",
+  "model_name": "char_tfidf_logreg",
+  "model_revision": "p2-v1",
+  "config": {
+    "method": "char_tfidf_lr",
+    "threshold": 0.5,
+    "seed": 42,
+    "batch_size": 256,
+    "analyzer": "char",
+    "ngram_range": [
+      1,
+      3
+    ],
+    "max_features": 100000,
+    "C": 1.0,
+    "class_weight": "balanced",
+    "max_iter": 1000,
+    "solver": "liblinear",
+    "schema_version": "1.0"
+  },
+  "environment": {
+    "python": "3.12.14",
+    "implementation": "CPython",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "numpy": "2.3.5",
+    "scipy": "1.18.1",
+    "sklearn": "1.9.1",
+    "joblib": "1.6.0"
+  },
+  "challenge_dataset_id": "p5-gender-challenge-v1",
+  "challenge_manifest_sha256": "af3bbb17645a00ad8a78b8e5e6ec32ff88ffa4d10add4073309d134d9dd5f3f3",
+  "model_dir": "artifacts/p2/corgi-official-v1/b2-balanced-s42",
+  "name": "p2-char1-3gram",
+  "n": 100,
+  "created_at": "2026-11-22T09:05:51Z"
+}
