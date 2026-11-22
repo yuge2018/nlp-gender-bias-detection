@@ -17,7 +17,8 @@
       "display_name": "字符 TF-IDF + 逻辑回归（P2 基线）",
       "adapter_module": "src.baseline.adapter",
       "model_dir": "artifacts/p2/corgi-official-v1/selected-s42",
-      "is_deep": false
+      "is_deep": false,
+      "probe_files": ["model.joblib", "config.json"]
     },
     {
       "key": "improved",
