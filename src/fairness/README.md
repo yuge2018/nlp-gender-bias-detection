@@ -1,6 +1,6 @@
 # P5 多性别对象挑战集与错误分析
 
-负责人：待认领（`part/p5-fairness`）。本模块只读**冻结文件**：带封印 manifest 的 challenge 目录，以及各模型模块产出的预测 run 目录。它不复现模型、不在 challenge 上调参，也不修改官方 test 主表。
+负责人：刘玉麒（@Yuki-leo1，`part/p5-followup`）。本模块只读**冻结文件**：带封印 manifest 的 challenge 目录，以及各模型模块产出的预测 run 目录。它不复现模型、不在 challenge 上调参，也不修改官方 test 主表。
 
 ## 挑战集
 
@@ -21,15 +21,26 @@
 # 0) 重新生成挑战集（幂等；内容与生成器不一致时拒绝覆盖）
 python -m src.fairness build --output-dir data/challenge/p5-gender-challenge-v1
 
-# 1) 用某个已保存模型给 challenge 打分；只走公开 adapter，阈值取模型元信息
+# 1) 用已保存模型给 challenge 打分；只走公开 adapter，阈值取模型元信息（P2=0.4，P3=0.5）
 python -m src.fairness score --component baseline --model-dir artifacts/p2/corgi-official-v1/selected-s42 \
     --name p2-selected --output-dir runs/p5/challenge-p2-selected
+python -m src.fairness score --component baseline --model-dir artifacts/p2/corgi-official-v1/b2-balanced-s42 \
+    --name p2-char1-3gram --output-dir runs/p5/challenge-p2-char1-3gram
 
-# 2) 分组指标 + 错误案例 + 图表；--prediction 可重复
+# 1b) P3 改进模型（权重来自 Release p3-models-v1，解压到 artifacts/）
+python -m src.improved predict --input data/challenge/p5-gender-challenge-v1/challenge.jsonl \
+    --model-dir artifacts/improved-i1-s42 \
+    --manifest data/challenge/p5-gender-challenge-v1/manifest.json \
+    --output-dir runs/p5/challenge-improved-i1-s42
+
+# 2) 分组指标 + 错误案例 + 图表；--prediction 可重复（下列为当前四个模型）
 python -m src.fairness report \
     --prediction p2-selected=runs/p5/challenge-p2-selected \
     --prediction p2-char1-3gram=runs/p5/challenge-p2-char1-3gram \
-    --output-dir runs/p5/report --case-notes configs/fairness/case_notes.json
+    --prediction improved-i1-s42=runs/p5/challenge-improved-i1-s42 \
+    --prediction improved-i2-s42=runs/p5/challenge-improved-i2-s42 \
+    --output-dir runs/p5/report --figures-dir reports/figures/P5 \
+    --case-notes configs/fairness/case_notes.json
 
 # 3) 双人独立复核：比较两份标注的标签一致率、kappa 与对象/现象分歧
 python -m src.fairness review --first annotation-a/ --second annotation-b/ --output runs/p5/review.json
@@ -43,18 +54,23 @@ python -m src.fairness --mock --output-dir runs/p5-smoke
 ## 输出
 
 ```text
-runs/<name>/                     # score
+runs/<name>/                     # score / predict，当前共四个
   predictions.jsonl              # id,label,score（阈值取模型元信息）
   run_metadata.json              # split=challenge，记录模型/阈值/seed/mock 标记
   config.json / log.txt
+runs/p5/challenge-p2-selected/          # P2 官方 selected，threshold=0.4
+runs/p5/challenge-p2-char1-3gram/       # P2 b2 + char 1-3gram，threshold=0.4
+runs/p5/challenge-improved-i1-s42/      # P3 I1 seed42，threshold=0.5
+runs/p5/challenge-improved-i2-s42/      # P3 I2 seed42，threshold=0.5
 runs/p5/report/                  # report
   subgroup_metrics.json          # 每个对象组、现象组、极性组 × 每个模型的指标
-  error_cases.jsonl              # 每个案例含两模型 label/score、现象、人工解释
+  error_cases.jsonl              # 每个案例含四模型 label/score、现象、人工解释
   log.txt
 reports/figures/P5/*.png         # 构成图 + 目标分组指标图
+configs/fairness/acceptance.json # 挑战集 hash、四个 run 的输入/权重目录/预测 hash、指标与缺口
 ```
 
-`subgroup_metrics.json` 每组都带 `n / positive_n / negative_n` 和混淆矩阵四格，`fpr/fnr` 分母为 0 时写 `null`。`macro_f1` 按项目主指标固定对 0/1 两类平均（缺类按 0）；单极性子组应看 `macro_f1_defined_classes`。指标定义同时写进文件，避免两种口径被混读。
+`subgroup_metrics.json` 每组都带 `n / positive_n / negative_n` 和混淆矩阵四格，`fpr/fnr` 分母为 0 时写 `null`。`macro_f1` 按项目主指标固定对 0/1 两类平均（缺类按 0）；单极性子组应看 `macro_f1_defined_classes`。指标定义同时写进文件，避免两种口径被混读。`acceptance.json` 的 `metrics` 按各模型记录阈值出数，`uniform_threshold_0_5` 另给统一 0.5 的一版，跨模型横比只看后者。
 
 ## 设计决定
 
@@ -65,7 +81,8 @@ reports/figures/P5/*.png         # 构成图 + 目标分组指标图
 
 ## 已知限制
 
-- 本挑战集是**单标注者草案**，`reviewers` 为空，双人独立复核与裁决未完成；报告不得称其为已复核基准。
+- 本挑战集是**单标注者草案**（`review_status=single_annotator_draft`），`reviewers` 为空，双人独立复核、裁决与 Cohen's kappa 均未完成，属阻塞验收项，见 issue #5；报告不得称其为已复核基准。
 - `unspecified` 组没有正例，无法支持“对象不明确时的偏见”这一结论。
-- P3 改进模型尚未产出，当前真实对照只有 P2 selected 与 P2 1-3gram 消融；P3 到达后只需新增一条 `--prediction`。
+- P3 只接入 I1/I2（seed 42），I3 与 L1 未跑挑战集；P2 记录阈值 0.4、P3 记录 0.5，横比以统一 0.5 的 `uniform_threshold_0_5` 为准。
 - 挑战集 100 条、正类 61%，是刻意平衡的小样本，不能外推总体偏见率。
+- `runs/p5/*` 与 `artifacts/p2/*` 默认被 `.gitignore` 忽略，提交时需 `git add -f runs/p5/...`；P3 权重走 Release `p3-models-v1`，不入库。
