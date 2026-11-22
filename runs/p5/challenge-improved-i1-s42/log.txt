@@ -1,0 +1,6 @@
+P5 challenge scoring (improved-i1-s42)
+model: hfl/chinese-roberta-wwm-ext (5c58d0b8ec1d9014354d691c538661bf00bfdb44) from artifacts/improved-i1-s42
+challenge: p5-gender-challenge-v1 manifest_sha256=af3bbb17645a00ad8a78b8e5e6ec32ff88ffa4d10add4073309d134d9dd5f3f3 rows=100
+threshold: 0.5
+score meaning: label=1 model score, not a calibrated bias probability
+is_mock: False
