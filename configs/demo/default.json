@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "default_model": "mock",
+  "default_model": "baseline",
   "mock_banner_required": true,
   "model_loading": "lazy",
   "offline_real_mode": true,
