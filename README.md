@@ -24,7 +24,7 @@ python -m src.fairness --mock --output-dir runs/p5-smoke
 python -m src.demo --mock --output-dir runs/p6-smoke
 ```
 
-上述mock入口只使用 Python 标准库，无需 GPU、下载模型或等待组员。输出均标为 `is_mock=true`，用于理解接口，**不是训练结果或模型性能**。真实产物已入库：P2 的 12 个 test run 与 P3 的 I2 run 已由 P4 统一评测，主表见 `reports/results/`；演示页用 `streamlit run src/demo/app.py` 启动（依赖见 `requirements/p6.txt`）。
+上述mock入口只使用 Python 标准库，无需 GPU、下载模型或等待组员。输出均标为 `is_mock=true`，用于理解接口，**不是训练结果或模型性能**。真实产物已入库：P2 的 12 个 test run 与 P3 的 I2 run 已由 P4 统一评测，主表见 `reports/results/`；演示页用 `streamlit run src/demo/app.py` 启动（依赖见 `requirements/p6.txt`）。 模型权重：P2 各变体已入库（#36）；P3 演示与主对照见 GitHub Release `p3-models-v1`（zip 含 SHA256，解压回 `artifacts/<tag>/` 即可离线加载，其余 run 按 `configs/improved/acceptance.json` 的命令重训约 40 分钟/个）。
 
 ## 六个互不抢文件的工作区
 
