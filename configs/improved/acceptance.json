@@ -1,14 +1,14 @@
 {
   "schema_version": "1.0",
   "component": "improved",
-  "generated_at": "2026-11-21T15:53:08",
+  "generated_at": "2026-11-22T15:27:22",
   "generated_by": "python -m src.improved.acceptance",
   "author": {
     "name": "张羽纶",
     "student_id": "202315060337",
     "github": "zy1un"
   },
-  "code_commit": "ea3d014231e60b872fc2c6ca88f158c20ec1aabe",
+  "code_commit": "172560b59d708edc380c4af57d006678d0a44855",
   "environment": {
     "python": "3.12.12",
     "platform": "Windows-11-10.0.26200-SP0",
@@ -66,6 +66,7 @@
       "class_weights": null,
       "amp_bf16": true,
       "train_seconds": 2228.1361734867096,
+      "train_seconds_note": null,
       "command": [
         "python",
         "-m",
@@ -99,6 +100,7 @@
       "class_weights": null,
       "amp_bf16": true,
       "train_seconds": 1936.524483203888,
+      "train_seconds_note": null,
       "command": [
         "python",
         "-m",
@@ -132,6 +134,7 @@
       "class_weights": null,
       "amp_bf16": true,
       "train_seconds": 2002.6420917510986,
+      "train_seconds_note": null,
       "command": [
         "python",
         "-m",
@@ -168,6 +171,7 @@
       ],
       "amp_bf16": true,
       "train_seconds": 28049.336794137955,
+      "train_seconds_note": "wall clock includes ~7.4h overnight system sleep; effective training ≈44 min per per-epoch timestamps in log.txt",
       "command": [
         "python",
         "-m",
@@ -201,6 +205,7 @@
       "class_weights": null,
       "amp_bf16": true,
       "train_seconds": 2341.5889632701874,
+      "train_seconds_note": null,
       "command": [
         "python",
         "-m",
@@ -234,6 +239,7 @@
       "class_weights": null,
       "amp_bf16": true,
       "train_seconds": 2448.330975294113,
+      "train_seconds_note": null,
       "command": [
         "python",
         "-m",

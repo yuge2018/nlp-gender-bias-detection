@@ -49,6 +49,13 @@ def dataset_summaries():
     return out
 
 
+# train_seconds 是墙钟（time.time 差值），不是有效 GPU 时长。已知异常：I2 那次
+# 夜间系统睡眠约 7.4 小时被计入；按 artifacts 内逐 epoch 时间戳，有效训练约 44 分钟。
+TRAIN_TIME_NOTES = {
+    "improved-i2-s42": "wall clock includes ~7.4h overnight system sleep; effective training ≈44 min per per-epoch timestamps in log.txt",
+}
+
+
 def training_run(tag, config_rel, data_rel, model_meta):
     model_dir = ROOT / "artifacts" / tag
     selection = model_meta["selection"]
@@ -66,6 +73,7 @@ def training_run(tag, config_rel, data_rel, model_meta):
         "class_weights": model_meta.get("class_weights"),
         "amp_bf16": model_meta.get("amp_bf16"),
         "train_seconds": model_meta["timing"].get("train_seconds"),
+        "train_seconds_note": TRAIN_TIME_NOTES.get(tag),
         "command": model_meta.get("command"),
         "evidence_in_git": f"artifacts/{tag}/model_metadata.json",
         "weights_sha256": {
