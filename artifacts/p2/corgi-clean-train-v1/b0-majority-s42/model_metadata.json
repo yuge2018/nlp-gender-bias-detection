@@ -1,0 +1,389 @@
+{
+  "schema_version": "1.0",
+  "method": "majority_class",
+  "model_name": "majority_class_reference",
+  "model_revision": "p2-v1",
+  "is_mock": false,
+  "seed": 42,
+  "threshold": 0.5,
+  "dataset_id": "corgi-clean-train-v1",
+  "dataset_manifest_sha256": "dccc6ec10f2db6b35ceaf782e3e17d2a14916bf10e3959ca9e660248fb1e3fec",
+  "config": {
+    "method": "majority_class",
+    "threshold": 0.5,
+    "seed": 42,
+    "batch_size": 256,
+    "schema_version": "1.0"
+  },
+  "feature": {
+    "input": "text",
+    "analyzer": "char",
+    "ngram_range": null,
+    "max_features": null,
+    "vectorizer_fit_scope": "train_only",
+    "vectorizer_fit_rows": 25525,
+    "vocabulary_size": 0
+  },
+  "training": {
+    "train_rows": 25525,
+    "train_positive": 4128,
+    "class_weight": null,
+    "C": null,
+    "solver": null,
+    "max_iter": null,
+    "train_seconds": 0.005,
+    "majority_label": 0
+  },
+  "dev": {
+    "n": 1032,
+    "threshold": 0.5,
+    "reference_metrics": {
+      "n": 1032,
+      "accuracy": 0.5,
+      "macro_f1": 0.3333333333333333,
+      "positive_precision": 0.0,
+      "positive_recall": 0.0,
+      "positive_f1": 0.0,
+      "negative_f1": 0.6666666666666666,
+      "confusion_matrix": [
+        [
+          516,
+          0
+        ],
+        [
+          516,
+          0
+        ]
+      ]
+    }
+  },
+  "threshold_selection": {
+    "selection_split": "dev",
+    "metric": "macro_f1",
+    "tie_break": "highest dev Macro-F1; then threshold closest to 0.5; then smaller threshold",
+    "threshold": 0.5,
+    "metrics": {
+      "n": 1032,
+      "accuracy": 0.5,
+      "macro_f1": 0.3333333333333333,
+      "positive_precision": 0.0,
+      "positive_recall": 0.0,
+      "positive_f1": 0.0,
+      "negative_f1": 0.6666666666666666,
+      "confusion_matrix": [
+        [
+          516,
+          0
+        ],
+        [
+          516,
+          0
+        ]
+      ]
+    },
+    "grid": [
+      {
+        "threshold": 0.1,
+        "macro_f1": 0.3333333333333333,
+        "positive_recall": 0.0,
+        "positive_precision": 0.0,
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            516,
+            0
+          ],
+          [
+            516,
+            0
+          ]
+        ]
+      },
+      {
+        "threshold": 0.15,
+        "macro_f1": 0.3333333333333333,
+        "positive_recall": 0.0,
+        "positive_precision": 0.0,
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            516,
+            0
+          ],
+          [
+            516,
+            0
+          ]
+        ]
+      },
+      {
+        "threshold": 0.2,
+        "macro_f1": 0.3333333333333333,
+        "positive_recall": 0.0,
+        "positive_precision": 0.0,
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            516,
+            0
+          ],
+          [
+            516,
+            0
+          ]
+        ]
+      },
+      {
+        "threshold": 0.25,
+        "macro_f1": 0.3333333333333333,
+        "positive_recall": 0.0,
+        "positive_precision": 0.0,
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            516,
+            0
+          ],
+          [
+            516,
+            0
+          ]
+        ]
+      },
+      {
+        "threshold": 0.3,
+        "macro_f1": 0.3333333333333333,
+        "positive_recall": 0.0,
+        "positive_precision": 0.0,
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            516,
+            0
+          ],
+          [
+            516,
+            0
+          ]
+        ]
+      },
+      {
+        "threshold": 0.35,
+        "macro_f1": 0.3333333333333333,
+        "positive_recall": 0.0,
+        "positive_precision": 0.0,
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            516,
+            0
+          ],
+          [
+            516,
+            0
+          ]
+        ]
+      },
+      {
+        "threshold": 0.4,
+        "macro_f1": 0.3333333333333333,
+        "positive_recall": 0.0,
+        "positive_precision": 0.0,
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            516,
+            0
+          ],
+          [
+            516,
+            0
+          ]
+        ]
+      },
+      {
+        "threshold": 0.45,
+        "macro_f1": 0.3333333333333333,
+        "positive_recall": 0.0,
+        "positive_precision": 0.0,
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            516,
+            0
+          ],
+          [
+            516,
+            0
+          ]
+        ]
+      },
+      {
+        "threshold": 0.5,
+        "macro_f1": 0.3333333333333333,
+        "positive_recall": 0.0,
+        "positive_precision": 0.0,
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            516,
+            0
+          ],
+          [
+            516,
+            0
+          ]
+        ]
+      },
+      {
+        "threshold": 0.55,
+        "macro_f1": 0.3333333333333333,
+        "positive_recall": 0.0,
+        "positive_precision": 0.0,
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            516,
+            0
+          ],
+          [
+            516,
+            0
+          ]
+        ]
+      },
+      {
+        "threshold": 0.6,
+        "macro_f1": 0.3333333333333333,
+        "positive_recall": 0.0,
+        "positive_precision": 0.0,
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            516,
+            0
+          ],
+          [
+            516,
+            0
+          ]
+        ]
+      },
+      {
+        "threshold": 0.65,
+        "macro_f1": 0.3333333333333333,
+        "positive_recall": 0.0,
+        "positive_precision": 0.0,
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            516,
+            0
+          ],
+          [
+            516,
+            0
+          ]
+        ]
+      },
+      {
+        "threshold": 0.7,
+        "macro_f1": 0.3333333333333333,
+        "positive_recall": 0.0,
+        "positive_precision": 0.0,
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            516,
+            0
+          ],
+          [
+            516,
+            0
+          ]
+        ]
+      },
+      {
+        "threshold": 0.75,
+        "macro_f1": 0.3333333333333333,
+        "positive_recall": 0.0,
+        "positive_precision": 0.0,
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            516,
+            0
+          ],
+          [
+            516,
+            0
+          ]
+        ]
+      },
+      {
+        "threshold": 0.8,
+        "macro_f1": 0.3333333333333333,
+        "positive_recall": 0.0,
+        "positive_precision": 0.0,
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            516,
+            0
+          ],
+          [
+            516,
+            0
+          ]
+        ]
+      },
+      {
+        "threshold": 0.85,
+        "macro_f1": 0.3333333333333333,
+        "positive_recall": 0.0,
+        "positive_precision": 0.0,
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            516,
+            0
+          ],
+          [
+            516,
+            0
+          ]
+        ]
+      },
+      {
+        "threshold": 0.9,
+        "macro_f1": 0.3333333333333333,
+        "positive_recall": 0.0,
+        "positive_precision": 0.0,
+        "accuracy": 0.5,
+        "confusion_matrix": [
+          [
+            516,
+            0
+          ],
+          [
+            516,
+            0
+          ]
+        ]
+      }
+    ]
+  },
+  "environment": {
+    "python": "3.12.14",
+    "implementation": "CPython",
+    "platform": "Windows-11-10.0.26200-SP0",
+    "machine": "AMD64",
+    "numpy": "2.3.5",
+    "scipy": "1.18.1",
+    "sklearn": "1.9.1",
+    "joblib": "1.6.0"
+  },
+  "created_at": "2026-11-13T15:58:26Z",
+  "code_commit": "1efea2b810d4a898cba92c28360b559e88b35800",
+  "code_dirty": false
+}

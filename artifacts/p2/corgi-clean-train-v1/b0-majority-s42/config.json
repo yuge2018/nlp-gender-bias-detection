@@ -1,0 +1,7 @@
+{
+  "method": "majority_class",
+  "threshold": 0.5,
+  "seed": 42,
+  "batch_size": 256,
+  "schema_version": "1.0"
+}

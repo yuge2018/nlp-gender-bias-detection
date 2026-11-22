@@ -1,0 +1,11 @@
+P2 baseline training
+method: char_tfidf_lr
+model: char_tfidf_logreg (p2-v1)
+dataset: corgi-official-v1 manifest_sha256=f78973f015839c13783c4a7fd3149ab7203c4ef1393845dc98d2b8e0ffbaf09a
+train rows: 25590 positive: 4172
+vectorizer fit scope: train_only rows=25590 vocabulary=5288
+seed: 44 threshold: 0.4
+train+dev scoring seconds: 0.665
+dev reference metrics (excluding test): {"n": 1032, "accuracy": 0.7674418604651163, "macro_f1": 0.7669376693766938, "positive_precision": 0.7446808510638298, "positive_recall": 0.813953488372093, "positive_f1": 0.7777777777777778, "negative_f1": 0.7560975609756098, "confusion_matrix": [[372, 144], [96, 420]]}
+code_commit: 1efea2b810d4a898cba92c28360b559e88b35800 dirty=False
+threshold selected on dev grid: 0.4 (rule: highest dev Macro-F1; then threshold closest to 0.5; then smaller threshold)
