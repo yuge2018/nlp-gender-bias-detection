@@ -1,4 +1,7 @@
-# P6 依赖。页面运行只需 streamlit；matplotlib 仅用于生成报告图表（函数内懒加载）。
+# P6 依赖。页面本身只需 streamlit；现场加载 P2 baseline 需要 sklearn/joblib；
+# matplotlib 仅用于生成报告图表（函数内懒加载）。
 # 这不是已验证的 lock 文件：D10 由 P6 按实际验证过的环境整理统一锁文件。
 streamlit>=1.32,<2
 matplotlib>=3.7,<4
+scikit-learn>=1.3,<2
+joblib>=1.3,<2
