@@ -179,7 +179,8 @@ def main() -> None:
 
     if config.get("mock_banner_required", True):
         st.info(
-            "开发阶段说明：仓库不提交模型权重，真实模型需在本机生成 `artifacts/` 后才能加载；"
+            "模型状态：P2 baseline 权重（`model.joblib`）已入库，选中「P2 基线」即可现场打分；"
+            "improved（RoBERTa）目录目前只有元信息，需在本机生成 `artifacts/improved-i2-s42` 后才能加载。"
             "「真实结果」页签展示的是已提交的真实 run 指标，与模型加载状态无关。"
         )
 
