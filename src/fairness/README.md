@@ -44,6 +44,8 @@ python -m src.fairness report \
 
 # 3) 双人独立复核：比较两份标注的标签一致率、kappa 与对象/现象分歧
 python -m src.fairness review --first annotation-a/ --second annotation-b/ --output runs/p5/review.json
+# 分包与回收：tools/p5_review/（split_chunks → validate_returned → merge_annotations），
+# 合并产物 review/pass2 就是上面的 --second 目录；填表说明见 tools/p5_review/README.md
 
 # 4) 接口接线（fixture 级，结果全部标 is_mock，不是研究结论）
 python -m src.fairness --mock --output-dir runs/p5-smoke

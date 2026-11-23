@@ -1,0 +1,7 @@
+﻿chunk,file,rows,positive,negative,reviewer,status
+chunk-1,chunk-1.csv,17,11,6,,待发放
+chunk-2,chunk-2.csv,16,10,6,,待发放
+chunk-3,chunk-3.csv,16,10,6,,待发放
+chunk-4,chunk-4.csv,17,10,7,,待发放
+chunk-5,chunk-5.csv,17,10,7,,待发放
+chunk-6,chunk-6.csv,17,10,7,,待发放
