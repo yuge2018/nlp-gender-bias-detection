@@ -1,0 +1,126 @@
+{
+  "schema_version": "1.0",
+  "dataset_id": "p5-gender-challenge-v1",
+  "is_mock": false,
+  "annotation_version": "v1.0-second-pass",
+  "review_status": "five_way_independent_blind",
+  "label_map": {
+    "0": "non_biased",
+    "1": "biased"
+  },
+  "targets": [
+    "male",
+    "female",
+    "other_explicit",
+    "unspecified"
+  ],
+  "phenomena": {
+    "explicit_stereotype": "显性刻板印象：直接断言某性别的能力、性格或天性",
+    "implicit_stereotype": "隐性刻板印象：反问、预设、玩笑或暗示，未直接断言",
+    "role_constraint": "角色限制：规定某性别应该/不应该做什么",
+    "derogation": "贬损：侮辱、嘲讽或以性别为由贬低",
+    "benevolent_sexism": "善意性别歧视：以保护、礼让、赞美的形式固化从属地位",
+    "appearance_inference": "外貌推断：由外表推断能力、可靠性或性别气质",
+    "victim_blaming": "受害者归责：把侵害归因于当事人的穿着或性别",
+    "labor_market_penalty": "职场差别对待：招聘、晋升、岗位分配上的性别门槛",
+    "other_identity_derogation": "其他性别身份贬损：对跨性别、非二元等身份的污名化",
+    "neutral_description": "中性描述：提到性别但只是陈述事实或身份",
+    "denial_of_bias": "否定偏见说法：明确拒绝某一性别刻板要求",
+    "quoted_rebuttal": "引用并反驳：句中出现偏见说法，但随即被否定",
+    "bias_awareness": "偏见现象讨论：客观指出性别不平等或偏见的危害"
+  },
+  "frozen_at": "2026-11-25T14:19:37+08:00",
+  "freeze_note": "五人分工盲评的第二标注：每人只看到自己负责的 20 条，未见金标与模型分数；P5 统一合并与裁决。",
+  "files": {
+    "challenge.jsonl": {
+      "sha256": "c48eccfd22b402fdde68bcc779df549e33f7fe890d012313517df19f08c222f9",
+      "rows": 100
+    },
+    "challenge_labels.jsonl": {
+      "sha256": "e6c59438ab5328b1a5cf3a1960daaf64b6af205fba6569098852580f3619e05f",
+      "rows": 100
+    },
+    "challenge_annotations.jsonl": {
+      "sha256": "5302d2e2a88cd03d339777dc02f6b0d5ad56057656b93191bc416e9c11f68058",
+      "rows": 100
+    }
+  },
+  "composition": {
+    "n": 100,
+    "positive": 61,
+    "negative": 39,
+    "by_target": {
+      "female": {
+        "0": 20,
+        "1": 30
+      },
+      "male": {
+        "0": 19,
+        "1": 30
+      },
+      "other_explicit": {
+        "0": 4,
+        "1": 6
+      },
+      "unspecified": {
+        "0": 2,
+        "1": 0
+      }
+    },
+    "by_phenomenon": {
+      "labor_market_penalty": {
+        "0": 0,
+        "1": 2
+      },
+      "appearance_inference": {
+        "0": 0,
+        "1": 3
+      },
+      "role_constraint": {
+        "0": 0,
+        "1": 17
+      },
+      "benevolent_sexism": {
+        "0": 0,
+        "1": 4
+      },
+      "victim_blaming": {
+        "0": 0,
+        "1": 1
+      },
+      "other_identity_derogation": {
+        "0": 0,
+        "1": 5
+      },
+      "explicit_stereotype": {
+        "0": 0,
+        "1": 20
+      },
+      "denial_of_bias": {
+        "0": 6,
+        "1": 0
+      },
+      "neutral_description": {
+        "0": 20,
+        "1": 0
+      },
+      "derogation": {
+        "0": 0,
+        "1": 7
+      },
+      "implicit_stereotype": {
+        "0": 0,
+        "1": 10
+      },
+      "bias_awareness": {
+        "0": 10,
+        "1": 0
+      },
+      "quoted_rebuttal": {
+        "0": 3,
+        "1": 0
+      }
+    },
+    "multi_target": 10
+  }
+}

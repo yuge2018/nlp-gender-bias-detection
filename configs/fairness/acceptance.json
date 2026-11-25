@@ -5,20 +5,20 @@
   "generated_at": "2026-11-22T17:12:39+08:00",
   "challenge": {
     "dataset_id": "p5-gender-challenge-v1",
-    "annotation_version": "v1.0-draft",
-    "review_status": "single_annotator_draft",
-    "manifest_sha256": "af3bbb17645a00ad8a78b8e5e6ec32ff88ffa4d10add4073309d134d9dd5f3f3",
-    "frozen_at": "2026-11-20T22:25:07+08:00",
+    "annotation_version": "v1.1-reviewed",
+    "review_status": "reviewed_adjudicated",
+    "manifest_sha256": "712b3d5979618d6d1ad05c835d54800c6254e81a16ada6c4081fdfa321e7dec8",
+    "frozen_at": "2026-11-25T16:02:27+08:00",
     "n": 100,
     "positive": 61,
     "negative": 39,
     "by_target": {
       "male": {
-        "0": 15,
+        "0": 18,
         "1": 30
       },
       "female": {
-        "0": 15,
+        "0": 18,
         "1": 30
       },
       "other_explicit": {
@@ -26,26 +26,26 @@
         "1": 6
       },
       "unspecified": {
-        "0": 5,
+        "0": 3,
         "1": 0
       }
     },
     "by_phenomenon": {
       "explicit_stereotype": {
         "0": 0,
-        "1": 15
+        "1": 24
       },
       "implicit_stereotype": {
         "0": 0,
-        "1": 16
+        "1": 10
       },
       "role_constraint": {
         "0": 0,
-        "1": 14
+        "1": 21
       },
       "derogation": {
         "0": 0,
-        "1": 8
+        "1": 10
       },
       "benevolent_sexism": {
         "0": 0,
@@ -53,7 +53,7 @@
       },
       "appearance_inference": {
         "0": 0,
-        "1": 1
+        "1": 3
       },
       "victim_blaming": {
         "0": 0,
@@ -61,30 +61,30 @@
       },
       "labor_market_penalty": {
         "0": 0,
-        "1": 7
+        "1": 5
       },
       "other_identity_derogation": {
         "0": 0,
         "1": 6
       },
       "neutral_description": {
-        "0": 17,
+        "0": 19,
         "1": 0
       },
       "denial_of_bias": {
-        "0": 10,
+        "0": 8,
         "1": 0
       },
       "quoted_rebuttal": {
-        "0": 6,
+        "0": 3,
         "1": 0
       },
       "bias_awareness": {
-        "0": 7,
+        "0": 9,
         "1": 0
       }
     },
-    "multi_target": 5
+    "multi_target": 8
   },
   "models": [
     {
@@ -1923,7 +1923,6 @@
   },
   "warnings": [
     "unspecified: no biased example; coverage of target-ambiguous bias is not supported",
-    "double independent review is not complete: fewer than two reviewer names are recorded",
     "target=other_explicit: n=10, treat as descriptive only",
     "target=unspecified: n=5, treat as descriptive only",
     "target=multi_target: n=5, treat as descriptive only",
@@ -1937,7 +1936,7 @@
     "phenomenon=other_identity_derogation: n=6, treat as descriptive only"
   ],
   "gaps": [
-    "挑战集仍为单标注者草案（review_status=single_annotator_draft），双人独立复核与 Cohen's kappa 未完成，阻塞验收，见 issue #5",
+    "双人独立复核与裁决已完成：标签 kappa=1.0，对象/现象分歧 47 条已逐条裁决；标注修订为 v1.1-reviewed，模型打分仍基于 v1.0 标注、未重跑",
     "挑战集只覆盖 P3 的 I1/I2（seed 42），I3 与 L1 未接入，改进族对照不完整",
     "unspecified 组没有正例；other_explicit 仅 10 条，分组结论只作描述",
     "challenge 正类占 61%，为刻意平衡的小样本，不代表总体偏见率",
@@ -1951,5 +1950,29 @@
     "python -m src.improved predict --input data/challenge/p5-gender-challenge-v1/challenge.jsonl --model-dir artifacts/improved-i2-s42 --manifest data/challenge/p5-gender-challenge-v1/manifest.json --output-dir runs/p5/challenge-improved-i2-s42",
     "python -m src.fairness report --prediction p2-selected=runs/p5/challenge-p2-selected --prediction p2-char1-3gram=runs/p5/challenge-p2-char1-3gram --prediction improved-i1-s42=runs/p5/challenge-improved-i1-s42 --prediction improved-i2-s42=runs/p5/challenge-improved-i2-s42 --output-dir runs/p5/report --figures-dir reports/figures/P5 --case-notes configs/fairness/case_notes.json",
     "python -m unittest tests.p5.test_fairness -v"
-  ]
+  ],
+  "review": {
+    "status": "reviewed_adjudicated",
+    "reviewers": [
+      "yuge2018",
+      "cengjingdejiyi",
+      "zy1un",
+      "Vanharry0305",
+      "yakoul"
+    ],
+    "review_file": "runs/p5/review.json",
+    "label_agreement": 1.0,
+    "label_kappa": 1.0,
+    "target_exact_match_rate": 0.93,
+    "target_jaccard_mean": 0.9333333333333332,
+    "phenomenon_exact_match_rate": 0.62,
+    "phenomenon_jaccard_mean": 0.6683333333333333,
+    "disagreements": {
+      "label": 0,
+      "target": 7,
+      "phenomenon": 38,
+      "total": 47
+    },
+    "adjudication_note": "五人各 20 条独立盲标；标签 100% 一致，对象/现象分歧由 P5 负责人逐条裁决并写入 challenge_annotations.jsonl 的 adjudication 字段。"
+  }
 }

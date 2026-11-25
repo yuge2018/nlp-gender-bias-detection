@@ -2,8 +2,8 @@
   "schema_version": "1.0",
   "dataset_id": "p5-gender-challenge-v1",
   "is_mock": false,
-  "annotation_version": "v1.0-draft",
-  "review_status": "single_annotator_draft",
+  "annotation_version": "v1.1-reviewed",
+  "review_status": "reviewed_adjudicated",
   "label_map": {
     "0": "non_biased",
     "1": "biased"
@@ -29,7 +29,7 @@
     "quoted_rebuttal": "引用并反驳：句中出现偏见说法，但随即被否定",
     "bias_awareness": "偏见现象讨论：客观指出性别不平等或偏见的危害"
   },
-  "frozen_at": "2026-11-20T22:25:07+08:00",
+  "frozen_at": "2026-11-25T16:02:27+08:00",
   "freeze_note": "冻结于模型查看之前；标签与对象/现象分开保存，训练接口不加载本目录。",
   "files": {
     "challenge.jsonl": {
@@ -41,7 +41,7 @@
       "rows": 100
     },
     "challenge_annotations.jsonl": {
-      "sha256": "267ac08477fc06fcf411210ad885ce5b7f2671596e3d2a5998b0c70214c3b7f3",
+      "sha256": "6a51a5ae4299ff0a937250e67065abdd08c0513b1c757a78b3a6e51c7cf9823d",
       "rows": 100
     }
   },
@@ -51,11 +51,11 @@
     "negative": 39,
     "by_target": {
       "male": {
-        "0": 15,
+        "0": 18,
         "1": 30
       },
       "female": {
-        "0": 15,
+        "0": 18,
         "1": 30
       },
       "other_explicit": {
@@ -63,26 +63,26 @@
         "1": 6
       },
       "unspecified": {
-        "0": 5,
+        "0": 3,
         "1": 0
       }
     },
     "by_phenomenon": {
       "explicit_stereotype": {
         "0": 0,
-        "1": 15
+        "1": 24
       },
       "implicit_stereotype": {
         "0": 0,
-        "1": 16
+        "1": 10
       },
       "role_constraint": {
         "0": 0,
-        "1": 14
+        "1": 21
       },
       "derogation": {
         "0": 0,
-        "1": 8
+        "1": 10
       },
       "benevolent_sexism": {
         "0": 0,
@@ -90,7 +90,7 @@
       },
       "appearance_inference": {
         "0": 0,
-        "1": 1
+        "1": 3
       },
       "victim_blaming": {
         "0": 0,
@@ -98,29 +98,53 @@
       },
       "labor_market_penalty": {
         "0": 0,
-        "1": 7
+        "1": 5
       },
       "other_identity_derogation": {
         "0": 0,
         "1": 6
       },
       "neutral_description": {
-        "0": 17,
+        "0": 19,
         "1": 0
       },
       "denial_of_bias": {
-        "0": 10,
+        "0": 8,
         "1": 0
       },
       "quoted_rebuttal": {
-        "0": 6,
+        "0": 3,
         "1": 0
       },
       "bias_awareness": {
-        "0": 7,
+        "0": 9,
         "1": 0
       }
     },
-    "multi_target": 5
+    "multi_target": 8
+  },
+  "second_pass": {
+    "reviewers": [
+      "yuge2018",
+      "cengjingdejiyi",
+      "zy1un",
+      "Vanharry0305",
+      "yakoul"
+    ],
+    "review_file": "runs/p5/review.json",
+    "validation_report": "review/validation-report.json",
+    "label_agreement": 1.0,
+    "label_kappa": 1.0,
+    "target_exact_match_rate": 0.93,
+    "target_jaccard_mean": 0.9333333333333332,
+    "phenomenon_exact_match_rate": 0.62,
+    "phenomenon_jaccard_mean": 0.6683333333333333,
+    "disagreements": {
+      "label": 0,
+      "target": 7,
+      "phenomenon": 38,
+      "total": 47
+    },
+    "note": "五人各 20 条独立盲标；标签 100% 一致，对象/现象分歧由 P5 负责人裁决并写入 adjudication。"
   }
 }

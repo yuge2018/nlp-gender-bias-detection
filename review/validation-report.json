@@ -1,0 +1,91 @@
+{
+  "status": "pass",
+  "generated_at": "2026-11-25T14:19:28+08:00",
+  "challenge_dir": "data\\challenge\\p5-gender-challenge-v1",
+  "challenge_manifest_sha256": "af3bbb17645a00ad8a78b8e5e6ec32ff88ffa4d10add4073309d134d9dd5f3f3",
+  "rows_expected": 100,
+  "rows_received": 100,
+  "unique_ids": 100,
+  "missing_ids": [],
+  "duplicate_ids": [],
+  "reviewers": [
+    "yuge2018",
+    "cengjingdejiyi",
+    "zy1un",
+    "Vanharry0305",
+    "yakoul"
+  ],
+  "label_counts": {
+    "0": 39,
+    "1": 61
+  },
+  "chunks": [
+    {
+      "file": "chunk-1.csv",
+      "path": "C:\\Users\\曾经的记忆\\AppData\\Local\\Doubao\\User Data\\Default\\.doubao\\agent_mode\\workspace\\.sessions\\38455480199600898\\agents\\m_0cwewKtXFgT\\p5-five-way-review\\returned\\chunk-1.csv",
+      "sha256": "9310ad5525896e94324410a0a0dc3ab4b23ed787bc9e9c9de4c77cb890b6f230",
+      "reviewer": "yuge2018",
+      "reviewer_github": "yuge2018",
+      "reviewer_name": "P1",
+      "rows": 20,
+      "label_counts": {
+        "0": 0,
+        "1": 20
+      }
+    },
+    {
+      "file": "chunk-2.csv",
+      "path": "C:\\Users\\曾经的记忆\\AppData\\Local\\Doubao\\User Data\\Default\\.doubao\\agent_mode\\workspace\\.sessions\\38455480199600898\\agents\\m_0cwewKtXFgT\\p5-five-way-review\\returned\\chunk-2.csv",
+      "sha256": "49d1ff4a50afc5def7bb5c6aaf81a8657b09e9ba6172bb936bc528b6f84beeea",
+      "reviewer": "cengjingdejiyi",
+      "reviewer_github": "cengjingdejiyi",
+      "reviewer_name": "P2",
+      "rows": 20,
+      "label_counts": {
+        "0": 15,
+        "1": 5
+      }
+    },
+    {
+      "file": "chunk-3.csv",
+      "path": "C:\\Users\\曾经的记忆\\AppData\\Local\\Doubao\\User Data\\Default\\.doubao\\agent_mode\\workspace\\.sessions\\38455480199600898\\agents\\m_0cwewKtXFgT\\p5-five-way-review\\returned\\chunk-3.csv",
+      "sha256": "a6c680cd7f1e0f523289e56a7b4625b2e9fd65aae9fe7e0117eadedfc93a60b4",
+      "reviewer": "zy1un",
+      "reviewer_github": "zy1un",
+      "reviewer_name": "P3",
+      "rows": 20,
+      "label_counts": {
+        "0": 0,
+        "1": 20
+      }
+    },
+    {
+      "file": "chunk-4.csv",
+      "path": "C:\\Users\\曾经的记忆\\AppData\\Local\\Doubao\\User Data\\Default\\.doubao\\agent_mode\\workspace\\.sessions\\38455480199600898\\agents\\m_0cwewKtXFgT\\p5-five-way-review\\returned\\chunk-4.csv",
+      "sha256": "21dbf4ab69e30f20c4bc6523396602a92f03b2310501276f94bf7529f2a4ed79",
+      "reviewer": "Vanharry0305",
+      "reviewer_github": "Vanharry0305",
+      "reviewer_name": "P4",
+      "rows": 20,
+      "label_counts": {
+        "0": 15,
+        "1": 5
+      }
+    },
+    {
+      "file": "chunk-5.csv",
+      "path": "C:\\Users\\曾经的记忆\\AppData\\Local\\Doubao\\User Data\\Default\\.doubao\\agent_mode\\workspace\\.sessions\\38455480199600898\\agents\\m_0cwewKtXFgT\\p5-five-way-review\\returned\\chunk-5.csv",
+      "sha256": "cd4467ca81c0cc1065694f4571cabea883a84ea2c8508159ae8b80fb8d267fd2",
+      "reviewer": "yakoul",
+      "reviewer_github": "yakoul",
+      "reviewer_name": "P6",
+      "rows": 20,
+      "label_counts": {
+        "0": 9,
+        "1": 11
+      }
+    }
+  ],
+  "errors": [],
+  "warnings": []
+}
