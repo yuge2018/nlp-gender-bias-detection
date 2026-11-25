@@ -11,7 +11,7 @@
 | `.../challenge_annotations.jsonl` | `id,targets,phenomena,reviewers,adjudication`；对象与现象分开，均为多标签 |
 | `.../manifest.json` | 文件 SHA256、行数、标注版本、冻结时间、复核状态、构成统计 |
 
-构成：男性 45（30 正 / 15 负）、女性 45（30 正 / 15 负）、其他性别身份 10（6 / 4）、多目标 5（5 / 0）、对象不明确 5（0 / 5）；共 61 正 / 39 负。`targets` 取 `male/female/other_explicit/unspecified`，一条句子可同时属于多个对象组；**分组只按标注对象，不按作者性别，也不用代词频率充当真实群体标签。**
+构成：男性 48（30 正 / 18 负）、女性 48（30 正 / 18 负）、其他性别身份 10（6 / 4）、多目标 8、对象不明确 3（0 / 3）；共 61 正 / 39 负。`targets` 取 `male/female/other_explicit/unspecified`，一条句子可同时属于多个对象组；**分组只按标注对象，不按作者性别，也不用代词频率充当真实群体标签。**
 
 标签与对象/现象分开保存，`challenge_annotations.jsonl` 不是模型特征。`configs/fairness/default.json` 的 `use_challenge_for_tuning=false` 是硬约束。
 
@@ -43,9 +43,10 @@ python -m src.fairness report \
     --case-notes configs/fairness/case_notes.json
 
 # 3) 双人独立复核：比较两份标注的标签一致率、kappa 与对象/现象分歧
-python -m src.fairness review --first annotation-a/ --second annotation-b/ --output runs/p5/review.json
+python -m src.fairness review --first data/challenge/p5-gender-challenge-v1 \
+    --second runs/p5/annotation-b --output runs/p5/review.json
 # 分包与回收：tools/p5_review/（split_chunks → validate_returned → merge_annotations），
-# 合并产物 review/pass2 就是上面的 --second 目录；填表说明见 tools/p5_review/README.md
+# 合并产物即上面的 --second 目录；填表说明见 tools/p5_review/README.md
 
 # 4) 接口接线（fixture 级，结果全部标 is_mock，不是研究结论）
 python -m src.fairness --mock --output-dir runs/p5-smoke
@@ -83,7 +84,7 @@ configs/fairness/acceptance.json # 挑战集 hash、四个 run 的输入/权重�
 
 ## 已知限制
 
-- 本挑战集是**单标注者草案**（`review_status=single_annotator_draft`），`reviewers` 为空，双人独立复核、裁决与 Cohen's kappa 均未完成，属阻塞验收项，见 issue #5；报告不得称其为已复核基准。
+- 双人独立复核与分歧裁决已完成（`review_status=reviewed_adjudicated`，标注版本 `v1.1-reviewed`）：五人各盲标 20 条，标签一致率与 Cohen's kappa 均为 1.0，对象精确一致率 0.93 / Jaccard 0.933，现象精确一致率 0.62 / Jaccard 0.668；47 条分歧（对象 7、现象 38）已逐条裁决并写入 `adjudication`，复核产物见 `review/README.md`。模型打分仍基于 v1.0 标注，标注修订后未重跑。
 - `unspecified` 组没有正例，无法支持“对象不明确时的偏见”这一结论。
 - P3 只接入 I1/I2（seed 42），I3 与 L1 未跑挑战集；P2 记录阈值 0.4、P3 记录 0.5，横比以统一 0.5 的 `uniform_threshold_0_5` 为准。
 - 挑战集 100 条、正类 61%，是刻意平衡的小样本，不能外推总体偏见率。

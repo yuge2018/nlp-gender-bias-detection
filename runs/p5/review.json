@@ -1,0 +1,948 @@
+{
+  "schema_version": "1.0",
+  "first": {
+    "dir": "data\\challenge\\p5-gender-challenge-v1",
+    "reviewers": [],
+    "manifest_sha256": "af3bbb17645a00ad8a78b8e5e6ec32ff88ffa4d10add4073309d134d9dd5f3f3"
+  },
+  "second": {
+    "dir": "runs\\p5\\annotation-b",
+    "reviewers": [
+      "Vanharry0305",
+      "cengjingdejiyi",
+      "yakoul",
+      "yuge2018",
+      "zy1un"
+    ],
+    "manifest_sha256": "6ed9cabc890522fd7539f65da17e49496abb94ef4431792f8780beab06cf4c29"
+  },
+  "n": 100,
+  "label_agreement": 1.0,
+  "label_kappa": 1.0,
+  "target_exact_match_rate": 0.93,
+  "target_jaccard_mean": 0.9333333333333332,
+  "phenomenon_exact_match_rate": 0.62,
+  "phenomenon_jaccard_mean": 0.6683333333333333,
+  "disagreements": [
+    {
+      "id": "p5-001",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "derogation"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "role_constraint"
+        ]
+      }
+    },
+    {
+      "id": "p5-003",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "explicit_stereotype"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "role_constraint"
+        ]
+      }
+    },
+    {
+      "id": "p5-005",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "implicit_stereotype"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "explicit_stereotype"
+        ]
+      }
+    },
+    {
+      "id": "p5-006",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "implicit_stereotype",
+          "derogation"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "explicit_stereotype",
+          "derogation"
+        ]
+      }
+    },
+    {
+      "id": "p5-008",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "implicit_stereotype"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "role_constraint"
+        ]
+      }
+    },
+    {
+      "id": "p5-011",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "implicit_stereotype",
+          "labor_market_penalty"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "implicit_stereotype"
+        ]
+      }
+    },
+    {
+      "id": "p5-012",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "implicit_stereotype"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "role_constraint"
+        ]
+      }
+    },
+    {
+      "id": "p5-014",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "derogation"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "derogation",
+          "appearance_inference"
+        ]
+      }
+    },
+    {
+      "id": "p5-016",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "derogation",
+          "role_constraint"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "role_constraint",
+          "derogation"
+        ]
+      }
+    },
+    {
+      "id": "p5-017",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "implicit_stereotype",
+          "labor_market_penalty"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "implicit_stereotype"
+        ]
+      }
+    },
+    {
+      "id": "p5-022",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "explicit_stereotype"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "role_constraint"
+        ]
+      }
+    },
+    {
+      "id": "p5-024",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "derogation"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "role_constraint"
+        ]
+      }
+    },
+    {
+      "id": "p5-028",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "quoted_rebuttal",
+          "denial_of_bias"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "bias_awareness"
+        ]
+      }
+    },
+    {
+      "id": "p5-029",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "neutral_description"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "neutral_description"
+        ]
+      }
+    },
+    {
+      "id": "p5-031",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "bias_awareness"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "neutral_description"
+        ]
+      }
+    },
+    {
+      "id": "p5-033",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "denial_of_bias"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "neutral_description"
+        ]
+      }
+    },
+    {
+      "id": "p5-034",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "quoted_rebuttal"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "bias_awareness"
+        ]
+      }
+    },
+    {
+      "id": "p5-036",
+      "first": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "denial_of_bias"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male"
+        ],
+        "phenomena": [
+          "quoted_rebuttal"
+        ]
+      }
+    },
+    {
+      "id": "p5-041",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "explicit_stereotype"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "implicit_stereotype"
+        ]
+      }
+    },
+    {
+      "id": "p5-043",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "implicit_stereotype"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "explicit_stereotype"
+        ]
+      }
+    },
+    {
+      "id": "p5-044",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "implicit_stereotype",
+          "labor_market_penalty"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "derogation"
+        ]
+      }
+    },
+    {
+      "id": "p5-046",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "role_constraint"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "explicit_stereotype"
+        ]
+      }
+    },
+    {
+      "id": "p5-047",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "implicit_stereotype"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "explicit_stereotype"
+        ]
+      }
+    },
+    {
+      "id": "p5-048",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "role_constraint"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "explicit_stereotype"
+        ]
+      }
+    },
+    {
+      "id": "p5-052",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "explicit_stereotype",
+          "labor_market_penalty"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "explicit_stereotype"
+        ]
+      }
+    },
+    {
+      "id": "p5-053",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "role_constraint"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "explicit_stereotype"
+        ]
+      }
+    },
+    {
+      "id": "p5-054",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "implicit_stereotype",
+          "derogation"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "implicit_stereotype"
+        ]
+      }
+    },
+    {
+      "id": "p5-055",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "implicit_stereotype",
+          "labor_market_penalty"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "explicit_stereotype"
+        ]
+      }
+    },
+    {
+      "id": "p5-056",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "implicit_stereotype",
+          "derogation"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "implicit_stereotype"
+        ]
+      }
+    },
+    {
+      "id": "p5-057",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "implicit_stereotype"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "explicit_stereotype"
+        ]
+      }
+    },
+    {
+      "id": "p5-058",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "role_constraint"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "explicit_stereotype"
+        ]
+      }
+    },
+    {
+      "id": "p5-062",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "explicit_stereotype"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "implicit_stereotype",
+          "derogation"
+        ]
+      }
+    },
+    {
+      "id": "p5-063",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "role_constraint"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "appearance_inference",
+          "role_constraint"
+        ]
+      }
+    },
+    {
+      "id": "p5-064",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "explicit_stereotype"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "implicit_stereotype",
+          "role_constraint"
+        ]
+      }
+    },
+    {
+      "id": "p5-065",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "derogation"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "implicit_stereotype",
+          "derogation"
+        ]
+      }
+    },
+    {
+      "id": "p5-068",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "quoted_rebuttal"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "bias_awareness"
+        ]
+      }
+    },
+    {
+      "id": "p5-072",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "bias_awareness"
+        ]
+      },
+      "second": {
+        "targets": [
+          "unspecified"
+        ],
+        "phenomena": [
+          "bias_awareness"
+        ]
+      }
+    },
+    {
+      "id": "p5-077",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "quoted_rebuttal"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "bias_awareness"
+        ]
+      }
+    },
+    {
+      "id": "p5-079",
+      "first": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "denial_of_bias"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female"
+        ],
+        "phenomena": [
+          "neutral_description"
+        ]
+      }
+    },
+    {
+      "id": "p5-083",
+      "first": {
+        "targets": [
+          "other_explicit"
+        ],
+        "phenomena": [
+          "other_identity_derogation"
+        ]
+      },
+      "second": {
+        "targets": [
+          "other_explicit"
+        ],
+        "phenomena": [
+          "derogation"
+        ]
+      }
+    },
+    {
+      "id": "p5-086",
+      "first": {
+        "targets": [
+          "other_explicit"
+        ],
+        "phenomena": [
+          "other_identity_derogation",
+          "implicit_stereotype"
+        ]
+      },
+      "second": {
+        "targets": [
+          "other_explicit"
+        ],
+        "phenomena": [
+          "other_identity_derogation"
+        ]
+      }
+    },
+    {
+      "id": "p5-090",
+      "first": {
+        "targets": [
+          "other_explicit"
+        ],
+        "phenomena": [
+          "denial_of_bias"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male",
+          "female",
+          "other_explicit"
+        ],
+        "phenomena": [
+          "denial_of_bias"
+        ]
+      }
+    },
+    {
+      "id": "p5-093",
+      "first": {
+        "targets": [
+          "male",
+          "female"
+        ],
+        "phenomena": [
+          "role_constraint"
+        ]
+      },
+      "second": {
+        "targets": [
+          "female",
+          "male"
+        ],
+        "phenomena": [
+          "role_constraint"
+        ]
+      }
+    },
+    {
+      "id": "p5-096",
+      "first": {
+        "targets": [
+          "unspecified"
+        ],
+        "phenomena": [
+          "bias_awareness"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male",
+          "female"
+        ],
+        "phenomena": [
+          "bias_awareness"
+        ]
+      }
+    },
+    {
+      "id": "p5-097",
+      "first": {
+        "targets": [
+          "unspecified"
+        ],
+        "phenomena": [
+          "bias_awareness"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male",
+          "female"
+        ],
+        "phenomena": [
+          "bias_awareness"
+        ]
+      }
+    },
+    {
+      "id": "p5-098",
+      "first": {
+        "targets": [
+          "unspecified"
+        ],
+        "phenomena": [
+          "denial_of_bias"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male",
+          "female"
+        ],
+        "phenomena": [
+          "denial_of_bias"
+        ]
+      }
+    },
+    {
+      "id": "p5-100",
+      "first": {
+        "targets": [
+          "unspecified"
+        ],
+        "phenomena": [
+          "neutral_description"
+        ]
+      },
+      "second": {
+        "targets": [
+          "male",
+          "female"
+        ],
+        "phenomena": [
+          "neutral_description"
+        ]
+      }
+    }
+  ],
+  "note": "双人复核只度量分歧；最终文件由P5统一维护并记录裁决，不把多数票当作金标真理。"
+}
