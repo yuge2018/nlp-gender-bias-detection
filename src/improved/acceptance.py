@@ -129,7 +129,7 @@ def main():
         "component": "improved",
         "generated_at": datetime.datetime.now().isoformat(timespec="seconds"),
         "generated_by": "python -m src.improved.acceptance",
-        "author": {"name": "张羽纶", "student_id": "202315060337", "github": "zy1un"},
+        "author": {"name": "张羽纶", "student_id": "（学号见提交材料）", "github": "zy1un"},
         "code_commit": git_commit(),
         "environment": environment(),
         "model": {
